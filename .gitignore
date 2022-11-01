@@ -1,0 +1,8 @@
+
+# IntelliJ project files
+../account-backup/account_backup/.idea
+*.iml
+out
+gen
+.gradle
+build
