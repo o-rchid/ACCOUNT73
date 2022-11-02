@@ -14,6 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
 import kr.co.seoulit.account.sys.base.to.*;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -33,14 +36,6 @@ import kr.co.seoulit.account.sys.common.sl.ServiceLocator;
 import lombok.extern.slf4j.Slf4j;
 import kr.co.seoulit.account.operate.humanresource.mapper.EmployeeMapper;
 import kr.co.seoulit.account.operate.humanresource.to.EmployeeBean;
-import net.sf.jasperreports.engine.DefaultJasperReportsContext;
-import net.sf.jasperreports.engine.JRPropertiesUtil;
-import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperExportManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.JasperReportsContext;
 import net.sf.jasperreports.engine.query.JRQueryExecuterFactory;
 import net.sf.jasperreports.engine.query.QueryExecuterFactory;
 import net.sf.jasperreports.engine.util.JRLoader;
@@ -116,36 +111,55 @@ public class BaseServiceImpl implements BaseService {
 		response.setCharacterEncoding("utf-8");
 		System.out.println("      @ DB 접근 : getReportData");
 		try {
-			DataSource dataSource = ServiceLocator.getInstance().getDataSource("jdbc/ac2");
+//			DataSource dataSource = ServiceLocator.getInstance().getDataSource("jdbc/ac2");
 			Connection conn = dataSource.getConnection();
 
 			parameters.put("slip_no", slipNo);
 
-			String path = "/resources/reportform/report11.jasper";
+//			String path = "/resources/reportform/report11.jasper";
+			String path = "/resources/reportform/report11.jrxml";
 			String rPath = request.getServletContext().getRealPath(path); //C부터 실제경로
 			System.out.println(rPath); //C:\Program Files\Apache Software Foundation\Tomcat 9.0\webapps\Account\resources\reportform\report11.jasper
 
 			InputStream inputStream = new FileInputStream(rPath); //호출
 			// 아이리포트의 xml을 전부 읽어옴
-			JasperReport jasperReport = (JasperReport) JRLoader.loadObject(inputStream);
+			System.out.println("fis");
+//			System.out.println(request.getServletContext().getRealPath("/"));
+//			System.out.println(request.getServletContext().getRealPath("/resources/reportform/report11.jrxml"));
+
+			JasperDesign jasperDesign = JRXmlLoader.load(inputStream);
+//			JasperReport jasperReport = (JasperReport) JRLoader.loadObject(inputStream);
+
+			JasperReport jasperReport = JasperCompileManager.compileReport(jasperDesign);
+//			JasperReport jasperReport = (JasperReport) JRLoader.loadObjectFromFile(rPath);
+//			JasperReport jasperReport = JasperCompileManager.compileReport(request.getServletContext().getRealPath("/resources/reportform/report11.jrxml"));
+			System.out.println("report");
+
 			// 인자값은 (읽어들인 jrml파일, 외부에서 입력받는값_where조건절에 파라미터값으로 받는게 있다면, db연동)
 			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, conn);
+//			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, new JREmptyDataSource());
+			System.out.println("print");
 
 			System.out.println("Ireport 시작1");
 
 			/////////////reportDataList = baseCodeApplicationService.getIreportData(slipNo);
 			ServletOutputStream out = response.getOutputStream(); //반환
+			System.out.println("fos");
 			// 화면이동없이 pdf보기 요청만 처리했음. 띄워주는 화면은 jsp가 아니므로 마임타입 변환
 			response.setContentType("application/pdf");
+			System.out.println("res.con");
 
 			JasperExportManager.exportReportToPdfStream(jasperPrint, out);
 			JasperExportManager.exportReportToPdfFile(jasperPrint,
 					"C:\\dev\\account\\pdf\\" + slipNo + ".pdf");
 
+			System.out.println("export");
+
 			// 강제출력해서 화면에 보여지게됨
 			out.flush();
 		}catch (Exception e) {
 			System.out.println("  @에러발생");
+			System.out.println(e.getMessage());
 		}
 
 		return null;

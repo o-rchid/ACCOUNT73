@@ -21,12 +21,12 @@
 				DEPT_CODE 			 as deptCode,
 				SLIP_TYPE    		 as slipType,
 				EXPENSE_REPORT       as expenseReport,
-				AUTHORIZATION_STATUS as authorizationStatus,
+-- 				AUTHORIZATION_STATUS as authorizationStatus, -- 테이블에 없는 칼럼
 				REPORTING_EMP_CODE 	 as reportingEmpCode,
 				REPORTING_DATE 		 as reportingDate,
 				APPROVAL_EMP_CODE 	 as approvalEmpCode,
 				APPROVAL_DATE 		 as approvalDate,
-				SLIP_DESCRIPTION 	 as slipDescription,
+-- 				SLIP_DESCRIPTION 	 as slipDescription, -- 테이블에 없는 칼럼
 				SLIP_STATUS 		 as slipStatus
 	        	FROM SLIP WHERE SLIP_STATUS='승인요청'
 			 ]]>
