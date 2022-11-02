@@ -90,7 +90,7 @@
 	// 10월 이상이면 true
 	var day = date.getDate().toString(); // > 9 ? date.getDate() : '0'+date.getDate(); // getDate()는 1~31 까지
 	// var today = year + "-" + month + "-" + day; #6
-	var today = year + "-" + ((month > 9 ? "" : '0')+month) + "-" + day;
+	var today = year + "-" + ((month > 9 ? "" : '0')+month) + "-" + ((day > 9 ? "" : '0')+day);
 
  	//화폐 단위 설정
 	function currencyFormatter(params) {
