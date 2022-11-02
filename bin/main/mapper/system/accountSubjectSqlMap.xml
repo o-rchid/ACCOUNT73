@@ -135,6 +135,7 @@
 	        	     ORDER BY ACCOUNT_INNER_CODE
 		]]>
 	</select>
+
 	<select id="selectDetailBudgetList" parameterType="String" resultType="kr.co.seoulit.account.operate.system.to.AccountBean">
 		<![CDATA[
 			SELECT 
@@ -165,7 +166,23 @@
 				FROM  PERIOD   
 		]]>
 	</select>
-	
+
+	<select id="selectParentBudgetList2" parameterType="String" resultType="kr.co.seoulit.account.operate.system.to.AccountBean">
+		<![CDATA[
+		SELECT
+			A.ACCOUNT_INNER_CODE                as accountInnerCode,
+			A.PARENT_ACCOUNT_INNER_CODE   as parentAccountInnerCode,
+			A.ACCOUNT_CODE                          as accountCode,
+			A.ACCOUNT_CHARACTER                 as accountCharacter,
+			A.ACCOUNT_NAME                         as accountName
+		FROM ACCOUNT A, BUDGET B
+		WHERE A.ACCOUNT_INNER_CODE=B.ACCOUNT_INNER_CODE
+		  AND B.BUDGETING_CODE=2
+		  AND B.ACCOUNT_PERIOD_NO= #{accountPeriodNo}
+		  AND B.WORKPLACE_CODE= #{workplaceCode}
+		  AND B.DEPT_CODE= #{deptCode}
+		]]>
+	</select>
 	
 	
 

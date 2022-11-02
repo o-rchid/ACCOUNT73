@@ -122,6 +122,8 @@ if (application.getAttribute("Counter") != null) {
 
 			<div id="openGrid" class="ag-theme-balham"
 				style="height: 150px; width: auto;"></div>
+		</div>
+	</div>
 </body>
 
 </html>
