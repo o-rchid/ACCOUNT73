@@ -115,7 +115,7 @@
 		
 		 ]]>
 		 </select>
-		 <select id="selectJournalDetailDescriptionName" parameterType="String" resultType="kr.co.seoulit.account.posting.business.to.JournalDetailBean">
+		 <select id="selectJournalDetailDescriptionName" parameterType="String"  resultType="String"><!--resultType="kr.co.seoulit.account.posting.business.to.JournalDetailBean" #2-->
 		<![CDATA[
 						SELECT C.DETAIL_CODE_NAME
             		    FROM JOURNAL_DETAIL J, CODE_DETAIL C 
