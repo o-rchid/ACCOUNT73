@@ -6,17 +6,17 @@ import kr.co.seoulit.account.sys.base.to.BoardFIleBean;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/base")
@@ -60,51 +60,107 @@ public class BoardController {
 			@RequestParam("title") String title
 			,@RequestParam("writtenBy") String writtenBy
 			,@RequestParam("contents")String contents,
-			@RequestPart MultipartFile files,
-			MultipartHttpServletRequest multipartHttpServletRequest)throws Exception {
-
+			// @RequestBody BoardBean boardbean,
+//			@RequestPart MultipartFile files,
+			MultipartHttpServletRequest multipartHttpServletRequest
+			, HttpServletRequest request)throws Exception {
 
 		ModelAndView mav=new ModelAndView("redirect:/base/board");
-		BoardBean boardbean = new BoardBean();
-		BoardFIleBean boardFIleBean = new BoardFIleBean();
-		boardbean.setTitle(title);
-		boardbean.setWrittenBy(writtenBy);
-		boardbean.setContents(contents);
-		System.out.println("작성자:"+writtenBy+"@@@제목:"+title+"@@@내용 :"+contents+"@@@@@@@@@@@@@");
-		if(files.isEmpty()){
-			baseService.insertBoard(boardbean);
-		}else{
-			String filename = files.getOriginalFilename();
-			String fileNameExtension = FilenameUtils.getExtension(filename).toLowerCase();
-			File destinationFile;
-			String destnationFileName;
-			String fileUrl = "C:\\project\\real_project\\src\\main\\webapp\\assets\\uploadFiles\\";
+		BoardBean boardbean = null;
 
-			do{
-				destnationFileName = RandomStringUtils.randomAlphanumeric(32)+"."+fileNameExtension;
-				destinationFile = new File(fileUrl + destnationFileName);
-				System.out.println(boardbean.getId());
-				System.out.println(boardbean.getBoardId());
-				System.out.println(destnationFileName);
-				System.out.println(filename);
-				System.out.println(fileUrl);
-			} while (destinationFile.exists());
-
-			destinationFile.getParentFile().mkdirs();
-			files.transferTo(destinationFile);
-
-
-			boardbean.setFileId();
-			boardbean.setBoardId();
-			boardbean.setFileName(destnationFileName);
-			boardbean.setFileOriName(filename);
-			boardbean.setFileUrl(fileUrl);
+		if(ObjectUtils.isEmpty(multipartHttpServletRequest)){
+			System.out.println("empty");
+			boardbean = new BoardBean();
+			boardbean.setTitle(title);
+			boardbean.setWrittenBy(writtenBy);
+			boardbean.setContents(contents);
 
 			baseService.insertBoard(boardbean);
-			baseService.fileInsert(boardbean);
-//			baseService.fileInsert(boardFIleBean);
+			return mav;
+		}else {
+			boardbean = new BoardBean();
+			boardbean.setTitle(title);
+			boardbean.setWrittenBy(writtenBy);
+			boardbean.setContents(contents);
+
+			baseService.insertBoard(boardbean);
+
+			Iterator<String> iterator = multipartHttpServletRequest.getFileNames();
+
+//		String newFileName, originalFileExtension, contentType;
+			String fileUrl = request.getServletContext().getRealPath("/") + "assets\\uploadFiles\\";
+
+			System.out.println("iterator++++++++++++++++++++++" + iterator.hasNext());
+			while (iterator.hasNext()) {
+				List<MultipartFile> list = multipartHttpServletRequest.getFiles(iterator.next());
+				for (MultipartFile multipartFile : list) {
+					String filename = multipartFile.getOriginalFilename();
+					String fileNameExtension = FilenameUtils.getExtension(filename).toLowerCase();
+					File destinationFile;
+					String destnationFileName;
+
+					destnationFileName = RandomStringUtils.randomAlphanumeric(32) + "." + fileNameExtension;
+					destinationFile = new File(fileUrl + destnationFileName);
+
+					destinationFile.getParentFile().mkdirs();
+					multipartFile.transferTo(destinationFile);
+
+//				BoardFIleBean boardFile = new BoardFIleBean();
+					BoardFIleBean boardFileBean = new BoardFIleBean();
+
+//					boardFileBean.setId(boardbean.getFileId());
+					boardFileBean.setBoardId(boardbean.getBoardId());
+					boardFileBean.setFileName(destnationFileName);
+					boardFileBean.setFileOriName(filename);
+					boardFileBean.setFileUrl(fileUrl);
+
+					baseService.fileInsert(boardFileBean);
+				}
+			}
 		}
 		return mav;
+//		ModelAndView mav=new ModelAndView("redirect:/base/board");
+//		BoardBean boardbean = new BoardBean();
+//		BoardFIleBean boardFIleBean = new BoardFIleBean();
+//		boardbean.setTitle(title);
+//		boardbean.setWrittenBy(writtenBy);
+//		boardbean.setContents(contents);
+//		System.out.println("작성자:"+writtenBy+"@@@제목:"+title+"@@@내용 :"+contents+"@@@@@@@@@@@@@");
+//		if(files.isEmpty()){
+//			baseService.insertBoard(boardbean);
+//		}else{
+//			String filename = files.getOriginalFilename();
+//			String fileNameExtension = FilenameUtils.getExtension(filename).toLowerCase();
+//			File destinationFile;
+//			String destnationFileName;
+////			String fileUrl = "C:\\project\\real_project\\src\\main\\webapp\\assets\\uploadFiles\\";
+//			String fileUrl = request.getServletContext().getRealPath("/")+"assets\\uploadFiles\\";
+//
+//			do{
+//				destnationFileName = RandomStringUtils.randomAlphanumeric(32)+"."+fileNameExtension;
+//				destinationFile = new File(fileUrl + destnationFileName);
+//				System.out.println(boardbean.getId());
+//				System.out.println(boardbean.getBoardId());
+//				System.out.println(destnationFileName);
+//				System.out.println(filename);
+//				System.out.println(fileUrl);
+//			} while (destinationFile.exists());
+//
+//			destinationFile.getParentFile().mkdirs();
+//			files.transferTo(destinationFile);
+//
+//
+//			boardbean.setFileId();
+//			boardbean.setBoardId();
+//			boardbean.setFileName(destnationFileName);
+//			boardbean.setFileOriName(filename);
+//			boardbean.setFileUrl(fileUrl);
+//
+//			baseService.insertBoard(boardbean);
+//			baseService.fileInsert(boardbean);
+////			baseService.fileInsert(boardFIleBean);
+//		}
+//		return mav;
 	}
 
 	@PostMapping("/boardModify")
@@ -162,12 +218,15 @@ public class BoardController {
 	public HttpServletResponse fileDown(
 //			@RequestParam String fileOriName,
 			 @RequestParam String fileName
+			 , HttpServletRequest request
 			, HttpServletResponse response) throws Exception {
 
 		System.out.println("@@@@@@@@@@@"+fileName);
 //		System.out.println("@@@@@@@@@@@"+fileOriName);
 		// 파일을 저장했던 위치에서 첨부파일을 읽어 byte[]형식으로 변환한다.
-		byte fileByte[] = org.apache.commons.io.FileUtils.readFileToByteArray(new File("C:/project/real_project/src/main/webapp/assets/uploadFiles/" + fileName));
+		System.out.println(request.getServletContext().getRealPath("/")+"@@@@@@@@@@@"+fileName);
+//		byte fileByte[] = org.apache.commons.io.FileUtils.readFileToByteArray(new File("C:/project/real_project/src/main/webapp/assets/uploadFiles/" + fileName));
+		byte fileByte[] = org.apache.commons.io.FileUtils.readFileToByteArray(new File(request.getServletContext().getRealPath("/")+"assets/uploadFiles/" + fileName));
 
 		response.setContentType("application/octet-stream");
 		response.setContentLength(fileByte.length);

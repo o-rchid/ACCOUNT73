@@ -1,0 +1,44 @@
+minikebu 설치 - minikube는 로컬머신에 vm을 만들고 하나의 노드로 구성된 간단한 클러스터를 배포하는 
+                            가벼운 쿠버네티스 구현체이다.
+
+1.  install-minikube.sh 을 복사하여 같은 이름으로 파일생성
+
+  cat > install-minikube.sh
+
+ ctrl + v
+ ctrl + c
+
+ 
+2. chmod u+x install-minikube.sh
+
+
+3. ./install-minikube.sh
+
+4. sudo usermod -aG docker $USER && newgrp docker
+
+5. minikube start --driver docker
+
+6. cat ~/.kube/config
+
+7. kubectl get nodes    // 연결할 수 있는 쿠버네티스 정보
+
+8. kubectl cluster-info
+
+
+####  minikube 기본 사용법 ####
+
+9. minikube status  // 쿠버네티스 클러스터 상태확인
+
+10.  minikube stop // 쿠버네티스 클러스터 중지
+
+11.  minikube delete //쿠버네티스 클러스터 삭제
+
+12. minikube pause // 쿠버네티스 클러스터 중지
+
+13. minikube unpause // 쿠버네티스 클러스터 재개
+
+14. minikube addons list
+
+15. minikube addons enable ingress
+
+16. minikube kubectl version

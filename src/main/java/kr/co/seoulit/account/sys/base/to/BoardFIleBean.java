@@ -12,7 +12,7 @@ public class BoardFIleBean {
     }
 
     public void setId(int fileId) {
-        this.fileId = this.fileId;
+        this.fileId = fileId;
     }
 
     public int getBoardId() {

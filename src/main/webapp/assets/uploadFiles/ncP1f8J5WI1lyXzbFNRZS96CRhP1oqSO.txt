@@ -1,0 +1,40 @@
+kubectl 설치 - 쿠버네티스를 위한 콘솔 명령어
+
+1.  install-kubectl.sh 을 복사하여 같은 이름으로 파일생성
+
+  cat > install-kubectl.sh
+
+ ctrl + v
+ ctrl + c
+
+ 
+2. chmod u+x install-kubectl.sh
+
+
+3. ./install-kubectl.sh
+
+4. kubectl version
+
+kustomize 설치 - 쿠버네티스의 매니페스트 파일을 좀 더 효율적으로 관리할 수 있도록 도와주는 도구
+kubectl에 내장되어 있음
+
+Helm 도구도 있음
+
+1.  install-kustomize.sh 을 복사하여 같은 이름으로 파일생성
+
+  cat > install-kustomize.sh
+
+ ctrl + v
+ ctrl + c
+
+ 
+2. chmod u+x install-kustomize.sh
+
+
+3. ./install-kustomize.sh
+
+
+4. kustomize
+
+5. kubectl kustomize
+

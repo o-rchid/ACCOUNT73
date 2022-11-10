@@ -5,14 +5,14 @@
 <head>
     <title>계정과목</title>
 
-    <script
-            src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.noStyle.js"></script>
-    <link rel="stylesheet"
-          href="https://unpkg.com/ag-grid-community/dist/styles/ag-grid.css">
-    <link rel="stylesheet"
-          href="https://unpkg.com/ag-grid-community/dist/styles/ag-theme-balham.css">
+<%--    <script--%>
+<%--            src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.noStyle.js"></script>--%>
+<%--    <link rel="stylesheet"--%>
+<%--          href="https://unpkg.com/ag-grid-community/dist/styles/ag-grid.css">--%>
+<%--    <link rel="stylesheet"--%>
+<%--          href="https://unpkg.com/ag-grid-community/dist/styles/ag-theme-balham.css">--%>
 
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<%--    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>--%>
     <style>
         .ag-header-cell-label {
             justify-content: center;
@@ -48,18 +48,38 @@
         .ag-theme-balham .ag-icon-last:before {
             content: "\f118" !important;
         }
+
+         #header_board2 {
+             display: inline;
+         }
+
+        #header_board3 #header_board3 {
+            display: inline;
+            margin-left: 500px;
+        }
+
+        table {
+            border-collapse: separate;
+        }
+
+        th {
+            padding: 5px;
+        }
     </style>
     <script>
         let data = []
         $(document).ready(function () {
-            createAccount();
-            showAccount();
+            // createAccount();
+            createBoard();
+            // showAccount();
+            showBoard();
 
         });
         var selectedRow;
 
         /* 게시글 ag-grid에 뿌리는 로직임다 */
-        function createAccount() {
+        // function createAccount() {
+        function createBoard() {
             rowData = [];
             var columnDefs = [{
                 headerName: "글 번호",
@@ -112,12 +132,13 @@
 
                 }
             }
-            accountGrid = document.querySelector('#accountGrid');
-            new agGrid.Grid(accountGrid, gridOptions);
+            // accountGrid = document.querySelector('#accountGrid');
+            let boardGrid = document.querySelector('#boardGrid');
+            new agGrid.Grid(boardGrid, gridOptions);
         }
 
         /* 게시판 select 함수임다 */
-        function showAccount() {
+        function showBoard() {
             $.ajax({
                 type: "GET",
                 url: "${pageContext.request.contextPath}/base/boardlist",
@@ -151,8 +172,8 @@
                     if(jsonObj[0].fileOriName!=null){
                         showDetailBoard1(id);
                     }
-                    $("#fOname").attr("value", jsonObj[0].fileOriName);
-                    document.querySelector("#fOname").innerHTML="";
+                    // $("#fOname").attr("value", jsonObj[0].fileOriName);
+                    // document.querySelector("#fOname").innerHTML="";
                 }
             });
         }
@@ -173,10 +194,18 @@
                     $("#writtenday").text(jsonObj[0].writeDate);
                     const textarea = document.querySelector("#textarea");
                     textarea.value = jsonObj[0].contents;
-                    $("#fOname").attr("value", jsonObj[0].fileOriName);
-                    document.querySelector("#fOname").innerHTML=jsonObj[0].fileOriName;
-                    $("#fOname").attr("href", "/assets/uploadFiles/"+jsonObj[0].fileName)
-                    $("#fOname").attr("download", jsonObj[0].fileOriName)
+
+                    let titles = [];
+                    $(jsonObj).each((i,k) => {
+                        console.log(i,k.fileOriName)
+                        titles.push("<a href='/assets/uploadFiles/"+k.fileName+"' download='"+k.fileOriName+"' value='"+k.fileOriName+"'>"+k.fileOriName+"</a><br/>");
+                    })
+                    $("#fOname").html(titles.join(""));
+
+                    // $("#fOname").attr("value", jsonObj[0].fileOriName);
+                    // document.querySelector("#fOname").innerHTML=jsonObj[0].fileOriName;
+                    // $("#fOname").attr("href", "/assets/uploadFiles/"+jsonObj[0].fileName)
+                    // $("#fOname").attr("download", jsonObj[0].fileOriName)
 
                 }
             });
@@ -341,25 +370,6 @@
 
 
     </script>
-    <style>
-        #header_board2 {
-            display: inline;
-        }
-
-        #header_board3 #header_board3 {
-            display: inline;
-            margin-left: 500px;
-        }
-
-        table {
-            border-collapse: separate;
-        }
-
-        th {
-            padding: 5px;
-        }
-
-    </style>
 </head>
 <body class="bg-gradient-primary">
 <!-- 게시판 위 버튼 -->
@@ -369,7 +379,7 @@
 <hr>
 <div style="float: left; width: 100%; padding: 10px;">
     <div align="center">
-        <div id="accountGrid" class=
+        <div id="boardGrid" class=
                 "ag-theme-balham"
              style="height: 500px; width: 100%;"></div>
     </div>
@@ -429,9 +439,11 @@
                             </td>
                         </tr>
                         <tr>
+<%--                            <th>첨부파일</th>--%>
+<%--                            <td><a id="fOname" href="#" download></a></td>--%>
+<%--                            <td><a disabled="disabled" id="fName"/> </td>--%>
                             <th>첨부파일</th>
-                            <td><a id="fOname" href="#" download></a></td>
-                            <td><a disabled="disabled" id="fName"/> </td>
+                            <td id="fOname"></td>
                         </tr>
 
                         <tr>

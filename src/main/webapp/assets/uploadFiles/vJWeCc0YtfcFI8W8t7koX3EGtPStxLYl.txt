@@ -1,0 +1,36 @@
+
+1.아마존 우분투 리눅스에 연결
+
+ ssh -i seoulit.pem  ubuntu@54.172.87.113
+
+ ssh -i myaws.pem  ubuntu@43.201.36.220
+
+ .pem 파일의 보안 상속 제거하고 컴퓨터이름으로 추가해야함
+ .pem 파일이 있는 경로로 들어가야함
+ xxx.pem / public ip address
+
+##도커설치과정##
+
+2. install-docker.sh 을 복사하여 같은 이름으로 파일생성
+      
+ cat > install-docker.sh
+
+ ctrl + v
+ ctrl + c
+
+3. chmod u+x install-docker.sh
+
+4. ./install-docker.sh
+
+##도커 컴포저 설치과정##
+
+5. install-docker-compose.sh 을 복사하여 같은 이름으로 파일생성
+      
+ cat > install-docker-compose.sh
+
+ ctrl + v
+ ctrl + c
+
+6. chmod u+x install-docker-compose.sh
+
+7. ./install-docker-compose.sh

@@ -31,7 +31,8 @@ public interface BoardMapper {
 
 	void modifyReBoard(BoardBean boardbean);
 
-	void fileInsert(BoardBean boardBean) throws Exception;
-//	void fileInsert(BoardFIleBean boardFIleBean) throws Exception;
+//	void fileInsert(BoardBean boardBean) throws Exception;
+
+	void fileInsert(BoardFIleBean boardFIleBean) throws Exception;
 
 }

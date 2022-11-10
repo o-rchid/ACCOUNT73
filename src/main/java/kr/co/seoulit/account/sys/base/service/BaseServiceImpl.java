@@ -567,8 +567,13 @@ public class BaseServiceImpl implements BaseService {
 		boardDAO.modifyReBoard(boardbean);
 	}
 
+//	@Override
+//	public void fileInsert(BoardBean boardBean) throws Exception{
+//		boardDAO.fileInsert(boardBean);
+//	}
+
 	@Override
-	public void fileInsert(BoardBean boardBean) throws Exception{
-		boardDAO.fileInsert(boardBean);
+	public void fileInsert(BoardFIleBean boardFIleBean) throws Exception{
+		boardDAO.fileInsert(boardFIleBean);
 	}
 }

@@ -147,12 +147,20 @@
 <!--		<result property="fileUrl" column="FILE_URL"/>-->
 <!--	</resultMap>-->
 
-<insert id="fileInsert" parameterType="kr.co.seoulit.account.sys.base.to.BoardBean">
+<!--<insert id="fileInsert" parameterType="kr.co.seoulit.account.sys.base.to.BoardBean">-->
+<!--	<![CDATA[-->
+<!--	INSERT INTO-->
+<!--		BOARD_FILE (FILE_ID, BOARD_ID, FILE_NAME, FILE_ORINAME, FILE_URL)-->
+<!--VALUES ( BOARD_FILE_SEQ.NEXTVAL,BOARD_Seq.currval,#{fileName},#{fileOriName},#{fileUrl})-->
+<!--	]]>-->
+<!--</insert>-->
+
+	<insert id="fileInsert" parameterType="kr.co.seoulit.account.sys.base.to.BoardFIleBean">
 	<![CDATA[
-	INSERT INTO
-		BOARD_FILE (FILE_ID, BOARD_ID, FILE_NAME, FILE_ORINAME, FILE_URL)
-VALUES ( BOARD_FILE_SEQ.NEXTVAL,BOARD_Seq.currval,#{fileName},#{fileOriName},#{fileUrl})
-	]]>
+		INSERT INTO
+			BOARD_FILE (FILE_ID, BOARD_ID, FILE_NAME, FILE_ORINAME, FILE_URL)
+		VALUES ( BOARD_FILE_SEQ.NEXTVAL,BOARD_SEQ.CURRVAL,#{fileName},#{fileOriName},#{fileUrl})
+		]]>
 </insert>
 
 

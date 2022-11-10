@@ -70,7 +70,7 @@ public interface BaseService {
 
 	public void boardReModify(BoardBean boardbean);
 
-	public void fileInsert(BoardBean boardBean) throws Exception;
-//	public void fileInsert(BoardFIleBean boardFIleBean) throws Exception;
+//	public void fileInsert(BoardBean boardBean) throws Exception;
+	public void fileInsert(BoardFIleBean boardFIleBean) throws Exception;
 
 }
