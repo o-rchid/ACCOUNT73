@@ -1,5 +1,6 @@
 package kr.co.seoulit.account.budget.formulation.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import kr.co.seoulit.account.budget.formulation.service.FormulationService;
 import kr.co.seoulit.account.budget.formulation.to.BudgetBean;
 import kr.co.seoulit.account.sys.common.util.BeanCreator;
@@ -124,8 +125,8 @@ public class FormulationController {
     public BudgetBean findCurrentBudget(@RequestParam String budgetObj) {
 
         JSONObject budgetJsonObj = JSONObject.fromObject(budgetObj); //예산
+        System.out.println("budgetJsonObj = " + budgetJsonObj);
         BudgetBean budgetBean = beanCreator.create(budgetJsonObj, BudgetBean.class);
-
 
         return formulationService.findCurrentBudget(budgetBean);
     }

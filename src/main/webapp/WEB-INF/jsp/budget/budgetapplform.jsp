@@ -54,13 +54,14 @@
             }, function(){
                 $(this).css("background-color","");
             });
-
+            //그리드 만들어 놓고 버튼 누르면 setRowData(정혜)
             createAccountPeriod();
             $("#searchPeriod").click(showAccountPeriod);//버튼 누를시
 
             createWorkplace();
             $("#searchWorkplace").click(showWorkplace);//버튼 누를시
 
+            //createWorkplace랑 겹치는 부분 hide 해서 만듬(정혜)
             createDepartment();//그리드생성 사업장,부서
 
             createParentBudget();//그리드생성 계정과목코드,계정과목
@@ -74,7 +75,8 @@
                 var input=document.querySelector("#t"+i);
                 input.disabled=true;
             }
-            //input에 이벤트 달기
+
+            //당기 예산 신청에 이벤트 달기, disabled
             for(var i=1; i<=12;i++){
                 var input=document.querySelector("#m"+i);   //td1번~12번
                 input.oninput=checkNum;//값을 넣을때 발생하는 이벤트
@@ -83,7 +85,8 @@
                 input.disabled=true;
             }
 
-            for(var i=1;i<=4;i++){
+            //당기 예산 신청 합계에 이벤트 달기, disabled
+            for(var i=1;i<=4;i++) {
                 var q=document.querySelector("#q"+i);
                 q.oninput=checkNum;
                 q.onchange=checkNum;
@@ -121,6 +124,7 @@
             "m12Budget":""
         };
 
+        //완료
         function orgBudget(){
             for(var i=1;i<=12;i++){
                 var input=document.querySelector("#m"+i);//m1~m12
@@ -151,7 +155,7 @@
                 }
             });
         }
-
+        //완료
         function modifyBudgetList() { // 예산 신청에서 PK값이 중복되는 예산데이터가 있을경우, 해당 메서드 실행
             $.ajax({
                 type: "PUT",
@@ -175,6 +179,7 @@
             });
         }
 
+        //완료
         function createAccountPeriod(){//회계연도
             rowData=[];
             var columnDefs = [
@@ -197,26 +202,26 @@
                 },
                 onRowClicked:function (event){//클릭시
                     console.log("Row선택");
-                    selectedRow=event.data;//이벤트가 일어난 행의 정보
+                    selectedRow = event.data;//이벤트가 일어난 행의 정보
                     $("#fiscalYear").val(selectedRow["fiscalYear"]);//선택한 행의 연도
-                    $("#accountYearModal").modal("hide");//모달창을 하이드시킴
                     checkElement();//호출
-                    console.log("dataSet"+dataSet["accountPeriodNo"]);
-                    console.log("selectedRow"+selectedRow["accountPeriodNo"]);
-                    dataSet["accountPeriodNo"]=selectedRow["accountPeriodNo"];//내가 선택한 연도
+                    console.log("dataSet" + dataSet["accountPeriodNo"]);
+                    console.log("selectedRow" + selectedRow["accountPeriodNo"]);
+                    dataSet["accountPeriodNo"] = selectedRow["accountPeriodNo"];//내가 선택한 연도
+                    $("#accountYearModal").modal("hide");//모달창을 하이드시킴
                 }
             }
             accountGrid = document.querySelector('#accountYearGrid');
             new agGrid.Grid(accountGrid,gridOptions3);//ag그리드 생성
         }
 
+        //완료
         function showAccountPeriod(){//show로 이름이 정의되어있지만 값을 넣는것임
 
             $.ajax({
                 type: "GET",
                 url: "${pageContext.request.contextPath}/operate/accountperiodlist",
-                data: {
-                },
+                data: {},
                 dataType: "json",
                 async:false,
                 success: function (jsonObj) {
@@ -227,6 +232,7 @@
 
         }
 
+        //완료
         function createWorkplace(){
             rowData=[];
             var columnDefs = [
@@ -265,6 +271,8 @@
               alert('Selected nodes: ' + selectedDataStringPresentation);
           }
         */
+
+        //완료
         function createDepartment(){//사업장,부서그리드
             rowData=[];
             var columnDefs = [
@@ -284,7 +292,6 @@
                     event.api.sizeColumnsToFit();
                 },
                 onRowClicked:function (event){//행을 클릭시
-                    console.log("여기");
                     console.log("Row선택");
                     console.log(event.data);
                     selectedRow=event.data;//선택한행 정보
@@ -301,6 +308,7 @@
             new agGrid.Grid(deptGrid,gridOptions5);//사업장그리드 생성
         }
 
+        //완료
         function showWorkplace(){
             $.ajax({
                 type: "GET",
@@ -316,6 +324,7 @@
             });
         }
 
+        //완료
         function showDepartment(workplaceCode){//내가 선택한 사업장 코드
             $.ajax({
                 type: "GET",
@@ -333,6 +342,7 @@
             });
         }
 
+        //완료
         function createParentBudget(){//좌측 그리드
             rowData=[];
             var columnDefs = [
@@ -360,7 +370,7 @@
             accountGrid = document.querySelector('#parentBudgetGrid');
             new agGrid.Grid(accountGrid,gridOptions);
         }
-
+        //완료
         function createDetailBudget() {
             rowData=[];
             var columnDefs = [
@@ -398,6 +408,7 @@
         }
         // ============================================== 공통 기능=======================================================
 
+        //완료
         //회계연도,사업장,부서가 다입력되어있을시 왼쪽 그리드를 호출하는 로직
         function checkElement(){
             if($("#fiscalYear").val()&&$("#workplace").val()&&$("#dept").val())
@@ -405,6 +416,7 @@
         }
 
         //숫자를 돈 형식으로 바꿔주는 함수
+        //완료
         function numToMoney(value){
 
             var length=value.length;//길이
@@ -426,14 +438,16 @@
 
         // ==============================================예산 신청 input 관련 기능==============================================
 
+        // 완료
         // 분기 금액 새로고침
+        // 월 금액 Int로 바꿔서 분기에 넣어주고, 계산해서 합계에 넣어줌
         function qRefresh(){
             var num=0;
             var num1=0;
             for(var i=1; i<=12;i++){
                 var input=document.querySelector("#m"+i);//m1~m12
                 if(input.value == "") num += 0;
-                else num+=parseInt(input.value.split(",").join(""));//인풋의 밸류값이, 즉 3글자마다 잘린것에대해 숫자로 바꿈
+                else num += parseInt(input.value.split(",").join(""));//인풋의 밸류값이, 즉 3글자마다 잘린것에대해 숫자로 바꿈
                 if(i%3==0){//i에 3을나눠서 0일떄 즉 3,6,9,12일시
                     var q=document.querySelector("#q"+i/3);//분기1,2,3,4
                     q.value=numToMoney(num+"");//돈형식으로 만들어주는 함수에 전송
@@ -444,8 +458,8 @@
                 sum.value=numToMoney(num1+"");
             }
         }
-
-        // 숫자만 입력할 수 있게 하는 기능
+        // 완료
+        // 숫자아닌게 들어오면 형식 바꿔주고 세자리마다 , 넣어준다.
         function checkNum(){
             this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1').replace(/(^0+)/, "");
             var length=this.value.length;
@@ -461,13 +475,14 @@
         }
 
         // ===================================당기 신청 관련 기능===============================================
+        //완료
         function ableCurrentInput() {
             for(var i=1; i<=12;i++){
                 var input=document.querySelector("#m"+i);//m1~m12
                 input.disabled=false;//비활성화를 활성화로 변경i
             }
         }
-
+        //완료
         function currentBudgetValueSet() {
             for(var i=1; i<=12;i++){   // 월 금액 초기화 하기
                 var input=document.querySelector("#m"+i);
@@ -480,6 +495,7 @@
             document.querySelector("#sum").value=""; // 합계 초기화 하기
         }
 
+        //미완 - beanCreator 개선방법 없나?
         function currnetBudgetAppl() {
             $.ajax({
                 type: "GET",
@@ -498,6 +514,7 @@
             })
         }
 
+        //미완 - 값이 몇개 안들어간다 알아보기
         function inputCurrentBudgetAppl(data) {
             var num=0;
             var num1=0;
@@ -520,6 +537,7 @@
 
         // ===================================전기 신청 관련 기능===============================================
 
+        //완료
         function previousBudgetValueSet() { // 전기 예산 신청 값들 초기화 하기
             for(var i=1; i<=12;i++){   // 월 금액 초기화 하기
                 var input=document.querySelector("#c"+i);
@@ -532,7 +550,7 @@
             document.querySelector("#total").value=null; // 합계 초기화 하기
         }
 
-
+        //완료
         function previousBudgetAppl(){
             $.ajax({
                 type: "GET",
@@ -544,7 +562,7 @@
                 async:false,
                 success: function (data){
                     console.log(data)
-                    document.querySelector("#h2Tag").innerHTML="";
+                    document.querySelector("#h2Tag").innerHTML=""; // 전기당기 사이에 있음
                     inputPreviousBudgetAppl(data);
                 },
                 error: function(data){
@@ -553,7 +571,7 @@
             })
         }
 
-
+        //완료
         function inputPreviousBudgetAppl(data){ // 전기 예산 신청 값 불러와 담기
             var num=0;
             var num1=0;
@@ -566,7 +584,7 @@
                     var t=document.querySelector("#t"+i/3);//분기1,2,3,4
                     t.value=numToMoney(num+"");//돈형식으로 만들어주는 함수에 전송
                     num1 += num
-                    num=0;
+                    num=0; //num 초기화
                 }
             }
             var total = document.querySelector("#total");
@@ -627,7 +645,7 @@
 
 
 
-
+        //완료
         function showParentBudget(){//왼쪽 그리드 값 할당
 
             $.ajax({
@@ -644,6 +662,7 @@
             });
         }
 
+        //미완 - 매핑되는 sql이 없다???
         function showDetailBudget(code){//우측 그리드   좌측 그리드에서 선택한행의 accountInnerCode(계정과목코드) 정보를 가져옴
             console.log(code);
 

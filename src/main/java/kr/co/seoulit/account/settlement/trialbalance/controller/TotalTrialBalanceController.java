@@ -37,16 +37,13 @@ public class TotalTrialBalanceController {
 	  @GetMapping("/totaltrialbalance/{accountPeriodNo}")
 	public HashMap<String,Object> findTotalTrialBalance(@PathVariable String accountPeriodNo,
 														 @RequestParam String callResult) {
-		 
-		  
+
 		HashMap<String,Object> params = new HashMap<>();
 		params.put("accountPeriodNo",accountPeriodNo);
 		params.put("callResult",callResult);
 
 		trialBalanceService.findTotalTrialBalance(params);
-         
-        
-          
+
         return params;
 
 	}
