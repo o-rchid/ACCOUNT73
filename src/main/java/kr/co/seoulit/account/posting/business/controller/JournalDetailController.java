@@ -34,7 +34,7 @@ public class JournalDetailController {
 
 	@GetMapping("/journaldetaillist")
 	public ArrayList<JournalDetailBean> findJournalDetailList(@RequestParam String journalNo) {
-
+//		System.out.println(journalNo);
 		ArrayList<JournalDetailBean> journalDetailList = businessService.findJournalDetailList(journalNo);
 
 		return journalDetailList;
