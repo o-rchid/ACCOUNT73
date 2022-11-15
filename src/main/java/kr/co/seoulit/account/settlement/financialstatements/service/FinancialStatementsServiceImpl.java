@@ -29,8 +29,7 @@ public class FinancialStatementsServiceImpl implements FinancialStatementsServic
 
         	HashMap<String, Object> incomeledgerList = null;
         	incomeledgerList = incomeStatementDAO.selectcallIncomeStatement(param);
-        	System.out.println(incomeledgerList+"@@@@@@@@@@@@@@@@@@@@@@");
-            
+
         return incomeledgerList;
     }
 }

@@ -35,9 +35,8 @@ public class AuthorityController {
 
 	@GetMapping("/authorityemp")
     public ArrayList<AuthorityEmpBean> findAuthorityEmp(@RequestParam String deptCode) {
-       
-        	
-            ArrayList<AuthorityEmpBean> authorityEmp = systemService.findAuthorityEmp(deptCode);
+
+        ArrayList<AuthorityEmpBean> authorityEmp = systemService.findAuthorityEmp(deptCode);
            
         return authorityEmp;
     }
@@ -46,15 +45,13 @@ public class AuthorityController {
     public void modifyAuthorityGroup(@RequestParam String authority,
     								 @RequestParam String deptCode) {
         
-     
         	Gson gson = new Gson();
 			ArrayList<AuthorityEmpBean> authorityEmpBean = gson.fromJson(authority,
 					new TypeToken<ArrayList<AuthorityEmpBean>>() {
 					}.getType());
         	
-            	
 			systemService.modifyAuthorityGroup(authorityEmpBean , deptCode);
-           
+
  
     }
 	@GetMapping("/authoritygroupcode")

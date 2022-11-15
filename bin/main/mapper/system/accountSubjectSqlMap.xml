@@ -129,7 +129,7 @@
 					 WHERE ACCOUNT_INNER_CODE LIKE '%-%'
 	        		  AND ACCOUNT_INNER_CODE not IN ('0101-0175','0176-0250')
 	        		  AND PARENT_ACCOUNT_INNER_CODE IS not NULL
-	        		  and account_inner_code in (SELECT distinct parent_account_inner_code from ACCOUNT 
+	        		  AND account_inner_code in (SELECT distinct parent_account_inner_code from ACCOUNT
 	        	     WHERE ACCOUNT_INNER_CODE not LIKE '%-%'	  
 	        	     and budget='T')
 	        	     ORDER BY ACCOUNT_INNER_CODE

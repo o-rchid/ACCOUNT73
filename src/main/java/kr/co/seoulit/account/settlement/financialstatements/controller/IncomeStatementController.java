@@ -31,19 +31,19 @@ public class IncomeStatementController  {
 
 	@Autowired
   private FinancialStatementsService financialStatementsService;
-    
- 
+
 	@GetMapping("/incomestatement")
     public HashMap<String, Object> handleRequestInternal(@RequestParam String accountPeriodNo,
 		     								             @RequestParam String callResult) {
 
 		HashMap<String, Object> params = new HashMap<>();
-		params.put("accountPeriodNo",accountPeriodNo);
-		params.put("callResult",callResult);
+		params.put("accountPeriodNo",accountPeriodNo); //accountPeriodNo
+		params.put("callResult",callResult); //"SEARCH"
 		
 		financialStatementsService.findIncomeStatement(params);
 
         return params;
+
     }
 
 }

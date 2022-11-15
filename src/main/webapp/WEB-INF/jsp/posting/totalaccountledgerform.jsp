@@ -59,67 +59,69 @@
 		  
    });
 			
-	var date = new Date();
-	var year = date.getFullYear().toString();
-	var month = (date.getMonth() + 1 > 9 ? date.getMonth() : '0' + (date.getMonth() + 1)).toString(); // getMonth()는 0~9까지
-	// 10월 이상이면 true
-	var day = date.getDate() > 9 ? date.getDate() : '0' + date.getDate(); // getDate()는 1~31 까지 
-	var today = year + "-" + month + "-" + day; 
-   
-   $(document).ready(function () {
-	$("#search").click( () => showCashJournalGrid(selectedRow2["accountInnerCode"]) );// 검색
-   $('#from').val(today.substring(0, 8) + '01');	
-	$('#to').val(today.substring(0, 10));
-	 });
-	function currencyFormatter(params) {
-    	return '￦' + formatNumber(params.value);
-  	}
-	
-  	function formatNumber(number) {
-  	    // this puts commas into the number eg 1000 goes to 1,000,
-  	    // i pulled this from stack overflow, i have no idea how it works
-  	    	return Math.floor(number)
-  	      		.toString()
-  	      		.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
-  	  	}  
-   
-  $(document).ready(function () {
+    var date = new Date();
+    var year = date.getFullYear().toString();
+    var month = (date.getMonth() + 1 > 9 ? date.getMonth() : '0' + (date.getMonth() + 1)).toString(); // getMonth()는 0~9까지
+    // 10월 이상이면 true
+    var day = date.getDate() > 9 ? date.getDate() : '0' + date.getDate(); // getDate()는 1~31 까지
+    var today = year + "-" + month + "-" + day;
 
-      createAccount();        
-      showAccount();
-      createAccountDetail(); 
-      createCashJournalGrid();
-  });
-  var selectedRow;
-  var selectedRow2;
-	function createAccount(){
-		rowData=[];
-	  	var columnDefs = [
-		      {headerName: "계정과목 코드", field: "accountInnerCode",sort:"asc", width:200
-		      },
-		      {headerName: "계정과목", field: "accountName",width:250},
-		  ];	  	
-		  gridOptions = {
-				      columnDefs: columnDefs,
-				      rowSelection:'single', //row는 하나만 선택 가능
-				      defaultColDef: {editable: false }, // 정의하지 않은 컬럼은 자동으로 설정
-		 			  onGridReady: function (event){// onload 이벤트와 유사 ready 이후 필요한 이벤트 삽입한다.
-		        			event.api.sizeColumnsToFit();
-		    		  },
-		    		  onGridSizeChanged:function (event){ // 그리드의 사이즈가 변하면 자동으로 컬럼의 사이즈 정리
-		    		        event.api.sizeColumnsToFit();
-		    		  },
-		    		  onRowClicked:function (event){
-		    			  console.log("Row선택");
-		    			  console.log(event.data);
-		    			  selectedRow=event.data;
-		    			  showAccountDetail(selectedRow["accountInnerCode"]);
-	    			  	  $("#search").attr('disabled','disabled');
-		    		  }
-		   }
-		  accountGrid = document.querySelector('#accountGrid');
-			new agGrid.Grid(accountGrid,gridOptions);
-	 }
+    var selectedRow;
+    var selectedRow2;
+   
+    $(document).ready(function () {
+        createAccount();
+        showAccount();
+        createAccountDetail();
+        createCashJournalGrid();
+
+        $("#search").click( () => showCashJournalGrid(selectedRow2["accountInnerCode"]) );// 검색
+        $('#from').val(today.substring(0, 8) + '01');
+        $('#to').val(today.substring(0, 10));
+    });
+
+    function currencyFormatter(params) {
+        return '￦' + formatNumber(params.value);
+    }
+
+    function formatNumber(number) {
+        // this puts commas into the number eg 1000 goes to 1,000,
+        // i pulled this from stack overflow, i have no idea how it works
+        return Math.floor(number)
+            .toString()
+            .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+    }
+
+
+
+    function createAccount(){
+        rowData=[];
+        var columnDefs = [
+            {headerName: "계정과목 코드", field: "accountInnerCode",sort:"asc", width:200},
+            {headerName: "계정과목", field: "accountName",width:250},
+        ];
+        gridOptions = {
+            columnDefs: columnDefs,
+            rowSelection:'single', //row는 하나만 선택 가능
+            defaultColDef: {editable: false }, // 정의하지 않은 컬럼은 자동으로 설정
+
+            onGridReady: function (event){// onload 이벤트와 유사 ready 이후 필요한 이벤트 삽입한다.
+                event.api.sizeColumnsToFit();
+            },
+            onGridSizeChanged:function (event){ // 그리드의 사이즈가 변하면 자동으로 컬럼의 사이즈 정리
+                event.api.sizeColumnsToFit();
+            },
+            onRowClicked:function (event){
+                console.log("Row선택");
+                console.log(event.data);
+                selectedRow=event.data;
+                showAccountDetail(selectedRow["accountInnerCode"]);
+                $("#search").attr('disabled','disabled');
+            }
+        }
+        accountGrid = document.querySelector('#accountGrid');
+        new agGrid.Grid(accountGrid,gridOptions);
+    }
 	function showAccount(){
 		 $.ajax({
              type: "GET",

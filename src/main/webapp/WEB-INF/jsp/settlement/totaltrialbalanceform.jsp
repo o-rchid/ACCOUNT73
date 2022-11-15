@@ -55,7 +55,7 @@
    }/*글자 밑에 있는거 중앙으로  */
 					.ag-row .ag-cell {
 							  display: flex;
-							  justify-content: center !important; /* align horizontal */
+							  /*justify-content: center !important; !* align horizontal *!*/
 							  align-items: center !important; 
 							  }
 				
@@ -85,10 +85,10 @@
    
    	createTotalTrialBalanceGrid();
     createAccountPeriod();
-    
-    showAccountPeriod();
+
     showTotalTrialBalanceGrid()
-    
+    showAccountPeriod();
+
   });
    var selectedRow;
    var accountPeriodNo;

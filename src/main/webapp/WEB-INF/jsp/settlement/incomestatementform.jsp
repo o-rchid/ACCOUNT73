@@ -50,8 +50,8 @@
    }/*글자 밑에 있는거 중앙으로  */
 					.ag-row .ag-cell {
 							  display: flex;
-							  justify-content: center !important; /* align horizontal */
-							  align-items: center !important; 
+							  /*justify-content: center !important;*/
+							  align-items: center !important;
 							  }
 				
 					.ag-theme-balham .ag-cell, .ag-icon .ag-icon-tree-closed::before {
@@ -72,18 +72,24 @@
       }, function(){
       $(this).css("background-color","");
     });
-     
-      $("#search").click(showIncomeStatementGrid);// 검색
-      
-      $('#showpdf').click(createPdf);
-   createIncomeStatementGrid();
-   createAccountPeriod();
-      
+
+    //손익계산서 SET
+    $("#search").click(showIncomeStatementGrid);// 검색
+
+    $('#showpdf').click(createPdf);
+
+    //손익계산서 그리드
+    createIncomeStatementGrid();
+    //기수 그리드
+    createAccountPeriod();
+
+    //기수 그리드 값 셋팅, 처음에 2022로 설정하려고 시작하자마자 로딩
     showAccountPeriod();
     showIncomeStatementGrid();
   });
+
      var selectedRow;
-   var accountPeriodNo;
+     var accountPeriodNo;
    
     //화폐 단위 설정
    function currencyFormatter(params) {
@@ -100,10 +106,11 @@
  
      
     var gridOptions;
-      function createIncomeStatementGrid() {
+    //완료
+    function createIncomeStatementGrid() {
         rowData=[];
         var columnDefs = [
-           {headerName: "과목", field: "accountName",width:150, cellStyle : {"textAlign":"left" ,"whiteSpace":"pre"}},
+           {    headerName: '과목', field: 'accountName',width:150, cellStyle : {"textAlign":"left" ,"whiteSpace":"pre"}},
            {
                headerName: '당기',
                headerClass: 'participant-group',
@@ -114,13 +121,13 @@
                ]
            },
            {
-           headerName: '전기',
-           headerClass: 'participant-group',
-           marryChildren: true,
-           children: [
-             { headerName:'금액', field: 'earlyIncome', colId: '전기' , width:150,valueFormatter:currencyFormatter },
-             { headerName:'잔액', field: 'earlyIncomeSummary', colId: '전기' , width:150, valueFormatter:currencyFormatter },
-           ]
+               headerName: '전기',
+               headerClass: 'participant-group',
+               marryChildren: true,
+               children: [
+                 { headerName:'금액', field: 'earlyIncome', colId: '전기' , width:150,valueFormatter:currencyFormatter },
+                 { headerName:'잔액', field: 'earlyIncomeSummary', colId: '전기' , width:150, valueFormatter:currencyFormatter },
+               ]
            },
         ];        
         gridOptions = {
@@ -131,7 +138,7 @@
                   },
                   onGridSizeChanged:function (event){ // 그리드의 사이즈가 변하면 자동으로 컬럼의 사이즈 정리
                         event.api.sizeColumnsToFit();
-                  },
+                  }
          }
         incomeStatementGrid = document.querySelector('#incomeStatementGrid');
         new agGrid.Grid(incomeStatementGrid,gridOptions);
@@ -144,7 +151,7 @@
     }
       
       
-      
+      //손익계산서 값 세팅
       function showIncomeStatementGrid(){
    	   
    	   $.ajax({
@@ -175,14 +182,12 @@
     function createAccountPeriod(){
        rowData=[];
          var columnDefs = [
-            {headerName: "회계기수", hide:"true" ,field: "accountPeriodNo",sort:"asc", width:100
-             },
-             {headerName: "회계연도", field: "fiscalYear",sort:"asc", width:100
-             },
+             {headerName: "회계기수", hide:"true" ,field: "accountPeriodNo",sort:"asc", width:100},
+             {headerName: "회계연도", field: "fiscalYear",sort:"asc", width:100},
              {headerName: "회계시작일", field: "periodStartDate",width:250},
              {headerName: "회계종료일", field: "periodEndDate",width:250},
          ];        
-         gridOptions3 = {
+         gridOptions2 = {
                    columnDefs: columnDefs,
                    rowSelection:'single', //row는 하나만 선택 가능
                    defaultColDef: {editable: false }, // 정의하지 않은 컬럼은 자동으로 설정
@@ -205,7 +210,7 @@
                    }
           }
          accountGrid = document.querySelector('#accountYearGrid');
-          new agGrid.Grid(accountGrid,gridOptions3);
+         new agGrid.Grid(accountGrid,gridOptions2);
      }
      
     function showAccountPeriod(){          
@@ -217,12 +222,11 @@
                   dataType: "json",
                   async:false,
                   success: function (jsonObj) {
-                     console.log(jsonObj);
-                      gridOptions3.api.setRowData(jsonObj);
-                     gridOptions3.api.forEachNode(function (node, index) {
-                          if (index = gridOptions3.api.getLastDisplayedRow()) {                        
+                     gridOptions2.api.setRowData(jsonObj);
+                     gridOptions2.api.forEachNode(function (node, index) {
+                          if (index == gridOptions2.api.getLastDisplayedRow()) {
                             $("#fiscalYear").val(node.data.fiscalYear);
-                          accountPeriodNo = node.data.accountPeriodNo;
+                            accountPeriodNo = node.data.accountPeriodNo;
                              }                   
                          });           
                      }
@@ -241,12 +245,10 @@
                     <input   style="margin-left: 5px" type="text" class="border-0 small form-control form-control-user" id="fiscalYear" placeholder="fiscalYear" disabled="disabled">
 
                   <div class="input-group-append">
-                     <!-- <button class="btn btn-primary" type="button" data-toggle="modal"
-                        data-target="#accountYearModal" id="searchPeriod">
+                   <button class="btn btn-primary" type="button" data-toggle="modal" data-target="#accountYearModal" id="searchPeriod">
                         <i class="fas fa-search fa-sm"></i>
-                     </button>
-                      -->
-                     <input type="button" id="showpdf" value="PDF" class="btn btn-Light shadow-sm btnsize3" style="margin-left:2px;">
+                   </button>
+                    <input type="button" id="showpdf" value="PDF" class="btn btn-Light shadow-sm btnsize3" style="margin-left:2px;">
                   </div>
           </div>
           <div class="settleStatusContainer">결산상태 : <span id="settleStatusResult" >--</span></div>
@@ -261,7 +263,7 @@
       <div class="modal-dialog" role="document">
          <div class="modal-content">
             <div class="modal-header">
-               <h5 class="modal-title" id="accountYearModal">회계연도</h5>
+               <h5 class="modal-title">회계연도</h5>
                <button class="close" type="button" data-dismiss="modal"
                   aria-label="Close">
                   <span aria-hidden="true">×</span>
