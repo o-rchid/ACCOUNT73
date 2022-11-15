@@ -42,7 +42,15 @@
     <%--  SweetAlert  --%>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <%--  AG-Grid  --%>
-    <%--    <script src="https://unpkg.com/@ag-grid-enterprise/all-modules@24.1.0/dist/ag-grid-enterprise.min.js"></script>--%>
+<%--    <!-- Include the JS for AG Grid -->--%>
+<%--    <script src="https://cdn.jsdelivr.net/npm/ag-grid-community/dist/ag-grid-community.min.noStyle.js"></script>--%>
+<%--    <!-- Include the core CSS, this is needed by the grid -->--%>
+<%--    <link rel="stylesheet"--%>
+<%--          href="https://cdn.jsdelivr.net/npm/ag-grid-community/styles/ag-grid.css"/>--%>
+<%--    <!-- Include the theme CSS, only need to import the theme you are going to use -->--%>
+<%--    <link rel="stylesheet"--%>
+<%--          href="https://cdn.jsdelivr.net/npm/ag-grid-community/styles/ag-theme-alpine.css"/>--%>
+<%--        <script src="https://unpkg.com/@ag-grid-enterprise/all-modules@24.1.0/dist/ag-grid-enterprise.min.js"></script>--%>
     <!-- Include the JS for AG Grid -->
     <script src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.noStyle.js"></script>
     <!-- Include the core CSS, this is needed by the grid -->
@@ -627,7 +635,7 @@
 <%-- -->--%>
 <%--&lt;%&ndash; <% ArrayList<String> menuList = (ArrayList<String>) session.getAttribute("menuList");%> &ndash;%&gt;--%>
 
-
+<script src="https://unpkg.com/@ag-grid-enterprise/all-modules@24.1.0/dist/ag-grid-enterprise.min.js"></script>
 
 <%--  download-template  --%>
 <%-- 헤드태그에 두면 인식을 못함 --%>
@@ -695,7 +703,9 @@
     $(document).ready(function () {
         var deptCode=`${deptCode}`;
         console.log("deptCode :"+deptCode);
-        showAuthorityEmp(deptCode);
+
+        if(deptCode != "")
+            showAuthorityEmp(deptCode);
 
         $('.collapse-item, .dropdown-item').on('click', function(e){
             $(location).attr("href","${pageContext.request.contextPath}/url?menuCode="+$(this).attr("id"));
