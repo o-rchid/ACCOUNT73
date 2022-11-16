@@ -16,11 +16,11 @@ import kr.co.seoulit.account.operate.humanresource.to.EmployeeBean;
 
 public interface BaseService {
 
-	public EmployeeBean findLoginData(String empCode, String userPw) throws IdNotFoundException, PwMissmatchException, DeptCodeNotFoundException;
+	public EmployeeBean findLoginData(EmployeeBean employeeBean) throws IdNotFoundException, PwMissmatchException, DeptCodeNotFoundException;
 
 	public ArrayList<MenuBean> findUserMenuList(String deptCode);
 
-	public ArrayList<DetailCodeBean> findDetailCodeList(HashMap<String, String> param);
+	public ArrayList<DetailCodeBean> findDetailCodeList(DetailCodeBean detailCodeBean);
 
 	public ArrayList<CodeBean> findCodeList();
 

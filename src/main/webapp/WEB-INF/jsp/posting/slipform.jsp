@@ -954,12 +954,12 @@ uri="http://java.sun.com/jsp/jstl/core" %>
         let ele = document.createElement("select");
         ele.id = "selectId";
         $.ajax({
-          type: "GET",
+          type: "Post",
           url: "${pageContext.request.contextPath}/base/detailcodelist",
-          data: {
+          data: JSON.stringify({
             divisionCodeNo: selectedJournalDetail["accountControlDescription"],
-          },
-          dataType: "json",
+          }),
+          contentType: "application/json",
           async: false,
           success: function (jsonObj) {
             console.log("selectBank의 jsonObj" + jsonObj);
@@ -1683,13 +1683,13 @@ uri="http://java.sun.com/jsp/jstl/core" %>
           $("selectedJournalDetail").val()
         );
         $.ajax({
-          type: "GET",
+          type: "Post",
           url: "${pageContext.request.contextPath}/base/detailcodelist",
-          data: {
+          data: JSON.stringify({
             divisionCodeNo: selectedJournalDetail["accountControlDescription"], //accountControlDescription = ACCOUNT_CONTROL_DETAIL의 Description
             detailCodeName: $("#searchCode").val(), //부서 입력한 값
-          },
-          dataType: "json",
+          }),
+          contentType: "application/json",
           success: function (jsonObj) {
             // gridOptions5.api.setRowData(jsonObj.detailCodeList); #1
             codeGrid.gridOptions.api.setRowData(jsonObj);

@@ -22,8 +22,6 @@ public interface HumanResourceService {
     public void removeEmployee(EmployeeBean employeeBean);
 	
 	public ArrayList<DepartmentBean> findDeptList();
-	
-	public ArrayList<DepartmentBean> findDeptList2();
 
 	public ArrayList<DepartmentBean> findDetailDeptList(String workplaceCode);
 	

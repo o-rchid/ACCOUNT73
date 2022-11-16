@@ -156,10 +156,10 @@
         /* 게시물 select detail임다~ */
         function showDetailBoard(id) {
             $.ajax({
-                type: "GET",
+                type: "Post",
                 url: "${pageContext.request.contextPath}/base/boardDetailList",
-                dataType: "json",
-                data: {"id": id},
+                contentType: "application/json",
+                data: JSON.stringify({"id": id}),
                 success: function (jsonObj) {
                     console.log(jsonObj);
                     $("#title").attr("value", jsonObj[0].title);
@@ -181,10 +181,10 @@
         let oriname = [];
         function showDetailBoard1(id) {
             $.ajax({
-                type: "GET",
+                type: "POST",
                 url: "${pageContext.request.contextPath}/base/boardDetailList1",
-                dataType: "json",
-                data: {"id": id},
+                contentType: "application/json",
+                data: JSON.stringify({"id": id}),
                 success: function (jsonObj) {
                     console.log(jsonObj);
                     $("#title").attr("value", jsonObj[0].title);
@@ -233,10 +233,10 @@
             console.log(" 삭제할 id 값@@@@@ :" + id);
             if (ans == true) {
                 $.ajax({
-                    type: "GET",
+                    type: "Post",
                     url: "${pageContext.request.contextPath}/base/boardDelete",
-                    dataType: "text",
-                    data: {"id": id},
+                    contentType: "application/json",
+                    data: JSON.stringify({"id": id}),
                     success: function (data) {
                         alert("삭제가 완료되었습니다!");
                         $("#codeModal").modal("hide");
@@ -249,10 +249,10 @@
         /* 댓글select */
         function showreply(id) {
             $.ajax({
-                type: "GET",
+                type: "Post",
                 url: "${pageContext.request.contextPath}/base/boardreplyList",
-                dataType: "json",
-                data: {"id": id},
+                contentType: "application/json",
+                data: JSON.stringify({"id": id}),
                 success: function (data) {
                     var a = '';
                     console.log(data);
@@ -295,11 +295,11 @@
             $.ajax({
                 type: "POST",
                 url: "${pageContext.request.contextPath}/base/board_re_modify",
-                dataType: "text",
-                data: {
+                contentType: "application/json",
+                data: JSON.stringify({
                     "rid": rid,
                     "recontents": $("#" + rid).val()
-                },
+                }),
                 success: function (data) {
                     alert("수정이 완료되었습니다!");
                     showreply($('#id').val());
@@ -314,13 +314,12 @@
             console.log("파일 다운로드");
             console.log(data);
             $.ajax({
-                type: "Get",
+                type: "Post",
                 url: "${pageContext.request.contextPath}/base/downloadFile",
-                dataType: "json",
-                data: {
+                contentType: "application/json",
+                data: JSON.stringify({
                     "fileName": data
-                    // "FileOriName" : data.fileOriName
-                },
+                }),
                 success: function (data) {
 
                 }
@@ -356,10 +355,10 @@
             console.log(" 삭제할 id 값@@@@@ :" + id);
             if (ans == true) {
                 $.ajax({
-                    type: "GET",
+                    type: "Post",
                     url: "${pageContext.request.contextPath}/base/replyDelete",
-                    dataType: "text",
-                    data: {"rid": rid},
+                    contentType: "application/json",
+                    data: JSON.stringify({"rid": rid}),
                     success: function (data) {
                         alert("삭제가 완료되었습니다!");
                         showreply($('#id').val());

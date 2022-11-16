@@ -166,24 +166,24 @@ public class BaseServiceImpl implements BaseService {
 	}
 
 	@Override
-	public EmployeeBean findLoginData(String empCode, String userPw) throws IdNotFoundException, DeptCodeNotFoundException, PwMissmatchException {
+	public EmployeeBean findLoginData(EmployeeBean employeeBean) throws IdNotFoundException, DeptCodeNotFoundException, PwMissmatchException {
 
-		EmployeeBean employeeBean;
+		EmployeeBean employeeResultBean;
 
 		try {
-			employeeBean = employeeDAO.selectEmployee(empCode);
+			employeeResultBean = employeeDAO.selectEmployee(employeeBean.getEmpCode());
 
-			if (employeeBean == null)
+			if (employeeResultBean == null)
 				throw new IdNotFoundException("존재 하지 않는 계정입니다.");
 			else {
-				if (!employeeBean.getUserPw().equals(userPw))
+				if (!employeeBean.getUserPw().equals(employeeResultBean.getUserPw()))
 					throw new PwMissmatchException("비밀번호가 틀립니다.");
 
 			}
 		} catch (DataAccessException e) {
 			throw e;
 		}
-		return employeeBean;
+		return employeeResultBean;
 	}
 
 	@Override
@@ -197,11 +197,11 @@ public class BaseServiceImpl implements BaseService {
 	}
 
 	@Override
-	public ArrayList<DetailCodeBean> findDetailCodeList(HashMap<String, String> param) {
+	public ArrayList<DetailCodeBean> findDetailCodeList(DetailCodeBean detailCodeBean) {
 
 
 		ArrayList<DetailCodeBean> datailCondeList = null;
-		datailCondeList = detailCodeDAO.selectDetailCodeList(param);
+		datailCondeList = detailCodeDAO.selectDetailCodeList(detailCodeBean);
 
 		return datailCondeList;
 	}
