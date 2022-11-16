@@ -10,10 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.seoulit.account.posting.business.service.BusinessService;
@@ -40,17 +37,8 @@ public class JournalDetailController {
 		return journalDetailList;
 	}
 
-	@GetMapping("/journaldetailmodification")
-	public void modifyJournalDetail(@RequestParam String accountControlType, @RequestParam String journalNo,
-			@RequestParam(value = "journalDetailNo", required = false) String journalDetailNo,
-			@RequestParam String journalDescription) {
-
-		JournalDetailBean journalDetailBean = new JournalDetailBean();
-
-		journalDetailBean.setAccountControlType(accountControlType);
-		journalDetailBean.setJournalNo(journalNo);
-		journalDetailBean.setJournalDetailNo(journalDetailNo);
-		journalDetailBean.setJournalDescription(journalDescription);
+	@PostMapping("/journaldetailmodification")
+	public void modifyJournalDetail(@RequestBody JournalDetailBean journalDetailBean){
 
 		businessService.modifyJournalDetail(journalDetailBean);
 

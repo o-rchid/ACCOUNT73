@@ -4,11 +4,7 @@ import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.seoulit.account.sys.common.util.BeanCreator;
@@ -53,10 +49,7 @@ public class CustomerController {
 	}
 	
 	@GetMapping("/registerworkplace")
-	public void registerworkPlace(@RequestParam String workplaceAddItems) {
-    
-         JSONObject workplaceAddItemsAll = JSONObject.fromObject(workplaceAddItems);
-         WorkplaceBean workplaceBean = BeanCreator.getInstance().create(workplaceAddItemsAll, WorkplaceBean.class);
+	public void registerworkPlace(@RequestBody WorkplaceBean workplaceBean) {
          
          systemService.registerWorkplace(workplaceBean); //insert
 
@@ -79,11 +72,11 @@ public class CustomerController {
     @PostMapping("/workplace")
 	public WorkplaceBean findWorkplace(@RequestParam String workplaceCode) {
 
-     WorkplaceBean  workplaceBean = new WorkplaceBean();
+//     WorkplaceBean  workplaceBean = new WorkplaceBean();
 
-     workplaceBean = systemService.findWorkplace(workplaceCode);
+//     workplaceBean = systemService.findWorkplace(workplaceCode);
 
-     return workplaceBean;
+     return systemService.findWorkplace(workplaceCode);
  }
     
 	@PostMapping("/allworkplacelist")

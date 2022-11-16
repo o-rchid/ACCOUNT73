@@ -4,10 +4,7 @@ import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.seoulit.account.operate.system.service.SystemService;
@@ -64,14 +61,9 @@ public class AccountSubjectController {
         return accountList;
     }
 
-    @GetMapping("/accountmodification")
-    public void modifyAccount(@RequestParam String accountInnerCode,
-    						  @RequestParam String accountName) {
-
-            AccountBean accountBean = new AccountBean();
-
-            accountBean.setAccountInnerCode(accountInnerCode);
-            accountBean.setAccountName(accountName);
+    @PostMapping("/accountmodification")
+    public void modifyAccount(@RequestBody AccountBean accountBean) {
+        systemService.modifyAccount(accountBean);
 
     }
     @GetMapping("/detailbudgetlist")
