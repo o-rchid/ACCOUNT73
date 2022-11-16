@@ -24,29 +24,22 @@ public class AccountSubjectController {
     ModelAndView mav = null;
     ModelMap map = new ModelMap();
     
-    @GetMapping("/account")
-    public AccountBean findAccount(@RequestParam String accountCode) {
-      
-            AccountBean accountBean = systemService.findAccount(accountCode);
+    @PostMapping("/account")
+    public AccountBean findAccount(@RequestBody AccountBean accountBean) {
 
-        return accountBean;
+        return systemService.findAccount(accountBean.getAccountCode());
     }
 
-    @GetMapping("/accountcontrollist")
-    public ArrayList<AccountControlBean> findAccountControlList(@RequestParam(value="accountCode", required=false) String accountCode) {
-
-            ArrayList<AccountControlBean> accountControlList = systemService.findAccountControlList(accountCode);
+    @PostMapping("/accountcontrollist")
+    public ArrayList<AccountControlBean> findAccountControlList(@RequestBody AccountBean accountBean) {
 
 
-        return accountControlList;
+        return systemService.findAccountControlList(accountBean.getAccountCode());
     }
-    @GetMapping("/accountlistbyname")
-    public ArrayList<AccountBean> findAccountListByName(@RequestParam String accountName) {
- 
+    @PostMapping("/accountlistbyname")
+    public ArrayList<AccountBean> findAccountListByName(@RequestBody AccountBean accountBean) {
 
-    	ArrayList<AccountBean> accountList = systemService.findAccountListByName(accountName);
- 
-        return accountList;
+        return systemService.findAccountListByName(accountBean.getAccountName());
     }
     @GetMapping("/parentaccountlist")
     public ArrayList<AccountBean> findParentAccountList() {

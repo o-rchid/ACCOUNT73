@@ -168,6 +168,7 @@
 					data : {
 						"codes" : JSON.stringify(getSelectedSell)
 					},
+			contentType: "application/json",
 					dataType : "json",
 					success : function(jsonObj) {
 						showApprovalStatusList();
@@ -187,6 +188,7 @@
                 data: {
                     "workplaceCode": workplaceCode
                 },
+				contentType: "application/json",
                 dataType: "json",
                 success: function (jsonObj) {
 				$('#workplaceCode').val(jsonObj)
@@ -232,6 +234,7 @@
 					data : {
 						workplaceCode : codeCheck
 					},
+			contentType: "application/json",
 					dataType : "json",
 					success : function(jsonObj) {
 						var workplaceCode = jsonObj.workplaceBean;
@@ -283,6 +286,7 @@
 					data : {
 						workplaceAddItems : JSON.stringify(workplaceAddItems),
 					},
+			contentType: "application/json",
 					dataType : "json",
 					success : function(jsonObj) {
 						if (jsonObj.errorCode == 0) {

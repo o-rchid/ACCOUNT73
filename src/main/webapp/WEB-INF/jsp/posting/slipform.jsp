@@ -666,12 +666,13 @@
         // $("#journalDetailGridModal").modal('show');
         //분개상세 보기
         $.ajax({
-          type: "GET",
+          type: "POST",
           // JournalDetailDAO- ArrayList<JournalDetailBean> selectJournalDetailList(String journalNo)- return journalDetailBeans
           url     : "${pageContext.request.contextPath}/posting/journaldetaillist",
           data    : {
             "journalNo": selectedJournalRow["journalNo"] //rowid 분개번호임
           },
+          contentType: "application/json",
           dataType: "json",
           success : function (jsonObj) {
             console.log("성공")
@@ -1417,7 +1418,7 @@
         rjournalDescription = selectedJournalDetail["journalDescription"];
 
       $.ajax({
-        type    : "GET",
+        type    : "POST",
         url     : "${pageContext.request.contextPath}/posting/journaldetailmodification",
         data    : {
           journalNo         : selectedJournalRow["journalNo"],

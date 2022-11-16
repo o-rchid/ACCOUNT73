@@ -109,6 +109,7 @@ label.error {
 					data : {
 						workplaceCode : codeCheck
 					},
+			contentType: "application/json",
 					dataType : "json",
 					success : function(jsonObj) {
 						var workplaceCode = jsonObj.workplaceBean;
@@ -160,6 +161,7 @@ label.error {
 					data : {
 						workplaceAddItems : JSON.stringify(workplaceAddItems),
 					},
+			contentType: "application/json",
 					dataType : "json",
 					success : function(jsonObj) {
 						if (jsonObj.errorCode == 0) {
@@ -252,6 +254,7 @@ label.error {
 			data : {
 				"businessCode" : businessCode
 			},
+			contentType: "application/json",
 			dataType : "json",
 			success : function(jsonObj) {
 					gridOptions2.api.setRowData(jsonObj);

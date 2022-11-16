@@ -14,12 +14,10 @@ public class JournalController {
     @Autowired
     private BusinessService businessService;
 
-    @GetMapping("/singlejournallist")
-    public ArrayList<JournalBean> findSingleJournalList(@RequestParam String slipNo) {
+    @PostMapping("/singlejournallist")
+    public ArrayList<JournalBean> findSingleJournalList(@RequestBody JournalBean journalBean) {
 
-        ArrayList<JournalBean> journalList = businessService.findSingleJournalList(slipNo);
-
-        return journalList;
+        return businessService.findSingleJournalList(journalBean.getSlipNo());
     }
 
     @GetMapping("/rangedjournallist")
@@ -31,10 +29,10 @@ public class JournalController {
     }
 
     @GetMapping("/journalremoval")
-    public void removeJournal(@RequestParam String journalNo) {
+    public void removeJournal(@RequestBody JournalBean journalBean) {
 
 
-        businessService.removeJournal(journalNo);
+        businessService.removeJournal(journalBean.getJournalNo());
 
     }
 

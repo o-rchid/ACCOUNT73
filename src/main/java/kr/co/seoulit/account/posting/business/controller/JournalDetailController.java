@@ -29,12 +29,11 @@ public class JournalDetailController {
 	ModelAndView mav = null;
 	ModelMap map = new ModelMap();
 
-	@GetMapping("/journaldetaillist")
-	public ArrayList<JournalDetailBean> findJournalDetailList(@RequestParam String journalNo) {
+	@PostMapping("/journaldetaillist")
+	public ArrayList<JournalDetailBean> findJournalDetailList(@RequestBody JournalDetailBean journalDetailBean) {
 //		System.out.println(journalNo);
-		ArrayList<JournalDetailBean> journalDetailList = businessService.findJournalDetailList(journalNo);
 
-		return journalDetailList;
+		return businessService.findJournalDetailList(journalDetailBean.getJournalNo());
 	}
 
 	@PostMapping("/journaldetailmodification")
