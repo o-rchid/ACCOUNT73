@@ -26,7 +26,7 @@ public interface LedgerService {
     
     ArrayList<DeptBean> findDeptList();
     
-    void assetStorage(HashMap<String, Object> map);
+    void assetStorage(AssetItemBean assetItemBean);
     
     void removeAssetItem(String assetItemCode);
 }

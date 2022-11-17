@@ -60,7 +60,7 @@
 		  	assetGrid = document.querySelector('#assetGrid');
 			new agGrid.Grid(assetGrid,gridOptions);
 	 	}
-		
+
 		function assetList(){
 			$.ajax({
              	type: "GET",
@@ -118,15 +118,15 @@
 			assetItemGrid = document.querySelector('#assetItemGrid');
 		 	new agGrid.Grid(assetItemGrid,gridOptions2);
 		}
-	
+
 		function showAssetItem(assetCode) {
         	$.ajax({
-            	type: "GET",
+            	type: "POST",
             	url: "${pageContext.request.contextPath}/posting/assetitemlist",
-           		data: {
+           		data: JSON.stringify({
                 	"assetCode": assetCode
-            	},
-            	dataType: "json",
+            	}),
+				contentType: "application/json",
             	success: function (jsonObj) {
             		console.log("		@자산아이템 로드 성공");
               		console.log(jsonObj);
@@ -136,6 +136,7 @@
     	}
 	
 		function createModal(){
+			console.log("크리에이트");
 	  		var columnDefs = [
 		    	{headerName: "계정과목", field: "assetCode", sort:"asc", width:30},
 		    	{headerName: "계정과목명", field: "assetName", width:70}
@@ -189,7 +190,7 @@
 	
 		function showModal(){
 			gridOptions3.api.setRowData(assetListInfo);
-		
+			console.log("쇼모달");
 			$.ajax({
             	type: "GET",
             	url: "${pageContext.request.contextPath}/posting/deptlist",
@@ -197,7 +198,8 @@
             	},
             	dataType: "json",
             	success: function (jsonObj) {
-            		gridOptions4.api.setRowData(jsonObj.DeptList);
+            		gridOptions4.api.setRowData(jsonObj);
+					console.log("부서리스트 : "+ jsonObj);
             	}
         	});
 		}
@@ -208,7 +210,7 @@
 		}
 	
 		function deptRegistration(){
-			$('#manageMentDept').val(dept.deptName);
+			$('#manageMentDeptName').val(dept.deptName);
 		}
 	
 		function showAssetInfo(selectedRow){
@@ -219,7 +221,7 @@
 			$('#parentsName').val(selectedRow.parentsName);
 			$('#acquisitionDate').val(selectedRow.acquisitionDate);
 			$('#acquisitionAmount').val(selectedRow.acquisitionAmount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
-			$('#manageMentDept').val(selectedRow.manageMentDeptName);
+			$('#manageMentDeptName').val(selectedRow.manageMentDeptName);
 			$('#usefulLift').val(selectedRow.usefulLift);
 			$('#deperciationRate').val(selectedRow.deperciationRate);
 			$('#accumulatedDepreciation').val(accumulatedDepreciation.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
@@ -244,7 +246,7 @@
 			$('#parentsName').val('');
 			$('#acquisitionDate').val('');
 			$('#acquisitionAmount').val('');
-			$('#manageMentDept').val('');
+			$('#manageMentDeptName').val('');
 			$('#usefulLift').val('');
 			$('#accumulatedDepreciation').val('');
 			$('#residualValue').val('');
@@ -261,11 +263,12 @@
 			assetItemCode = 'CREATE';
 		}
 		
-		function assetStorage(){	
+		function assetStorage(){
+			console.log("자산등록");
 			$.ajax({
 				type: "POST",
 				url: "${pageContext.request.contextPath}/posting/assetstorage",
-				data: {
+				data: JSON.stringify({
 					"previousAssetItemCode" : assetItemCode,
 					"assetItemCode" : $('#assetItemCode').val(),
 					"assetItemName" : $('#assetItemName').val(),
@@ -273,9 +276,9 @@
 					"parentsName" : $('#parentsName').val(),
 					"acquisitionDate" : $('#acquisitionDate').val(),
 					"acquisitionAmount" : $('#acquisitionAmount').val(),
-					"manageMentDept" : $('#manageMentDept').val(),
+					"manageMentDeptName" : $('#manageMentDeptName').val(),
 					"usefulLift" : $('#usefulLift').val()
-				},
+				}),
 				contentType:"application/json",
 				dataType: "json",
 				success: function (){
@@ -285,7 +288,7 @@
 					$('#parentsName').val('');
 					$('#acquisitionDate').val('');
 					$('#acquisitionAmount').val('');
-					$('#manageMentDept').val('');
+					$('#manageMentDeptName').val('');
 					$('#usefulLift').val('');
 					$('#accumulatedDepreciation').val('');
 					$('#residualValue').val('');
@@ -306,13 +309,14 @@
 		}
 		
 		function assetRemove(){
+			console.log("자산삭제");
 			$.ajax({
 				type: "POST",
 				url: "${pageContext.request.contextPath}/posting/assetremoval",
-				data: {
+				data: JSON.stringify({
 					"assetItemCode" : assetItemCode
-				},
-				dataType: "json",
+				}),
+				contentType: "application/json",
 				success: function (jsonObj){
 					$('#assetItemCode').val('');
 					$('#assetItemName').val('');
@@ -320,7 +324,7 @@
 					$('#parentsName').val('');
 					$('#acquisitionDate').val('');
 					$('#acquisitionAmount').val('');
-					$('#manageMentDept').val('');
+					$('#manageMentDeptName').val('');
 					$('#usefulLift').val('');
 					$('#accumulatedDepreciation').val('');
 					$('#residualValue').val('');
@@ -405,8 +409,8 @@
                 			</div>
                 			<div class="form-group row">
                   				<div class="col-sm-6 mb-3 mb-sm-0">
-                     				<label for="manageMentDept">관리부서</label>
-                    				<input type="text" class="form-control form-control-user" id="manageMentDept" readonly>
+                     				<label for="manageMentDeptName">관리부서</label>
+                    				<input type="text" class="form-control form-control-user" id="manageMentDeptName" readonly>
                   				</div>
                   				<div class="col-xs-2" style="margin-top:31px; margin-right:10px;">
                   					<button class="btn btn-primary" type="button" data-toggle="modal" data-target="#deptModalGrid" id="deptBtn" disabled>

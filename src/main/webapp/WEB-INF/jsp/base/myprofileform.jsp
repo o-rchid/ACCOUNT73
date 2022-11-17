@@ -23,12 +23,12 @@
               
               
              $.ajax({
-                type: "GET",
+                type: "Post",
                     url: "${pageContext.request.contextPath}/operate/employee",
-                    data: {
+                    data: JSON.stringify({
                         "empCode": "${empCode}"
-                    },
-                    dataType: "json",
+                    }),
+                    contentType: "application/json",
                     success: function(obj){
                     	employee = obj;
                         console.log("DB에서 employee 정보 호출 성공");

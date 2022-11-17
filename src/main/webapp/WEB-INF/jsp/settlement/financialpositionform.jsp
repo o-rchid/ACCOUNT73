@@ -182,8 +182,7 @@
 	}
 
 	function showFinancialPosition() {
-		$
-				.ajax({
+		$.ajax({
 					type : "GET",
 					url : "${pageContext.request.contextPath}/settlement/financialposition",
 					data : {

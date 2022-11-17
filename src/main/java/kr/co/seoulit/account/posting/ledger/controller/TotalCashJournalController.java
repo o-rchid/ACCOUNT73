@@ -28,10 +28,10 @@ public class TotalCashJournalController {
     private LedgerService ledgerService;
 
     @RequestMapping("/ledgerbyaccount")
-    public ArrayList<CashJournalBean> handleRequestInternal(@RequestParam String year,
-    												        @RequestParam String account) {
+    public ArrayList<CashJournalBean> handleRequestInternal(@RequestParam CashJournalBean cashJournalBean) {
 
-            ArrayList<CashJournalBean> cashJournalList = ledgerService.findTotalCashJournal(year, account);
+            ArrayList<CashJournalBean> cashJournalList =
+                    ledgerService.findTotalCashJournal(cashJournalBean.getYear(), cashJournalBean.getAccount());
    
             return cashJournalList;
     }

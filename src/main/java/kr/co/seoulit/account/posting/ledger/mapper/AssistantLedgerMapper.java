@@ -18,9 +18,9 @@ public interface AssistantLedgerMapper {
 	
 	ArrayList<DeptBean> selectDeptList();
 	
-	void createAssetItem(HashMap<String, Object> map);
+	void createAssetItem(AssetItemBean assetItemBean);
 	
-	void updateAssetItem(HashMap<String, Object> map);
+	void updateAssetItem(AssetItemBean assetItemBean);
 	
 	void removeAssetItem(String assetItemCode);
 }

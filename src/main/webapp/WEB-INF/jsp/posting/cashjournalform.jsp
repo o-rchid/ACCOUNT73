@@ -131,13 +131,14 @@
 	 }
 	function showCashJournalGrid(){
 		 $.ajax({
-             type: "GET",
+             type: "POST",
              url: "${pageContext.request.contextPath}/posting/cashjournal",
-             data: {
+             data: JSON.stringify({
                  "fromDate": $("#from").val(),
                  "toDate": $("#to").val(),
                  "account": "0101"
-             },
+             }),
+             contentType : "application/json",
              dataType: "json",
              success: function (jsonObj) {
             	 console.log(jsonObj);

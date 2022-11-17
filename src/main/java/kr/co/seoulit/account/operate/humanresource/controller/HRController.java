@@ -7,10 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import kr.co.seoulit.account.operate.humanresource.service.HumanResourceService;
 
@@ -29,10 +26,10 @@ public class HRController {
     ModelAndView mav;
     ModelMap map = new ModelMap();
     
-    @GetMapping("/employeelist")
-	public ArrayList<EmployeeBean> findEmployeeList(@RequestParam String deptCode) {
+    @PostMapping("/employeelist")
+	public ArrayList<EmployeeBean> findEmployeeList(@RequestBody EmployeeBean employeeBean) {
 
-            ArrayList<EmployeeBean> empList = humanResourceService.findEmployeeList(deptCode);
+            ArrayList<EmployeeBean> empList = humanResourceService.findEmployeeList(employeeBean.getDeptCode());
             return empList;
     }
     
@@ -44,12 +41,12 @@ public class HRController {
             return empList;
     }
 
-    @GetMapping("/employee")
-    public EmployeeBean findEmployee(@RequestParam String empCode) {
+    @PostMapping("/employee")
+    public EmployeeBean findEmployee(@RequestBody EmployeeBean employeeBean) {
 
-            EmployeeBean employeeBean = humanResourceService.findEmployee(empCode);
+            EmployeeBean employeeresultBean = humanResourceService.findEmployee(employeeBean.getEmpCode());
 
-            return employeeBean;
+            return employeeresultBean;
     }
 
     @GetMapping("/batchempinfo")
@@ -64,32 +61,11 @@ public class HRController {
    
     }
 
-    @GetMapping("/emptyempbean")
-    public ModelAndView EmptyEmpBean(HttpServletRequest request, HttpServletResponse response) {
-       
-        return null;
-    }
-
-    @GetMapping("/batchemp")
-    public void batchEmp(@RequestParam String JoinEmployee) {
-     
-            JSONObject jsonObject = JSONObject.fromObject(JoinEmployee);
-            
-            EmployeeBean employeeBean = (EmployeeBean) JSONObject.toBean(jsonObject, EmployeeBean.class);
-
-            humanResourceService.registerEmployee(employeeBean);
-          
-    }
-    
-    @GetMapping("/employeeremoval")
-    public void removeEmployee(@RequestParam String empCode) {
+    @PostMapping("/employeeremoval")
+    public void removeEmployee(@RequestBody EmployeeBean employeeBean) {
     	
-           
-            EmployeeBean employeeBean = new EmployeeBean();
-            employeeBean.setEmpCode(empCode);
             humanResourceService.removeEmployee(employeeBean);
           
-     
     }
     @GetMapping("/deptlist")
     public ArrayList<DepartmentBean> findDeptList() {
@@ -99,18 +75,11 @@ public class HRController {
         return deptList;
     }
     
-    @GetMapping("/detaildeptlist")
-    public ArrayList<DepartmentBean> findDetailDeptList(@RequestParam String workplaceCode) {
+    @PostMapping("/detaildeptlist")
+    public ArrayList<DepartmentBean> findDetailDeptList(@RequestBody DepartmentBean departmentBean) {
 
-            ArrayList<DepartmentBean> detailDeptList = humanResourceService.findDetailDeptList(workplaceCode);
+            ArrayList<DepartmentBean> detailDeptList = humanResourceService.findDetailDeptList(departmentBean.getWorkplaceCode());
         
         return detailDeptList;
     }
-
-    public ArrayList<DepartmentBean> findDeptList2() {
-        
-   	    ArrayList<DepartmentBean> deptList = humanResourceService.findDeptList2();
-        
-       return deptList;
-   }
 }

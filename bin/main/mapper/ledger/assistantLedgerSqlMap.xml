@@ -44,7 +44,7 @@
 			 	 		#{parentsName})
 			 ]]>
 	</insert>
-	<update id="updateAssetItem" parameterType="java.util.HashMap">
+	<update id="updateAssetItem" parameterType="kr.co.seoulit.account.posting.ledger.to.AssetItemBean">
 			<![CDATA[
 			 	UPDATE    ASSET_ITEM 
      			 		  SET ASSET_ITEM_CODE=#{assetItemCode}
