@@ -28,7 +28,7 @@ public class JournalController {
         return journalList;
     }
 
-    @GetMapping("/journalremoval")
+    @PostMapping("/journalremoval")
     public void removeJournal(@RequestBody JournalBean journalBean) {
 
 
@@ -36,7 +36,7 @@ public class JournalController {
 
     }
 
-    @GetMapping("modifyJournal")
+    @PostMapping("/modifyJournal")
     public void modifyJournal(@RequestParam String slipNo,
                               /*@RequestParam JSONArray journalObj*/@RequestBody ArrayList<JournalBean> journalBeanList) {
 

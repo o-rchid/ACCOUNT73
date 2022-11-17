@@ -106,9 +106,9 @@ label.error {
 		$.ajax({
 					type : "POST",
 					url : "${pageContext.request.contextPath}/operate/workplace",
-					data : {
+					data : JSON.stringify({
 						workplaceCode : codeCheck
-					},
+					}),
 			contentType: "application/json",
 					dataType : "json",
 					success : function(jsonObj) {
@@ -249,12 +249,11 @@ label.error {
 
 	function showDetailBusinessGrid(businessCode) { //업태소분류리스트
 		$.ajax({
-			type : "POST",
+			type : "GET",
 			url : "${pageContext.request.contextPath}/operate/detailbusiness",
 			data : {
 				"businessCode" : businessCode
 			},
-			contentType: "application/json",
 			dataType : "json",
 			success : function(jsonObj) {
 					gridOptions2.api.setRowData(jsonObj);

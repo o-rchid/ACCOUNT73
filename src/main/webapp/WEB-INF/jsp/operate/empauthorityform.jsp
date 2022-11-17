@@ -108,11 +108,12 @@
 	
 	function showAuthorityDetail(deptCode) {
         $.ajax({
-            type: "GET",
+            type: "POST",
             url: "${pageContext.request.contextPath}/operate/authorityemp",
-            data: {
+            data: JSON.stringify({
                 "deptCode": deptCode
-            },
+            }),
+			contentType: "application/json",
             dataType: "json",
             success: function (jsonObj) {
             	console.log("		@권한리스트 로드 성공");

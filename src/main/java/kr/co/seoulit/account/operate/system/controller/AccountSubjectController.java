@@ -61,18 +61,14 @@ public class AccountSubjectController {
     }
     @GetMapping("/detailbudgetlist")
     public ArrayList<AccountBean> findDetailBudgetList(@RequestParam String code) {
-   
-        ArrayList<AccountBean> budgetList = systemService.findDetailBudgetList(code);
-           
-        return budgetList;
+
+        return systemService.findDetailBudgetList(code);
     }
     
     @GetMapping("/parentbudgetlist")
     public ArrayList<AccountBean> findParentBudgetList() {
- 
-            ArrayList<AccountBean> parentBudgetList = systemService.findParentBudgetList();
-      
-        return parentBudgetList;
+
+        return systemService.findParentBudgetList();
     }
 
     @GetMapping("/parentbudgetlist2")
@@ -81,16 +77,13 @@ public class AccountSubjectController {
                                                         @RequestParam String accountPeriodNo) {
         System.out.println("workplaceCode:" +workplaceCode);
         System.out.println("deptCode:" +deptCode);
-        ArrayList<AccountBean> parentBudgetList = systemService.findParentBudgetList2(workplaceCode,deptCode,accountPeriodNo);
 
-        return parentBudgetList;
+        return systemService.findParentBudgetList2(workplaceCode,deptCode,accountPeriodNo);
     }
 
     @GetMapping("/accountperiodlist")
     public ArrayList<PeriodBean> findAccountPeriodList() {
-     
-            ArrayList<PeriodBean> accountPeriodList = systemService.findAccountPeriodList();
 
-        return accountPeriodList;
+        return systemService.findAccountPeriodList();
     }
 }

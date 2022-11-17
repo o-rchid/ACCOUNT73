@@ -245,9 +245,9 @@
                       $.ajax({
                           type: "POST",
                           url: "${pageContext.request.contextPath}/posting/singlejournallist",
-                          data: {
+                          data: JSON.stringify({
                               "slipNo": slipNo
-                          },
+                          }),
 						  contentType: "application/json",
                           dataType: "json",
                           success: function (jsonObj) {
@@ -265,9 +265,9 @@
           			type: "POST",
           			// JournalDetailDAO- ArrayList<JournalDetailBean> selectJournalDetailList(String journalNo)- return journalDetailBeans
           			url: "${pageContext.request.contextPath}/posting/journaldetaillist",
-          			data: {
+          			data: JSON.stringify({
               			"journalNo": selectedJournalRow["journalNo"] //rowid 분개번호임 
-          			},
+          			}),
 				  contentType: "application/json",
           			dataType: "json",
          	 			success: function (jsonObj) {

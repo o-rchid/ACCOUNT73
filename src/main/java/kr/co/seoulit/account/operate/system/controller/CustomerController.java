@@ -36,7 +36,7 @@ public class CustomerController {
 
 	}
 	 
-	@PostMapping("/detailbusiness")
+	@GetMapping("/detailbusiness")
 	public ArrayList<DetailBusinessBean> findDetailBusiness(@RequestBody String businessCode) {
 
 		return systemService.findDetailBusiness(businessCode);
@@ -75,7 +75,7 @@ public class CustomerController {
      return systemService.findWorkplace(workplaceBean.getWorkplaceCode());
  }
     
-	@PostMapping("/allworkplacelist")
+	@GetMapping("/allworkplacelist")
 	public ArrayList<WorkplaceBean> findAllWorkplaceList() {
 
 		return systemService.findAllWorkplaceList();

@@ -30,12 +30,10 @@ public class AuthorityController {
 	@Autowired
 	private SystemService systemService;
 
-	@GetMapping("/authorityemp")
-    public ArrayList<AuthorityEmpBean> findAuthorityEmp(@RequestParam String deptCode) {
+	@PostMapping("/authorityemp")
+    public ArrayList<AuthorityEmpBean> findAuthorityEmp(@RequestBody AuthorityEmpBean authorityEmpBean) {
 
-        ArrayList<AuthorityEmpBean> authorityEmp = systemService.findAuthorityEmp(deptCode);
-           
-        return authorityEmp;
+        return systemService.findAuthorityEmp(authorityEmpBean.getDeptCode());
     }
 	
 	@GetMapping("/authoritygroupmodification")
@@ -53,11 +51,7 @@ public class AuthorityController {
     }
 	@GetMapping("/authoritygroupcode")
     public ArrayList<AuthorityEmpBean> findAuthorityGroupCode() {
-      
-        	
-            ArrayList<AuthorityEmpBean> findAuthorityGroupCode = systemService.findAuthorityGroupCode();
-   
-        return findAuthorityGroupCode;
+		return systemService.findAuthorityGroupCode();
     }
 
 	@GetMapping("/additionauthoritygroup")
@@ -79,18 +73,14 @@ public class AuthorityController {
     }
 	@GetMapping("/authoritygroup")
     public ArrayList<AuthorityMenuBean> findAuthorityGroup() {
-     
-            ArrayList<AuthorityMenuBean> authorityGroup = systemService.findAuthorityGroup();
-   
-        return authorityGroup;
+
+		return systemService.findAuthorityGroup();
     }
 
-	@GetMapping("/authoritymenu")
-    public ArrayList<AuthorityMenuBean> findAuthorityMenu(@RequestParam String menuName) {
+	@PostMapping("/authoritymenu")
+    public ArrayList<AuthorityMenuBean> findAuthorityMenu(@RequestBody AuthorityMenuBean authorityMenuBean) {
 
-            ArrayList<AuthorityMenuBean> authorityMenu = systemService.findAuthorityMenu(menuName);
-
-        return authorityMenu;
+		return systemService.findAuthorityMenu(authorityMenuBean.getMenuName());
     }
 
 	@GetMapping("/authoritymenumodification")
