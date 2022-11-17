@@ -33,6 +33,7 @@ public class CodeListController{
 	@PostMapping("/detailcodelist")
  public ArrayList<DetailCodeBean> findDetailCodeList(@RequestBody DetailCodeBean detailCodeBean) {
      
+
          ArrayList<DetailCodeBean> detailCodeList = baseService.findDetailCodeList(detailCodeBean);
        
      return detailCodeList;

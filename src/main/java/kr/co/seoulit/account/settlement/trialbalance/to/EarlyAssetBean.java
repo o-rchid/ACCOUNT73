@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class EarlyAssetBean extends BaseBean {
-    private String gropuCode;
+    private String groupCode;
     private String accountInnerCode;
     private String accountName;
     private String price;

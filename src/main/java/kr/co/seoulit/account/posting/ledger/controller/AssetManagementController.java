@@ -24,11 +24,11 @@ public class AssetManagementController{
 
         	return AssetList;
     }
-    
-	@GetMapping("/assetitemlist")
-    public ArrayList<AssetItemBean> assetItemList(@RequestParam String assetCode) {
-    	
-        	ArrayList<AssetItemBean> AssetItemList = ledgerService.findAssetItemList(assetCode);
+
+	@PostMapping("/assetitemlist")
+    public ArrayList<AssetItemBean> assetItemList(@RequestBody AssetBean assetBean) {
+
+        	ArrayList<AssetItemBean> AssetItemList = ledgerService.findAssetItemList(assetBean.getAssetCode());
 
         	return AssetItemList;
     }
@@ -42,38 +42,16 @@ public class AssetManagementController{
     }
     
     @PostMapping("/assetstorage")
-    public void assetStorage(/*@RequestParam(value="previousAssetItemCode", required=false) String previousAssetItemCode,
-    								 @RequestParam(value="assetItemCode", required=false) String assetItemCode,
-    								 @RequestParam(value="assetItemName", required=false) String assetItemName,
-    								 @RequestParam(value="parentsCode", required=false) String parentsCode,
-    								 @RequestParam(value="parentsName", required=false) String parentsName,
-    								 @RequestParam(value="acquisitionDate", required=false) String acquisitionDate,
-    								 @RequestParam(value="acquisitionAmount", required=false) String acquisitionAmount,
-    								 @RequestParam(value="manageMentDept", required=false) String manageMentDept,
-    								 @RequestParam(value="usefulLift", required=false) String usefulLift*/
-	@RequestBody HashMap<String,Object> map) {
-    		
-    	//System.out.println(assetItemCode+"@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-//        	HashMap<String, Object> map = new HashMap<>();
-//        	map.put("assetItemCode", assetItemCode);
-//        	map.put("assetItemName", assetItemName);
-//        	map.put("parentsCode", parentsCode);
-//        	map.put("parentsName", parentsName);
-//        	map.put("acquisitionDate", acquisitionDate);
-//        	map.put("acquisitionAmount", Integer.parseInt((acquisitionAmount).replaceAll(",","")));
-//        	map.put("manageMentDept", manageMentDept);
-//        	map.put("usefulLift", usefulLift);
-//        	map.put("previousAssetItemCode", previousAssetItemCode);
+    public void assetStorage(@RequestBody AssetItemBean assetItemBean){
 
-        	
-        	ledgerService.assetStorage(map);
+        	ledgerService.assetStorage(assetItemBean);
 
     }
     
-    @GetMapping("/assetremoval")
-    public void assetRemove(@RequestParam String assetItemCode) {
+    @PostMapping("/assetremoval")
+    public void assetRemove(@RequestBody AssetItemBean assetItemBean) {
     	
-        	ledgerService.removeAssetItem(assetItemCode);
+        	ledgerService.removeAssetItem(assetItemBean.getAssetItemCode());
 
     }
 }
