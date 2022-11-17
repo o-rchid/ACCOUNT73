@@ -131,7 +131,7 @@
 	function showApprovalStatusList() { // 거래처리스트 불러오기
 		gridOptions.api.setRowData([]);
 		$.ajax({
-					type : "POST",
+					type : "GET",
 					<%--url : "${pageContext.request.contextPath}/operate/allworkorkplacelist",--%>
 					url : "${pageContext.request.contextPath}/operate/allworkplacelist",
 					data : {
@@ -168,6 +168,7 @@
 					data : {
 						"codes" : JSON.stringify(getSelectedSell)
 					},
+			contentType: "application/json",
 					dataType : "json",
 					success : function(jsonObj) {
 						showApprovalStatusList();
@@ -184,9 +185,10 @@
                 type: "POST",
                 async: false,
                 url: "${pageContext.request.contextPath}/operate/workplace",
-                data: {
+                data: JSON.stringify({
                     "workplaceCode": workplaceCode
-                },
+                }),
+				contentType: "application/json",
                 dataType: "json",
                 success: function (jsonObj) {
 				$('#workplaceCode').val(jsonObj)
@@ -229,9 +231,10 @@
 		$.ajax({
 					type : "POST",
 					url : "${pageContext.request.contextPath}/operate/workplace",
-					data : {
+					data : JSON.stringify({
 						workplaceCode : codeCheck
-					},
+					}),
+			contentType: "application/json",
 					dataType : "json",
 					success : function(jsonObj) {
 						var workplaceCode = jsonObj.workplaceBean;
@@ -283,6 +286,7 @@
 					data : {
 						workplaceAddItems : JSON.stringify(workplaceAddItems),
 					},
+			contentType: "application/json",
 					dataType : "json",
 					success : function(jsonObj) {
 						if (jsonObj.errorCode == 0) {

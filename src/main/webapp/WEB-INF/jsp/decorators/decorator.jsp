@@ -713,11 +713,12 @@
     });
     function showAuthorityEmp(deptCode) {
         $.ajax({
-            type: "GET",
+            type: "POST",
             url: "${pageContext.request.contextPath}/operate/authorityemp",
-            data: {
+            data: JSON.stringify({
                 "deptCode": deptCode
-            },
+            }),
+            contentType: "application/json",
             dataType: "json",
             success: function (jsonObj) {
                 console.log("      @showAuthorityEmp 로드 성공");
@@ -743,11 +744,12 @@
         menuName = menuName.replaceAll("\"","");
 
         $.ajax({
-            type: "GET",
+            type: "POST",
             url: "${pageContext.request.contextPath}/operate/authoritymenu",
-            data: {
+            data: JSON.stringify({
                 "menuName": menuName
-            },
+            }),
+            contentType: "application/json",
             dataType: "json",
             success: function (jsonObj) {
                 console.log("      @showAuthorityDetail 성공");

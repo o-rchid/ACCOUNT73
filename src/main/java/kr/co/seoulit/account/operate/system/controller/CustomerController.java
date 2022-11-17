@@ -4,11 +4,7 @@ import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.seoulit.account.sys.common.util.BeanCreator;
@@ -36,27 +32,20 @@ public class CustomerController {
 	@GetMapping("/businesslist")
 	public ArrayList<BusinessBean> findBusinessList() {
 
-			ArrayList<BusinessBean>	businessList = systemService.findBusinessList();
-
-		return businessList;
+		return systemService.findBusinessList();
 
 	}
 	 
 	@GetMapping("/detailbusiness")
-	public ArrayList<DetailBusinessBean> findDetailBusiness(@RequestParam String businessCode) {
+	public ArrayList<DetailBusinessBean> findDetailBusiness(@RequestBody String businessCode) {
 
-			ArrayList<DetailBusinessBean> detailBusinessList = systemService.findDetailBusiness(businessCode);
-
-	            return detailBusinessList;
+		return systemService.findDetailBusiness(businessCode);
 	
 
 	}
 	
-	@GetMapping("/registerworkplace")
-	public void registerworkPlace(@RequestParam String workplaceAddItems) {
-    
-         JSONObject workplaceAddItemsAll = JSONObject.fromObject(workplaceAddItems);
-         WorkplaceBean workplaceBean = BeanCreator.getInstance().create(workplaceAddItemsAll, WorkplaceBean.class);
+	@PostMapping("/registerworkplace")
+	public void registerworkPlace(@RequestBody WorkplaceBean workplaceBean) {
          
          systemService.registerWorkplace(workplaceBean); //insert
 
@@ -77,22 +66,19 @@ public class CustomerController {
 
  }
     @PostMapping("/workplace")
-	public WorkplaceBean findWorkplace(@RequestParam String workplaceCode) {
+	public WorkplaceBean findWorkplace(@RequestBody WorkplaceBean workplaceBean) {
 
-     WorkplaceBean  workplaceBean = new WorkplaceBean();
+//     WorkplaceBean  workplaceBean = new WorkplaceBean();
 
-     workplaceBean = systemService.findWorkplace(workplaceCode);
+//     workplaceBean = systemService.findWorkplace(workplaceCode);
 
-     return workplaceBean;
+     return systemService.findWorkplace(workplaceBean.getWorkplaceCode());
  }
     
-	@PostMapping("/allworkplacelist")
+	@GetMapping("/allworkplacelist")
 	public ArrayList<WorkplaceBean> findAllWorkplaceList() {
-		
-		ArrayList<WorkplaceBean> allWorkplaceList = new ArrayList<>();
-		allWorkplaceList = systemService.findAllWorkplaceList();
-			
-		return allWorkplaceList;
+
+		return systemService.findAllWorkplaceList();
 
 	}
 	

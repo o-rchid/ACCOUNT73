@@ -213,10 +213,11 @@
     function showAccountPeriod(){          
            
        $.ajax({
-                 type: "GET",
+                 type: "POST",
                  url: "${pageContext.request.contextPath}/operate/accountperiodlist",
                  data: {
                  },
+           contentType: "application/json",
                  dataType: "json",
                  async:false,
                  success: function (jsonObj) {

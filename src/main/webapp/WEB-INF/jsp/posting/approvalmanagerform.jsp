@@ -243,11 +243,12 @@
         function showJournalGrid(slipNo){ //slip rowid 선택한 전표행이다
             
                       $.ajax({
-                          type: "GET",
+                          type: "POST",
                           url: "${pageContext.request.contextPath}/posting/singlejournallist",
-                          data: {
+                          data: JSON.stringify({
                               "slipNo": slipNo
-                          },
+                          }),
+						  contentType: "application/json",
                           dataType: "json",
                           success: function (jsonObj) {
                         	  console.log("jsonObj :" +JSON.stringify(jsonObj));
@@ -261,12 +262,13 @@
   			  $("#journalDetailGridModal").modal('show');
   			 //분개상세 보기  
   			  $.ajax({
-          			type: "GET",
+          			type: "POST",
           			// JournalDetailDAO- ArrayList<JournalDetailBean> selectJournalDetailList(String journalNo)- return journalDetailBeans
           			url: "${pageContext.request.contextPath}/posting/journaldetaillist",
-          			data: {
+          			data: JSON.stringify({
               			"journalNo": selectedJournalRow["journalNo"] //rowid 분개번호임 
-          			},
+          			}),
+				  contentType: "application/json",
           			dataType: "json",
          	 			success: function (jsonObj) {
          	 				gridOptions4.api.setRowData(jsonObj); 			

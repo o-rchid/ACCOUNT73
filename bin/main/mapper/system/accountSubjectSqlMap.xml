@@ -75,10 +75,10 @@
 		]]>
 	</select>
 	
-	<select id="updateAccount" parameterType="String" resultType="kr.co.seoulit.account.operate.system.to.AccountBean">
+	<select id="updateAccount" parameterType="accountResult" >
 		<![CDATA[
 			UPDATE ACCOUNT SET
-					   ACCOUNT_NAME= #accountName#	
+					   ACCOUNT_NAME= #{accountName}
 			     WHERE ACCOUNT_INNER_CODE = #{accountInnerCode}
 		]]>
 	</select>

@@ -4,10 +4,7 @@ import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import kr.co.seoulit.account.operate.system.service.SystemService;
@@ -27,29 +24,22 @@ public class AccountSubjectController {
     ModelAndView mav = null;
     ModelMap map = new ModelMap();
     
-    @GetMapping("/account")
-    public AccountBean findAccount(@RequestParam String accountCode) {
-      
-            AccountBean accountBean = systemService.findAccount(accountCode);
+    @PostMapping("/account")
+    public AccountBean findAccount(@RequestBody AccountBean accountBean) {
 
-        return accountBean;
+        return systemService.findAccount(accountBean.getAccountCode());
     }
 
-    @GetMapping("/accountcontrollist")
-    public ArrayList<AccountControlBean> findAccountControlList(@RequestParam(value="accountCode", required=false) String accountCode) {
-
-            ArrayList<AccountControlBean> accountControlList = systemService.findAccountControlList(accountCode);
+    @PostMapping("/accountcontrollist")
+    public ArrayList<AccountControlBean> findAccountControlList(@RequestBody AccountBean accountBean) {
 
 
-        return accountControlList;
+        return systemService.findAccountControlList(accountBean.getAccountCode());
     }
-    @GetMapping("/accountlistbyname")
-    public ArrayList<AccountBean> findAccountListByName(@RequestParam String accountName) {
- 
+    @PostMapping("/accountlistbyname")
+    public ArrayList<AccountBean> findAccountListByName(@RequestBody AccountBean accountBean) {
 
-    	ArrayList<AccountBean> accountList = systemService.findAccountListByName(accountName);
- 
-        return accountList;
+        return systemService.findAccountListByName(accountBean.getAccountName());
     }
     @GetMapping("/parentaccountlist")
     public ArrayList<AccountBean> findParentAccountList() {
@@ -64,30 +54,21 @@ public class AccountSubjectController {
         return accountList;
     }
 
-    @GetMapping("/accountmodification")
-    public void modifyAccount(@RequestParam String accountInnerCode,
-    						  @RequestParam String accountName) {
-
-            AccountBean accountBean = new AccountBean();
-
-            accountBean.setAccountInnerCode(accountInnerCode);
-            accountBean.setAccountName(accountName);
+    @PostMapping("/accountmodification")
+    public void modifyAccount(@RequestBody AccountBean accountBean) {
+        systemService.modifyAccount(accountBean);
 
     }
     @GetMapping("/detailbudgetlist")
     public ArrayList<AccountBean> findDetailBudgetList(@RequestParam String code) {
-   
-        ArrayList<AccountBean> budgetList = systemService.findDetailBudgetList(code);
-           
-        return budgetList;
+
+        return systemService.findDetailBudgetList(code);
     }
     
     @GetMapping("/parentbudgetlist")
     public ArrayList<AccountBean> findParentBudgetList() {
- 
-            ArrayList<AccountBean> parentBudgetList = systemService.findParentBudgetList();
-      
-        return parentBudgetList;
+
+        return systemService.findParentBudgetList();
     }
 
     @GetMapping("/parentbudgetlist2")
@@ -96,16 +77,13 @@ public class AccountSubjectController {
                                                         @RequestParam String accountPeriodNo) {
         System.out.println("workplaceCode:" +workplaceCode);
         System.out.println("deptCode:" +deptCode);
-        ArrayList<AccountBean> parentBudgetList = systemService.findParentBudgetList2(workplaceCode,deptCode,accountPeriodNo);
 
-        return parentBudgetList;
+        return systemService.findParentBudgetList2(workplaceCode,deptCode,accountPeriodNo);
     }
 
     @GetMapping("/accountperiodlist")
     public ArrayList<PeriodBean> findAccountPeriodList() {
-     
-            ArrayList<PeriodBean> accountPeriodList = systemService.findAccountPeriodList();
 
-        return accountPeriodList;
+        return systemService.findAccountPeriodList();
     }
 }
