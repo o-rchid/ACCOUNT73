@@ -10,7 +10,7 @@ import kr.co.seoulit.account.sys.base.to.DetailCodeBean;
 @Mapper
 public interface DetailCodeMapper {
 
-    ArrayList<DetailCodeBean> selectDetailCodeList(HashMap<String, String> param);
+    ArrayList<DetailCodeBean> selectDetailCodeList(DetailCodeBean detailCodeBean);
 
     void insertDetailCode(DetailCodeBean codeDetailBean);
 

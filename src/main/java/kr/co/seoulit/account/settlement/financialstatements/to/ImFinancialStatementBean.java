@@ -9,4 +9,5 @@ public class ImFinancialStatementBean extends BaseBean {
 	private String amount1;
 	private String accountName2;
 	private String amount2;
+
 }

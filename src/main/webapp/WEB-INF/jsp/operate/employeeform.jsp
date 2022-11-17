@@ -132,16 +132,15 @@
                 pager: "#employeeGridPager",
 
                 onSelectRow: function (key) {
+                    console.log("키",key);
                     $("div#employeeEditModal").modal();
                     selectedEmployeeRow = $(employeeListGrid).jqGrid("getLocalRow", key);
                     
                     $.ajax({
-                        type: "GET",
+                        type: "Post",
                         url: "${pageContext.request.contextPath}/operate/employee",
-                        data: {
-                            "empCode": key
-                        },
-                        dataType: "json",
+                        data: JSON.stringify(key),
+                        contentType: "application/json",
                         success: function (obj) {
                             var item = obj.employeeInfo;
 
@@ -158,16 +157,17 @@
         }
 
         function showEmployeeList() {
+            console.log("요기지",$("input#searchedDeptCode").val());
         	$(employeeListGrid).jqGrid("clearGridData");
             // show loading message
             $(employeeListGrid)[0].grid.beginReq();
             $.ajax({
-                type: "GET",
+                type: "Post",
                 url: "${pageContext.request.contextPath}/operate/employeelist",
-                data: {
+                data: JSON.stringify({
                     "deptCode": $("input#searchedDeptCode").val()
-                },
-                dataType: "json",
+                }),
+                contentType: "application/json",
                 success: function (jsonObj) {
                     $(employeeListGrid).jqGrid('setGridParam', {data: jsonObj.empList});
                     // hide the show message
@@ -208,12 +208,12 @@
             // show loading message
             $(deptListGrid)[0].grid.beginReq();
             $.ajax({
-                type: "GET",
+                type: "Post",
                 url: "${pageContext.request.contextPath}/base/detailcodelist",
-                data: {
+                data: JSON.stringify({
                     "divisionCodeNo": "CO-03"
-                },
-                dataType: "json",
+                }),
+                contentType: "application/json",
                 success: function (jsonObj) {
                     // set the new data
 //                     console.log(jsonObj.detailCodeList);
@@ -234,11 +234,12 @@
         
         function deleteEmployeeFunc(){
         	$.ajax({
+                type: "Post",
         		url : "${pageContext.request.contextPath}/operate/employeeremoval",
-        		data : {
-        			"empCode" : selectedEmployeeRow.empCode
-        		},
-        		dataType : "json",
+        		data : JSON.stringify({
+                    "empCode" : selectedEmployeeRow.empCode
+                }),
+                contentType: "application/json",
         		success : function(){
         			$(employeeListGrid).jqGrid("delRowData", selectedEmployeeRow.empCode);
         			$(employeeListGrid).jqGrid("clearGridData");

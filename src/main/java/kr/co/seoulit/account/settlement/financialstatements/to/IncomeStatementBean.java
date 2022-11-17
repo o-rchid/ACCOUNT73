@@ -13,4 +13,5 @@ public class IncomeStatementBean extends BaseBean {
     private String earlyIncome;
     private String earlyIncomeSummary;
     private String isThisYear;
+
 }

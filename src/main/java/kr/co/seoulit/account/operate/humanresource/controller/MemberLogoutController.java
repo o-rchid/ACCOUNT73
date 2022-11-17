@@ -5,6 +5,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -13,8 +15,8 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class MemberLogoutController {
 	
-	@RequestMapping("/logout")
-    public ModelAndView logoutController(HttpServletRequest request, HttpServletResponse response) {
+	@GetMapping("/logout")
+    public ModelAndView logoutController(HttpServletRequest request) {
         
         ModelAndView modelAndView = new ModelAndView("redirect:loginform"); //veiwName값 들어가 있음
         HttpSession session = request.getSession();

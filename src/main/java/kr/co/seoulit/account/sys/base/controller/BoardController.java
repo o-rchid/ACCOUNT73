@@ -30,64 +30,59 @@ public class BoardController {
 		return baseService.findParentboardList();
 	}
 
-	@GetMapping("/boardDetailList")
-	public ArrayList<BoardBean> findDetailBoardList(@RequestParam String id) throws Exception {
-		baseService.updateLookup(id);
+	@PostMapping("/boardDetailList")
+	public ArrayList<BoardBean> findDetailBoardList(@RequestBody BoardBean boardBean) throws Exception {
 
-		return baseService.findDetailboardList(id);
+		baseService.updateLookup(boardBean.getId());
+
+		return baseService.findDetailboardList(boardBean.getId());
 	}
-	@GetMapping("/boardDetailList1")
-	public ArrayList<BoardBean> findDetailBoardList1(@RequestParam String id) throws Exception {
-		baseService.updateLookup(id);
+	@PostMapping("/boardDetailList1")
+	public ArrayList<BoardBean> findDetailBoardList1(@RequestBody BoardBean boardBean) throws Exception {
 
-		return baseService.findDetailboardList1(id);
+		baseService.updateLookup(boardBean.getId());
+
+		return baseService.findDetailboardList1(boardBean.getId());
 	}
-	@GetMapping("/boardreplyList")
-	public ArrayList<BoardBean> boardRelpyList(@RequestParam String id) {
+	@PostMapping("/boardreplyList")
+	public ArrayList<BoardBean> boardRelpyList(@RequestBody BoardBean boardBean) {
 
-		ArrayList<BoardBean> replybean = baseService.showreply(id);
-		System.out.println(replybean+"@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+		ArrayList<BoardBean> replybean = baseService.showreply(boardBean.getId());
+
 		return   replybean;
 	}
-	@GetMapping("/boardDelete")
-	public void deleteBoard(@RequestParam String id) {
-		System.out.println("컨트롤러는왓다2222222222222222222222222222");
-		baseService.deleteBoard(id);
+	@PostMapping("/boardDelete")
+	public void deleteBoard(@RequestBody BoardBean boardBean) {
+
+		baseService.deleteBoard(boardBean.getId());
 	}
 
 	@PostMapping("/boardreg")
 	public ModelAndView insertData(
-			@RequestParam("title") String title
-			,@RequestParam("writtenBy") String writtenBy
-			,@RequestParam("contents")String contents,
-			// @RequestBody BoardBean boardbean,
-//			@RequestPart MultipartFile files,
-			MultipartHttpServletRequest multipartHttpServletRequest
-			, HttpServletRequest request)throws Exception {
+			BoardBean boardBean
+			,MultipartHttpServletRequest multipartHttpServletRequest
+			,HttpServletRequest request)throws Exception {
+
+		System.out.println("찾아라요");
+		System.out.println(boardBean.getTitle());
+		System.out.println(boardBean.getWrittenBy());
+		System.out.println(boardBean.getContents());
 
 		ModelAndView mav=new ModelAndView("redirect:/base/board");
-		BoardBean boardbean = null;
+
 
 		if(ObjectUtils.isEmpty(multipartHttpServletRequest)){
 			System.out.println("empty");
-			boardbean = new BoardBean();
-			boardbean.setTitle(title);
-			boardbean.setWrittenBy(writtenBy);
-			boardbean.setContents(contents);
 
-			baseService.insertBoard(boardbean);
+			baseService.insertBoard(boardBean);
+
 			return mav;
 		}else {
-			boardbean = new BoardBean();
-			boardbean.setTitle(title);
-			boardbean.setWrittenBy(writtenBy);
-			boardbean.setContents(contents);
 
-			baseService.insertBoard(boardbean);
+			baseService.insertBoard(boardBean);
 
 			Iterator<String> iterator = multipartHttpServletRequest.getFileNames();
 
-//		String newFileName, originalFileExtension, contentType;
 			String fileUrl = request.getServletContext().getRealPath("/") + "assets\\uploadFiles\\";
 
 			System.out.println("iterator++++++++++++++++++++++" + iterator.hasNext());
@@ -105,11 +100,9 @@ public class BoardController {
 					destinationFile.getParentFile().mkdirs();
 					multipartFile.transferTo(destinationFile);
 
-//				BoardFIleBean boardFile = new BoardFIleBean();
 					BoardFIleBean boardFileBean = new BoardFIleBean();
 
-//					boardFileBean.setId(boardbean.getFileId());
-					boardFileBean.setBoardId(boardbean.getBoardId());
+					boardFileBean.setBoardId(boardBean.getBoardId());
 					boardFileBean.setFileName(destnationFileName);
 					boardFileBean.setFileOriName(filename);
 					boardFileBean.setFileUrl(fileUrl);
@@ -118,125 +111,63 @@ public class BoardController {
 				}
 			}
 		}
+
 		return mav;
-//		ModelAndView mav=new ModelAndView("redirect:/base/board");
-//		BoardBean boardbean = new BoardBean();
-//		BoardFIleBean boardFIleBean = new BoardFIleBean();
-//		boardbean.setTitle(title);
-//		boardbean.setWrittenBy(writtenBy);
-//		boardbean.setContents(contents);
-//		System.out.println("작성자:"+writtenBy+"@@@제목:"+title+"@@@내용 :"+contents+"@@@@@@@@@@@@@");
-//		if(files.isEmpty()){
-//			baseService.insertBoard(boardbean);
-//		}else{
-//			String filename = files.getOriginalFilename();
-//			String fileNameExtension = FilenameUtils.getExtension(filename).toLowerCase();
-//			File destinationFile;
-//			String destnationFileName;
-////			String fileUrl = "C:\\project\\real_project\\src\\main\\webapp\\assets\\uploadFiles\\";
-//			String fileUrl = request.getServletContext().getRealPath("/")+"assets\\uploadFiles\\";
-//
-//			do{
-//				destnationFileName = RandomStringUtils.randomAlphanumeric(32)+"."+fileNameExtension;
-//				destinationFile = new File(fileUrl + destnationFileName);
-//				System.out.println(boardbean.getId());
-//				System.out.println(boardbean.getBoardId());
-//				System.out.println(destnationFileName);
-//				System.out.println(filename);
-//				System.out.println(fileUrl);
-//			} while (destinationFile.exists());
-//
-//			destinationFile.getParentFile().mkdirs();
-//			files.transferTo(destinationFile);
-//
-//
-//			boardbean.setFileId();
-//			boardbean.setBoardId();
-//			boardbean.setFileName(destnationFileName);
-//			boardbean.setFileOriName(filename);
-//			boardbean.setFileUrl(fileUrl);
-//
-//			baseService.insertBoard(boardbean);
-//			baseService.fileInsert(boardbean);
-////			baseService.fileInsert(boardFIleBean);
-//		}
-//		return mav;
+
 	}
 
 	@PostMapping("/boardModify")
 	public ModelAndView boardModify(
-			@RequestParam("id")String id
-			,@RequestParam("title") String title
-			,@RequestParam("contents")String contents) {
+			BoardBean boardBean) {
 
 		ModelAndView mav=new ModelAndView("redirect:/base/board");
-		BoardBean boardbean = new BoardBean();
-		boardbean.setTitle(title);
-		boardbean.setId(id);
-		boardbean.setContents(contents);
-		System.out.println("@@글번호"+id+"@@@제목:"+title+"@@@내용 :"+contents+"@@@@@@@@@@@@@");
-		baseService.boardModify(boardbean);
+
+		System.out.println("@@글번호"+boardBean.getId()+"@@@제목:"+boardBean.getTitle()+"@@@내용 :"+boardBean.getContents()+"@@@@@@@@@@@@@");
+		baseService.boardModify(boardBean);
 		return mav;
 	}
 
 	@PostMapping("/board_re_insert")
 	public Map<String, Object> insertreply(
-			@RequestParam("reply") String reply
-			,@RequestParam("id") String id
-			,@RequestParam("writer")String writer) {
+			BoardBean boardBean) {
 		HashMap<String, Object> map = new HashMap<>();
-		BoardBean boardbean = new BoardBean();
-		boardbean.setBid(id);
-		boardbean.setReContents(reply);
-		boardbean.setReWritter(writer);
+
 		map.put("Msg","성공ㅎㅎ");
-//		   SYSTEM.OUT.PRINTLN("작성자:"+WRITTENBY+"@@@제목:"+TITLE+"@@@내용 :"+CONTENTS+"@@@@@@@@@@@@@");
-		baseService.insertReBoard(boardbean);
+
+		baseService.insertReBoard(boardBean);
+
 		return map;
 	}
 
-	@GetMapping("replyDelete")
-	public void redeleteBoard(@RequestParam String rid) {
-		baseService.deletereBoard(rid);
+	@PostMapping("/replyDelete")
+	public void redeleteBoard(@RequestBody BoardBean boardBean) {
+		baseService.deletereBoard(boardBean.getRid());
 
 	}
 	@PostMapping("/board_re_modify")
-	public void boardModify(
-			@RequestParam("rid")String id
-			,@RequestParam("recontents")String contents) {
+	public void boardReModify(@RequestBody BoardBean boardBean) {
 
-		BoardBean boardbean = new BoardBean();
-		boardbean.setRid(id);
-		boardbean.setReContents(contents);
-		System.out.println(id+contents+"@@@@@@@@@");
-		baseService.boardReModify(boardbean);
+		baseService.boardReModify(boardBean);
 
 	}
 
-	@ResponseBody
 	@GetMapping("/downloadFile")
 	public HttpServletResponse fileDown(
-//			@RequestParam String fileOriName,
-			 @RequestParam String fileName
+			@RequestBody BoardBean boardBean
 			 , HttpServletRequest request
 			, HttpServletResponse response) throws Exception {
 
-		System.out.println("@@@@@@@@@@@"+fileName);
-//		System.out.println("@@@@@@@@@@@"+fileOriName);
-		// 파일을 저장했던 위치에서 첨부파일을 읽어 byte[]형식으로 변환한다.
-		System.out.println(request.getServletContext().getRealPath("/")+"@@@@@@@@@@@"+fileName);
-//		byte fileByte[] = org.apache.commons.io.FileUtils.readFileToByteArray(new File("C:/project/real_project/src/main/webapp/assets/uploadFiles/" + fileName));
-		byte fileByte[] = org.apache.commons.io.FileUtils.readFileToByteArray(new File(request.getServletContext().getRealPath("/")+"assets/uploadFiles/" + fileName));
+
+		byte fileByte[] = org.apache.commons.io.FileUtils.readFileToByteArray(new File(request.getServletContext().getRealPath("/")+"assets/uploadFiles/" + boardBean.getFileName()));
 
 		response.setContentType("application/octet-stream");
 		response.setContentLength(fileByte.length);
-		response.setHeader("Content-Disposition", "attachment; fileName=\"" + URLEncoder.encode(fileName, "UTF-8") + "\";");
+		response.setHeader("Content-Disposition", "attachment; fileName=\"" + URLEncoder.encode(boardBean.getFileName(), "UTF-8") + "\";");
 		response.getOutputStream().write(fileByte);
 		response.getOutputStream().flush();
 		response.getOutputStream().close();
 
 		return response;
 	}
-
 
 }

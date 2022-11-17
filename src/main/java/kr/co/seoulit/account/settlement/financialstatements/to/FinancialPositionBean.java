@@ -14,4 +14,5 @@ public class FinancialPositionBean extends BaseBean {
     private long preBalanceDetail;
     private long preBalanceSummary;
     private long isThisYear;
+
 }

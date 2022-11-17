@@ -13,4 +13,5 @@ public class EarlyAssetBean extends BaseBean {
     private String balanceDivision;
     private String leftDebtorPrice;
     private String rightCreditsPrice;
+
 }

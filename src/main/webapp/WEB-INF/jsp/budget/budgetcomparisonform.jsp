@@ -244,13 +244,12 @@
 
         function showDepartment(workplaceCode){//내가 선택한 사업장 코드
             $.ajax({
-                type: "GET",
+                type: "Post",
                 url: "${pageContext.request.contextPath}/operate/detaildeptlist",
-                data: {
-                    "method": "findDetailDeptList",
+                data: JSON.stringify({
                     "workplaceCode":workplaceCode,
-                },
-                dataType: "json",
+                }),
+                contentType: "application/json",
                 async:false,
                 success: function (jsonObj) {//사업자코드에 맞는 사업소명,부서코드,부서명가져옴
                     console.log(jsonObj);

@@ -235,12 +235,12 @@
 
         function showDepartment(workplaceCode) {
             $.ajax({
-                type    : "GET",
-                url     : "${pageContext.request.contextPath}/operate/detaildeptlist",
-                data    : {
-                    "workplaceCode": workplaceCode,
-                },
-                dataType: "json",
+                type: "Post",
+                url: "${pageContext.request.contextPath}/operate/detaildeptlist",
+                data: JSON.stringify({
+                    "workplaceCode":workplaceCode,
+                }),
+                contentType: "application/json",
                 async   : false,
                 success : function (jsonObj) {
                     console.log(jsonObj);
@@ -376,12 +376,10 @@
         function callBudgetStatus() {
 
             $.ajax({
-                type    : "GET",
+                type    : "Post",
                 url     : "${pageContext.request.contextPath}/budget/budgetstatus",
-                data    : {
-                    "budgetObj": JSON.stringify(dataSet)
-                },
-                dataType: "json",
+                data: JSON.stringify(dataSet),
+                contentType: "application/json",
                 async   : false,
                 success : function (jsonObj) {
                     console.log("callBudgetStatus: ", jsonObj);
@@ -419,12 +417,10 @@
         function showComparisonBudget(dataSet) {
             console.log("dataSet :" +JSON.stringify(dataSet));
             $.ajax({
-                type    : "GET",
+                type    : "Post",
                 url     : "${pageContext.request.contextPath}/budget/comparisonBudget",
-                data    : {
-                    "budgetObj": JSON.stringify(dataSet)
-                },
-                dataType: "json",
+                data    : JSON.stringify(dataSet),
+                contentType: "application/json",
                 async   : false,
                 success : function (jsonObj) {
                     console.log("jsonObj.RESULT :"+ jsonObj.RESULT);
