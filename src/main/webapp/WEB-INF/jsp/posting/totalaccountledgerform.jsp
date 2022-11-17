@@ -207,12 +207,13 @@
 	 }
  	function showCashJournalGrid(account){
 		 $.ajax({
-            type: "GET",
+            type: "POST",
             url: "${pageContext.request.contextPath}/posting/ledgerbyaccount",
-            data: {
+            data: JSON.stringify({
                 "year": $("#year").val(),
                 "account": account
-            },
+            }),
+             contentType : "application/json",
             dataType: "json",
             success: function (jsonObj) {
                 gridOptions3.api.setRowData(jsonObj);

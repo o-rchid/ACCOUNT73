@@ -12,4 +12,9 @@ public class CashJournalBean {
 	private long deposit;
 	private long withdrawal;
 	private String balance;
+	private String fromDate;
+	private String toDate;
+	private String account;
+	private String year;
+
 }
