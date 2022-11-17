@@ -39,13 +39,13 @@ public class CodeListController{
      
 
          HashMap<String, String> param = new HashMap<>();
-        
+
          param.put("divisionCodeNo", divisionCodeNo);
          if (detailCodeName != null) //detailCodeName 입력 시
              param.put("detailCodeName", detailCodeName); //param에 값 담음
 
          ArrayList<DetailCodeBean> detailCodeList = baseService.findDetailCodeList(param);
-       
+
      return detailCodeList;
 
  }
