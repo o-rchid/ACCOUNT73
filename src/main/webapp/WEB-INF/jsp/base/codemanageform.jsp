@@ -31,9 +31,9 @@
                 .jqGrid(
                     {
                         url: "${pageContext.request.contextPath}/base/codelist",
-                        datatype: "json",
-                        postData: {
-
+                        type: "Post",
+                        contentType: "application/json",
+                        Data: {
                         },
                         jsonReader: {
                             root: "codeList"
@@ -86,10 +86,11 @@
                 .jqGrid(
                     {
                         url: "${pageContext.request.contextPath}/base/detailcodelist",
-                        datatype: "json",
-                        postData: {
+                        type:"Post",
+                        contentType: "application/json",
+                        Data: JSON.stringify({
                             "code": code
-                        },
+                        }),
                         jsonReader: {
                             root: "detailCodeList"
                         },

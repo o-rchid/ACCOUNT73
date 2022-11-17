@@ -141,16 +141,6 @@ public class HumanResourceServiceImpl implements HumanResourceService {
 	}
 
 	@Override
-	public ArrayList<DepartmentBean> findDeptList2() {
-		// TODO Auto-generated method stub
-				
-		        ArrayList<DepartmentBean> deptList=null;
-		        deptList=usrePermissionGroupDAO.selectDeptList2();
-		        
-		        return deptList;
-	}
-
-	@Override
 	public void modifyImage(String newFileName) {
 
 			employeeDAO.updateImage(newFileName);

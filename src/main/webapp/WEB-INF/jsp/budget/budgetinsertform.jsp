@@ -170,10 +170,8 @@ var ApplBudget={
 		$.ajax({
 	        type: "POST",
 	        url: "${pageContext.request.contextPath}/budget/budgetlist",
-	        data: {
-	            "budgetObj":JSON.stringify(dataSet)
-	        },
-	        dataType: "json",
+			data: JSON.stringify(dataSet),
+			contentType: "application/json",
 	        async:false,
 	        success: function (jsonObj) {
 	        	console.log(jsonObj);
@@ -194,10 +192,8 @@ var ApplBudget={
 		$.ajax({
 			type: "PUT",
 			url: "${pageContext.request.contextPath}/budget/budgetlist",
-			data: {
-				"budgetObj":JSON.stringify(dataSet)
-			},
-			dataType: "json",
+			data: JSON.stringify(dataSet),
+			contentType: "application/json",
 			async:false,
 			success: function (data) {
 				console.log(data);
@@ -360,12 +356,12 @@ function createAccountPeriod(){//회계연도
 
  function showDepartment(workplaceCode){
 	 $.ajax({
-	        type: "GET",
-	        url: "${pageContext.request.contextPath}/operate/detaildeptlist",
-	        data: {
-	            "workplaceCode":workplaceCode,
-	        },
-	        dataType: "json",
+		 type: "Post",
+		 url: "${pageContext.request.contextPath}/operate/detaildeptlist",
+		 data: JSON.stringify({
+			 "workplaceCode":workplaceCode,
+		 }),
+		 contentType: "application/json",
 	        async:false,
 	        success: function (jsonObj) {
 	        	console.log(jsonObj);
@@ -479,12 +475,10 @@ function checkElement(){
 function showOrganizedBudget(){
 
 	$.ajax({
-        type: "GET",
+        type: "Post",
         url: "${pageContext.request.contextPath}/budget/budgetorganization",
-        data: {
-            "budgetObj":JSON.stringify(dataSet)
-        },
-        dataType: "json",
+		data: JSON.stringify(dataSet),
+		contentType: "application/json",
         async:false,
         success: function (jsonObj) {
 
@@ -552,12 +546,10 @@ function previousBudgetValueSet() { // 신청예산, 편성예산 값들 초기�
 function showAppliedBudget(){
 
 	$.ajax({
-        type: "GET",
+        type: "Post",
         url: "${pageContext.request.contextPath}/budget/budgetappl",
-        data: {
-            "budgetObj":JSON.stringify(ApplBudget)
-        },
-        dataType: "json",
+        data: JSON.stringify(ApplBudget),
+		contentType: "application/json",
         async:false,
         success: function (jsonObj){
         	console.log(jsonObj);
