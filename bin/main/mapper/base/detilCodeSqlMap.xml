@@ -6,7 +6,7 @@
 
 
     <!-- selectDetailCodeList -->
-    <select id="selectDetailCodeList" parameterType="java.util.HashMap" resultType="kr.co.seoulit.account.sys.base.to.DetailCodeBean">
+    <select id="selectDetailCodeList" parameterType="kr.co.seoulit.account.sys.base.to.DetailCodeBean" resultType="kr.co.seoulit.account.sys.base.to.DetailCodeBean">
         <![CDATA[
             SELECT
                  DETAIL_CODE

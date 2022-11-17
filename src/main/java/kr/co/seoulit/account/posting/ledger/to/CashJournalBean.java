@@ -16,4 +16,5 @@ public class CashJournalBean {
 	private String toDate;
 	private String account;
 	private String year;
+
 }

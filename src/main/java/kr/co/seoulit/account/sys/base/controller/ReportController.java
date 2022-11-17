@@ -18,7 +18,7 @@ public class ReportController{
 	
 	private ModelAndView modelAndView = null;
 
-    @GetMapping("/financialposition")
+    @GetMapping("/financia lposition")
 	public void FinancialPosition(HttpServletRequest request, HttpServletResponse response) {
 		System.out.println("전표 아이리포트 시작");
 		// SMTPAppender log4j

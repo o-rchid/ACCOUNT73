@@ -101,17 +101,17 @@ public class LedgerServiceImpl implements LedgerService {
 	}
 	
 	@Override
-	public void assetStorage(HashMap<String, Object> map) {
-			
-			if(map.get("previousAssetItemCode").equals("CREATE")) {
-				assistantLedgerDAO.createAssetItem(map);
+	public void assetStorage(AssetItemBean assetItemBean) {
+
+			if(assetItemBean.getPreviousAssetItemCode().equals("CREATE")) {
+				assistantLedgerDAO.createAssetItem(assetItemBean);
 			}
 			else {
-				assistantLedgerDAO.updateAssetItem(map);
+				assistantLedgerDAO.updateAssetItem(assetItemBean);
 			}
-          
+
 	}
-	
+
 	@Override
 	public void removeAssetItem(String assetItemCode) {
 
