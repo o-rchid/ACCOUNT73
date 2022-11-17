@@ -86,9 +86,9 @@ public class SlipController {
         businessService.registerSlip(slipBean, journalBeans);
     }
 
-    @GetMapping("/slipremoval")
-    public void removeSlip(@RequestParam String slipNo) {
-        businessService.removeSlip(slipNo);
+    @PostMapping("/slipremoval")
+    public void removeSlip(@RequestBody SlipBean slipBean) {
+        businessService.removeSlip(slipBean.getSlipNo());
 
     }
 
@@ -141,10 +141,10 @@ public class SlipController {
         return businessService.findDisApprovalSlipList();
     }
 
-    @GetMapping("/findSlip")
-    public ArrayList<SlipBean> findSlip(@RequestParam String slipNo) {
+    @PostMapping("/findSlip")
+    public ArrayList<SlipBean> findSlip(@RequestBody SlipBean slipBean) {
 
-        return businessService.findSlip(slipNo);
+        return businessService.findSlip(slipBean.getSlipNo());
     }
 
     @GetMapping("/accountingsettlementstatus")

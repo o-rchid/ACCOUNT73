@@ -185,11 +185,12 @@
     	$("#journalDetailGridModal").modal('show');
     	var journalNo= selectedRow["journalNo"];
         $.ajax({
-            type: "GET",
+            type: "POST",
             url: "${pageContext.request.contextPath}/posting/journaldetaillist",
-            data: {
+            data: JSON.stringify({
                 "journalNo": journalNo
-            },
+            }),
+			contentType: "application/json",
             dataType: "json",
             success: function (jsonObj) {
                 gridOptions2.api.setRowData(jsonObj);
