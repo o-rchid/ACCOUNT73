@@ -20,6 +20,12 @@ public class JournalController {
         return businessService.findSingleJournalList(journalBean.getSlipNo());
     }
 
+//    @GetMapping("/singlejournallist")
+//    public ArrayList<JournalBean> findSingleJournalList(@RequestParam String slipNo) {
+//
+//        return businessService.findSingleJournalList(slipNo);
+//    }
+
     @GetMapping("/rangedjournallist")
     public ArrayList<JournalBean> findRangedJournalList(@RequestParam String fromDate,
                                                         @RequestParam String toDate) {
