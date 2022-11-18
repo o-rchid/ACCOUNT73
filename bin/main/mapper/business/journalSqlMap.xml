@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="kr.co.seoulit.account.posting.business.mapper.JournalMapper">
 
+<mapper namespace="kr.co.seoulit.account.posting.business.mapper.JournalMapper">
 
     <select id="selectRangedJournalList" parameterType="java.util.HashMap" resultType="kr.co.seoulit.account.posting.business.to.JournalBean">
 		<![CDATA[
@@ -35,10 +35,9 @@
                		   J.LEFT_DEBTOR_PRICE   as leftDebtorPrice,
                		   J.RIGHT_CREDITS_PRICE as rightCreditsPrice,
                		   A.ACCOUNT_NAME        as accountName
-				  FROM JOURNAL J, 
-					   ACCOUNT A 
-				 WHERE J.ACCOUNT_INNER_CODE = A.ACCOUNT_INNER_CODE 
-				   AND J.SLIP_NO = #{slipNo}
+				  FROM JOURNAL J
+					   LEFT OUTER JOIN ACCOUNT A ON J.ACCOUNT_INNER_CODE = A.ACCOUNT_INNER_CODE
+				 WHERE J.SLIP_NO = #{slipNo}
 			 ]]>
 	</select>
 	<insert id="insertJournal" parameterType="kr.co.seoulit.account.posting.business.to.JournalBean">
@@ -110,7 +109,7 @@
             		from journal_detail J, 
             		account_control_detail A 
             		where 
-            		J.account_control_code=A.account_control_code 
+            		J.account_control_code = A.account_control_code
             		and J.journal_no= #{journalNo}
 		
 		 ]]>

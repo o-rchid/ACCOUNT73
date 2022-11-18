@@ -64,8 +64,12 @@ public class BusinessServiceImpl implements BusinessService {
     @Override
     public ArrayList<JournalBean> findSingleJournalList(String slipNo) {
 
-        ArrayList<JournalBean> journalList = null;
-        journalList = journalDAO.selectJournalList(slipNo);
+        ArrayList<JournalBean> journalList = journalDAO.selectJournalList(slipNo);
+        System.out.println(slipNo);
+        System.out.println(journalList);
+        for(JournalBean journalBean : journalList) {
+            System.out.println(journalBean.getJournalNo());
+        }
 
         return journalList;
     }
@@ -130,6 +134,11 @@ public class BusinessServiceImpl implements BusinessService {
         slipDAO.insertSlip(slipBean);
         for (JournalBean journalBean : journalBeans) {
             String journalNo = journalDAO.selectJournalName(slipBean.getSlipNo());
+            System.out.println(journalNo);
+            if(journalNo.endsWith("JOURNAL0")){
+                journalNo = journalNo.substring(0, journalNo.length()-1) + 1;
+                System.out.println(journalNo);
+            }
 
             journalBean.setSlipNo(slipBean.getSlipNo());
 
@@ -166,6 +175,14 @@ public class BusinessServiceImpl implements BusinessService {
 
         slipDAO.updateSlip(slipBean);
         for (JournalBean journalBean : journalBeans) {
+            if(journalBean.getJournalNo().startsWith("NEW")){
+                String journalNo = journalDAO.selectJournalName(slipBean.getSlipNo());
+
+                journalBean.setSlipNo(slipBean.getSlipNo());
+
+                journalBean.setJournalNo(journalNo);
+                journalDAO.insertJournal(journalBean);
+            }
             System.out.println(journalBean.getJournalNo() + "@@@@@@#");
             journalDAO.updateJournal(journalBean);
 
