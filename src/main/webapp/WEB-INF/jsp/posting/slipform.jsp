@@ -127,7 +127,7 @@
       // createSlip() 함수 안에서 실행되도록 함
       // showSlipGrid(); //시작하자마자 이번달 전표정보 보이게 해놓음 -> SlipController.findRangedSlipList 실행됨
       createJournal();
-      // createjournalDetailGrid();
+      createjournalDetailGrid();
       createCodeGrid();
       createAccountGrid();
       // showAccount();
@@ -769,23 +769,27 @@
 
               if (event.data["accountControlType"] == "SEARCH") {
                 $("#codeModal").modal("show");
-                detailGridApi.api.applyTransaction([
-                  (selectedJournalRow["journalDescription"] = searchCode()),
-                ]);
+                // detailGridApi.api.applyTransaction([
+                //   (selectedJournalRow["journalDescription"] = searchCode()),
+                // ]);
+                selectedJournalRow["journalDescription"] = searchCode();
+                detailGridApi.api.applyTransaction({update: [selectedJournalRow]});
                 return;
               } else if (event.data["accountControlType"] == "SELECT") {
                 // var detailGrid=gridOptions.api.getDetailGridInfo('detail_'+event.data.journalDetailNo);
-                detailGridApi.api.applyTransaction([
-                  (selectedJournalRow["journalDescription"] = selectBank()),
-                ]);
+                selectedJournalRow["journalDescription"] = selectBank();
+                detailGridApi.api.applyTransaction({update: [selectedJournalRow]});
                 return;
               } else if (event.data["accountControlType"] == "TEXT") {
                 let str = prompt("상세내용을 입력해주세요", "");
-                console.log("detail_" + event.data.journalDetailNo);
+                // console.log("detail_" + event.data.journalDetailNo);
                 //var detailGrid=gridOptions2.api.getDetailGridInfo('detail_'+event.data.journalDetailNo);
-                detailGridApi.api.applyTransaction([
-                  (selectedJournalRow["journalDescription"] = str),
-                ]);
+                // detailGridApi.api.applyTransaction([
+                //   (selectedJournalRow["journalDescription"] = str),
+                // ]);
+                event.data["journalDescription"] = str;
+                detailGridApi.api.applyTransaction({update: [event.data]});
+                $("#selectedJournalDetail").val(JSON.stringify(event.data));
                 saveJournalDetailRow();
                 return;
               } else {
@@ -923,7 +927,8 @@
     //             if (event.data["accountControlType"] == "SEARCH") {
     //                 $("#codeModal").modal('show');
     //             } else if (event.data["accountControlType"] == "SELECT") {
-    //                 gridOptions.api.applyTransaction([selectedJournalDetail["journalDescription"] = selectBank()]);
+    //               selectedJournalDetail["journalDescription"] = selectBank();
+    //                 gridOptions.api.applyTransaction({update: [selectedJournalDetail]});
     //
     //             } else if (event.data["accountControlType"] == "TEXT") {
     //                 let str = prompt('상세내용을 입력해주세요', '');
@@ -957,6 +962,8 @@
       console.log("selectBank() 실행");
       let selectedJournalDetail = JSON.parse($("#selectedJournalDetail").val());
 
+      console.log(selectedJournalDetail["accountControlDescription"]);
+
       let ele = document.createElement("select");
       ele.id = "selectId";
       $.ajax({
@@ -965,28 +972,31 @@
         data: JSON.stringify({
           "divisionCodeNo": selectedJournalDetail["accountControlDescription"],
         }),
+        contentType: "application/json",
         dataType: "json",
         async: false,
         success: function (jsonObj) {
           console.log("selectBank의 jsonObj" + jsonObj);
           console.log(jsonObj);
           $("<option></option>").appendTo(ele).html(""); //옵션 값 초기화
-          $.each(jsonObj, function (index, obj) {
-            $("<option></option>").appendTo(ele).html(obj.detailCodeName);
-          });
-        },
+          $.each(jsonObj, function (index, obj) {$("<option></option>").appendTo(ele).html(obj.detailCodeName);});
+        }
       });
 
       $(ele).change(function () {
         console.log("$(ele).change 실행");
-        journalDetailGrid.gridOptions.api.applyTransaction([
-          (selectedJournalDetail["journalDescription"] = $(this)
-                  .children("option:selected")
-                  .text()),
-        ]);
-        journalDetailGrid.gridOptions.api.applyTransaction([
-          (selectedJournalDetail["journalDescriptionCode"] = $(this).val()),
-        ]);
+        selectedJournalDetail["journalDescription"] = $(this).children("option:selected").text();
+        // console.log($(this));
+        console.log(journalGrid);
+        console.log(journalGrid.gridOptions);
+        console.log(journalGrid.gridOptions.api.getSelectedRows());
+        console.log(journalGrid.gridOptions.api.detailGridInfoMap);
+        // journalGrid.gridOptions.detailCellRendererParams.detailGridOptions.api.applyTransaction({update: [selectedJournalDetail]});
+        // journalGrid.gridOptions.api.detailGridInfoMap.applyTransaction({update: [selectedJournalDetail]});
+        selectedJournalDetail["journalDescriptionCode"] = $(this).val()
+        // journalDetailGrid.gridOptions.api.applyTransaction({update: [selectedJournalDetail]});
+        console.log(selectedJournalDetail);
+        $("#selectedJournalDetail").val(JSON.stringify(selectedJournalDetail));
         saveJournalDetailRow();
       });
 
@@ -995,16 +1005,14 @@
 
     function selectCal() {
       console.log("selectCal 실행");
-      let selectedJournalDetail = JSON.parse(
-              $("#selectedJournalDetail").val()
-      );
+      let selectedJournalDetail = JSON.parse($("#selectedJournalDetail").val());
 
       let ele = document.createElement("input");
       ele.type = "date";
       $(ele).change(function () {
-        journalDetailGrid.gridOptions.api.applyTransaction([
-          (selectedJournalDetail["journalDescription"] = $(ele).val()),
-        ]);
+        // journalDetailGrid.gridOptions.api.applyTransaction([(selectedJournalDetail["journalDescription"] = $(ele).val()),]);
+        selectedJournalDetail["journalDescription"] = $(ele).val();
+        $("#selectedJournalDetail").val(JSON.stringify(selectedJournalDetail));
         saveJournalDetailRow();
       });
       return ele;
@@ -1015,12 +1023,17 @@
       let selectedJournalDetail = JSON.parse($("#selectedJournalDetail").val());
       let selectedJournalRow = JSON.parse($("#selectedJournal").val());
       console.log(selectedJournalRow);
+      console.log(selectedJournalDetail);
+      // console.log(selectedJournalDetail["accountControlType"]);
+      // console.log(selectedJournalDetail["journalDetailNo"]);
+      // console.log(selectedJournalDetail["journalDescriptionCode"]);
+      // console.log(selectedJournalDetail["journalDescription"]);
       let rjournalDescription;
       if (selectedJournalDetail["accountControlType"] == "SELECT" || selectedJournalDetail["accountControlType"] == "SEARCH")
         rjournalDescription = selectedJournalDetail["journalDescriptionCode"];
       //- 숨겨진 곳에 저장한 값
       else rjournalDescription = selectedJournalDetail["journalDescription"];
-
+      console.log(rjournalDescription);
       $.ajax({
         type: "POST",
         url: "${pageContext.request.contextPath}/posting/journaldetailmodification",
@@ -1589,24 +1602,30 @@
           console.log("onRowClicked 실행");
           let detailCodeName = event.data["detailCodeName"];
           let detailCode = event.data["detailCode"];
+          let selectedJournalDetail = JSON.parse($("#selectedJournalDetail").val());
           console.log(detailCodeName);
-          journalDetailGrid.gridOptions.api.applyTransaction([
-            (selectedJournalDetail["journalDescription"] = detailCodeName),
-          ]); //journalDescription 분개상세내용
-          journalDetailGrid.gridOptions.api.applyTransaction([
-            (selectedJournalDetail["journalDescriptionCode"] = detailCode),
-          ]);
+          console.log(selectedJournalDetail);
+
+          selectedJournalDetail["journalDescription"] = detailCodeName;
+          selectedJournalDetail["journalDescriptionCode"] = detailCode;
+          let detailGrid = journalGrid.gridOptions.api.getDetailGridInfo("detail_" + selectedJournalDetail.journalNo);
+          console.log(detailGrid);
+          detailGrid.api.applyTransaction({update: [selectedJournalDetail]});
+
+          $("#selectedJournalDetail").val(JSON.stringify(selectedJournalDetail));
+
+          // journalDetailGrid.gridOptions.api.applyTransaction([
+          //   (selectedJournalDetail["journalDescription"] = detailCodeName),
+          // ]); //journalDescription 분개상세내용
+          // journalDetailGrid.gridOptions.api.applyTransaction([
+          //   (selectedJournalDetail["journalDescriptionCode"] = detailCode),
+          // ]);
           saveJournalDetailRow();
-          journalGrid.gridOptions.api.getDetailGridInfo(
-                  "detail_" + selectedJournalRow
-          ); //쓰는데가 없는거같은데...
+          // journalGrid.gridOptions.api.getDetailGridInfo("detail_" + selectedJournalRow);
           $("#codeModal").modal("hide");
         },
       };
-      codeGrid = new agGrid.Grid(
-              document.querySelector("#codeGrid"),
-              gridOptions
-      );
+      codeGrid = new agGrid.Grid(document.querySelector("#codeGrid"), gridOptions);
     }
 
     let customerCodeGrid;
@@ -1675,8 +1694,8 @@
         onCellDoubleClicked: function (event) {
           $("#customerCodeModalGrid").modal("hide");
           let selectedJournalRow = JSON.parse($("#selectedJournal").val());
-          selectedJournalRow["customerName"] = event.data["workplaceName"]
-          journalGrid.gridOptions.api.applyTransaction({update:[selectedJournalRow]});
+          selectedJournalRow["customerName"] = event.data["workplaceName"];
+          journalGrid.gridOptions.api.applyTransaction({update: [selectedJournalRow]});
         },
       };
       customerCodeGrid = new agGrid.Grid(
@@ -1688,19 +1707,21 @@
     //분개 상세 부서조회에서의 코드조회
     function searchCode() {
       console.log("searchCode 실행");
-      let selectedJournalDetail = JSON.parse(
-              $("selectedJournalDetail").val()
-      );
+      let selectedJournalDetail = JSON.parse($("#selectedJournalDetail").val());
+      console.log(selectedJournalDetail);
       $.ajax({
-        type: "GET",
+        type: "POST",
         url: "${pageContext.request.contextPath}/base/detailcodelist",
-        data: {
+        data: JSON.stringify({
           divisionCodeNo: selectedJournalDetail["accountControlDescription"], //accountControlDescription = ACCOUNT_CONTROL_DETAIL의 Description
           detailCodeName: $("#searchCode").val(), //부서 입력한 값
-        },
+        }),
+        contentType: "application/json",
         dataType: "json",
         success: function (jsonObj) {
           // gridOptions5.api.setRowData(jsonObj.detailCodeList); #1
+          createCodeGrid();
+          console.log(codeGrid);
           codeGrid.gridOptions.api.setRowData(jsonObj);
           $("#searchCode").val("");
         },
