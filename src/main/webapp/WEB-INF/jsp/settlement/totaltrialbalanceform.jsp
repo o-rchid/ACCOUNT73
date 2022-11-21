@@ -6,14 +6,6 @@
 
 <head>
 
-<%--  <script src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.noStyle.js"></script>--%>
-<%--  <link rel="stylesheet" href="https://unpkg.com/ag-grid-community/dist/styles/ag-grid.css">--%>
-<%--  <link rel="stylesheet" href="https://unpkg.com/ag-grid-community/dist/styles/ag-theme-balham.css">--%>
-<%--  --%>
-<%--  &lt;%&ndash;DatePicker&ndash;%&gt;--%>
-<%--    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>--%>
-<%--   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>--%>
-<%--   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">--%>
   <title>합계시산표</title>
 <style>
      .date{
@@ -105,8 +97,8 @@
             .toString()
             .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
      }  
-     
-    var gridOptions;
+
+    var totalgridOptions;
       function createTotalTrialBalanceGrid() {
     	  console.log("createTotalTrialBalanceGrid() 실행");
         rowData=[];
@@ -130,8 +122,8 @@
             { headerName:'잔액', field: 'creditsSumBalance', colId: '대변' , width:150, valueFormatter:currencyFormatter},
             ]
           },
-        ];        
-        gridOptions = {
+        ];
+        totalgridOptions = {
                  columnDefs: columnDefs,
                   defaultColDef: {editable: false }, // 정의하지 않은 컬럼은 자동으로 설정
                   onGridReady: function (event){// onload 이벤트와 유사 ready 이후 필요한 이벤트 삽입한다.
@@ -142,7 +134,7 @@
                   },
          }
         totalTrialBalanceGrid = document.querySelector('#totalTrialBalanceGrid');
-         new agGrid.Grid(totalTrialBalanceGrid,gridOptions);
+         let test = new agGrid.Grid(totalTrialBalanceGrid,totalgridOptions);
     }
       
       function showTotalTrialBalanceGrid(){
@@ -157,8 +149,8 @@
                 },
                 dataType: "json",
                 success: function (jsonObj) {
-               	
-                   gridOptions.api.setRowData(jsonObj.totalTrialBalance);
+
+                   totalgridOptions.api.setRowData(jsonObj.totalTrialBalance);
                    
                    if(jsonObj.accountingSettlementStatus[0].totalTrialBalance=="Y") // 회계결산현황 조회
                    	$("#settleStatusResult").text("결산");
@@ -173,7 +165,7 @@
    function createExcel() {
 	   console.log("createExce");
        var dateData=[];
-       gridOptions.api.forEachNode(function(rowNode, index) {
+       totalgridOptions.api.forEachNode(function(rowNode, index) {
            dateData[index] = JSON.stringify(rowNode.data);
        })
        console.log(dateData[0]);
@@ -193,7 +185,7 @@
    	console.log("doClosing() 실행")
        var find = confirm("결산을 진행 하시겠습니까?");
        if(find) { //결산버튼 누르면
-          gridOptions.api.setRowData([]); //로우데이터에 빈배열 추가
+          totalgridOptions.api.setRowData([]); //로우데이터에 빈배열 추가
             $.ajax({
                 url: "${pageContext.request.contextPath}/settlement/totaltrialbalance",
                 method : 'POST',
@@ -228,7 +220,7 @@
    	console.log("cancelClosing() 실행")
        var find = confirm("결산을 취소 하시겠습니까?");
        if(find) {
-          gridOptions.api.setRowData([]);
+          totalgridOptions.api.setRowData([]);
             $.ajax({
                 type: "GET",
                 url: "${pageContext.request.contextPath}/settlement/totaltrialbalancecancle",
@@ -272,7 +264,7 @@
              {headerName: "회계시작일", field: "periodStartDate",width:250},
              {headerName: "회계종료일", field: "periodEndDate",width:250},
          ];        
-         gridOptions3 = {
+         accountGridOptions = {
                    columnDefs: columnDefs,
                    rowSelection:'single', //row는 하나만 선택 가능
                    defaultColDef: {editable: false }, // 정의하지 않은 컬럼은 자동으로 설정
@@ -296,7 +288,7 @@
                    }
           }
          accountGrid = document.querySelector('#accountYearGrid');
-          new agGrid.Grid(accountGrid,gridOptions3);
+          new agGrid.Grid(accountGrid,accountGridOptions);
      }
      
     function showAccountPeriod(){    
@@ -308,9 +300,9 @@
                  async:false,
                  success: function (jsonObj) {
                     console.log(jsonObj);
-                     gridOptions3.api.setRowData(jsonObj);
-                    gridOptions3.api.forEachNode(function (node, index) {
-                         if (index = gridOptions3.api.getLastDisplayedRow()) {                        
+                     accountGridOptions.api.setRowData(jsonObj);
+                    accountGridOptions.api.forEachNode(function (node, index) {
+                         if (index = accountGridOptions.api.getLastDisplayedRow()) {
                            $("#fiscalYear").val(node.data.fiscalYear);
                          accountPeriodNo = node.data.accountPeriodNo;
                          }                   
