@@ -567,7 +567,7 @@
 
     function confirmSlip() {
       console.log("comfirmSlip() 실행");
-      let selectedSlipRow = JSON.parse($("selectedSlip").val());
+      let selectedSlipRow = JSON.parse($("#selectedSlip").val());
       let result = true;
       let compare = compareDebtorCredits(); // for문 안에서 계속 실행되서 밖으로 꺼냄, 한번만 실행되도됨(dong)
       let approvalStatus = compare.isEqualSum; //isEqualSum=true
@@ -659,7 +659,7 @@
           {
             headerName: "계정코드",
             field: "accountCode",
-            editable: true,
+            editable: false
           },
           {
             headerName: "계정과목",
