@@ -2,7 +2,9 @@ package kr.co.seoulit.account.settlement.trialbalance.controller;
 
 import java.util.HashMap;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.interceptor.CacheableOperation;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +26,7 @@ public class TotalTrialBalanceController {
 	public HashMap<String, Object> finddoClosing(@RequestParam String accountPeriodNo,
 			                                     @RequestParam String callResult) {
 
+		System.out.println("확인용제발"+callResult);
 		HashMap<String,Object> params = new HashMap<>();
 		params.put("accountPeriodNo",accountPeriodNo);
 		params.put("callResult",callResult);
@@ -47,11 +50,17 @@ public class TotalTrialBalanceController {
         return params;
 
 	}
-	@PostMapping("/totaltrialbalancecancle")
-	public void findcancelClosing(@RequestParam String accountPeriodNo,
+	@GetMapping("/totaltrialbalancecancle")
+	public HashMap<String,Object> findcancelClosing(@RequestParam String accountPeriodNo,
 										  @RequestParam String callResult) {
 
-		trialBalanceService.findchangeAccountingSettlement(accountPeriodNo, callResult);
+		HashMap<String,Object> params = new HashMap<>();
+		params.put("accountPeriodNo",accountPeriodNo);
+		params.put("callResult",callResult);
+
+		trialBalanceService.findchangeAccountingSettlement(params);
+
+		return params;
 	}
 
 }

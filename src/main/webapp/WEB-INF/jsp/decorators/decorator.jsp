@@ -17,7 +17,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title><sitemesh:write property='title'/> - 72th Accounting</title>
+    <title><sitemesh:write property='title'/> - 73th Accounting</title>
 
 <%--    <!-- Custom fonts for this template-->--%>
 <%--    <link--%>
@@ -83,7 +83,7 @@
                 <i class="fas fa-laugh-wink"></i>
             </div>
             <div class="sidebar-brand-text mx-3">
-                72th Accounting<sup>2</sup>
+                73th Accounting<sup>3</sup>
             </div>
         </a>
 

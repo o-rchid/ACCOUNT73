@@ -12,7 +12,7 @@ public interface TrialBalanceService {
 	 
 	 public HashMap<String, Object> findEarlyStatements(HashMap<String, Object> params);
 	 
-	 public HashMap<String, Object> findchangeAccountingSettlement(String accountPeriodNo, String callResult);
+	 public HashMap<String, Object> findchangeAccountingSettlement(HashMap<String, Object> params);
 	 
 	 public ArrayList<DetailTrialBalanceBean> findDetailTrialBalance(String fromDate, String toDate);
 	 

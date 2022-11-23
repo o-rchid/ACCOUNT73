@@ -22,6 +22,7 @@ public class TrialBalanceServiceImpl implements TrialBalanceService{
 
         	HashMap<String, Object> trialBalanceList = null;
         	trialBalanceList = totalTrialBalanceDAO.selectcallTotalTrialBalance(params);
+		System.out.println("확인용"+params.get("totalTrialBalance"));
         	
         return trialBalanceList;
     }
@@ -29,19 +30,19 @@ public class TrialBalanceServiceImpl implements TrialBalanceService{
     @Override
 	public HashMap<String, Object> findEarlyStatements(HashMap<String,Object> params) {
 
-    		 HashMap<String, Object> earlyledgersList = null;
-	    	 earlyledgersList = totalTrialBalanceDAO.selectcallEarlyStatements(params);
+    		 totalTrialBalanceDAO.selectcallEarlyStatements(params);
+		System.out.println(params.get("accountingSettlementStatus"));
 
-	     return earlyledgersList;
+	     return params;
 	 }
     
     @Override
-	public HashMap<String, Object> findchangeAccountingSettlement(String accountPeriodNo, String callResult) {
+	public HashMap<String, Object> findchangeAccountingSettlement(HashMap<String,Object> params) {
 
-        	HashMap<String, String> map = new HashMap<>();
-        	map.put("accountPeriodNo", accountPeriodNo);
-        	map.put("callResult", callResult);
-        	return totalTrialBalanceDAO.selectAccountingSettlement(map);
+
+
+        	totalTrialBalanceDAO.selectAccountingSettlement(params);
+			return params;
     }
     
     @Override

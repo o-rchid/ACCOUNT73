@@ -17,5 +17,5 @@ public interface TotalTrialBalanceMapper {
     
     public ArrayList<DetailTrialBalanceBean> selectDetailTrialBalance(HashMap<String, Object> params);
 
-	public HashMap<String, Object> selectAccountingSettlement(HashMap<String, String> map);
+	public HashMap<String, Object> selectAccountingSettlement(HashMap<String,Object> params);
 }

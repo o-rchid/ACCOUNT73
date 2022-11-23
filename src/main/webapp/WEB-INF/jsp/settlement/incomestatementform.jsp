@@ -159,7 +159,7 @@
               url: "${pageContext.request.contextPath}/settlement/incomestatement",
               data: {
                   "accountPeriodNo": accountPeriodNo,
-                  "callResult" : "SEARCH"				
+                  "callResult" : "Y"
               },
               dataType: "json",
               success: function (jsonObj) {

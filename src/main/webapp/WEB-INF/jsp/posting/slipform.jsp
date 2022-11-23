@@ -127,7 +127,7 @@
       // createSlip() 함수 안에서 실행되도록 함
       // showSlipGrid(); //시작하자마자 이번달 전표정보 보이게 해놓음 -> SlipController.findRangedSlipList 실행됨
       createJournal();
-      createjournalDetailGrid();
+      // createjournalDetailGrid();
       createCodeGrid();
       createAccountGrid();
       // showAccount();
@@ -512,6 +512,7 @@
               "journalObj": JSON.stringify(JournalTotalObj),
               "slipStatus": slipStatus,
             },
+            // contentType: "application/json",
             async: false, // 동기식   // 비동기식으로할경우 아래 showslipgrid에서 값을 못불러올수있다.
             dataType: "json",
             success: function (data) {
@@ -631,7 +632,7 @@
     // Journal -----------------------------------------------------------------------------------------------------------------
 
     let journalGrid;
-    let journalDetailGrid;
+    // let journalDetailGrid;
     // let selectedJournal;
 
     function createJournal() {
@@ -1560,6 +1561,9 @@
         contentType: "application/json",
         success: function (jsonObj) {
           console.log(jsonObj);
+          // createAccountGrid();
+          // createAccountDetailGrid();
+          console.log(accountDetailGrid);
           accountDetailGrid.gridOptions.api.setRowData(jsonObj); //내부 상세 그리드
           $("#accountCode").val(""); // 검색한다음에 지우기 셋팅(dong)
         },
@@ -1720,7 +1724,7 @@
         dataType: "json",
         success: function (jsonObj) {
           // gridOptions5.api.setRowData(jsonObj.detailCodeList); #1
-          createCodeGrid();
+          // createCodeGrid();
           console.log(codeGrid);
           codeGrid.gridOptions.api.setRowData(jsonObj);
           $("#searchCode").val("");
@@ -1739,6 +1743,7 @@
         dataType: "json",
         success : function (jsonObj) {
           //console.log("거래처코드 : " +JSON.stringify(jsonObj.allWorkplaceList));
+          // createCustomerCodeGrid();
           customerCodeGrid.gridOptions.api.setRowData(jsonObj);
 
         }
