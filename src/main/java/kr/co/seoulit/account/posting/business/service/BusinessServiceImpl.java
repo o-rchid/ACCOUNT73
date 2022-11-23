@@ -67,8 +67,30 @@ public class BusinessServiceImpl implements BusinessService {
         ArrayList<JournalBean> journalList = journalDAO.selectJournalList(slipNo);
         System.out.println(slipNo);
         System.out.println(journalList);
+
         for(JournalBean journalBean : journalList) {
             System.out.println(journalBean.getJournalNo());
+            String companyCode = journalBean.getCustomerCode();
+            switch (companyCode) {
+                case "COM-01":
+                    journalBean.setCustomerName("코카콜라");
+                    break;
+                case "COM-02":
+                    journalBean.setCustomerName("레쓰비");
+                    break;
+                case "COM-03":
+                    journalBean.setCustomerName("칠성사이다");
+                    break;
+                case "COM-04":
+                    journalBean.setCustomerName("포카리");
+                    break;
+                case "COM-05":
+                    journalBean.setCustomerName("환타");
+                    break;
+                case "COM-06":
+                    journalBean.setCustomerName("삼성전자");
+                    break;
+            }
         }
 
         return journalList;
@@ -141,6 +163,27 @@ public class BusinessServiceImpl implements BusinessService {
             }
 
             journalBean.setSlipNo(slipBean.getSlipNo());
+            String companyName= journalBean.getCustomerName();
+            switch(companyName) {
+                case "코카콜라":
+                    journalBean.setCustomerCode("COM-01");
+                    break;
+                case "레쓰비":
+                    journalBean.setCustomerCode("COM-02");
+                    break;
+                case "칠성사이다":
+                    journalBean.setCustomerCode("COM-03");
+                    break;
+                case "포카리":
+                    journalBean.setCustomerCode("COM-04");
+                    break;
+                case "환타":
+                    journalBean.setCustomerCode("COM-05");
+                    break;
+                case "삼성전자":
+                    journalBean.setCustomerCode("COM-06");
+                    break;
+            }
 
             journalBean.setJournalNo(journalNo);
             journalDAO.insertJournal(journalBean);
