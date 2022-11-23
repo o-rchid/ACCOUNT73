@@ -285,7 +285,7 @@
           	      {headerName: "분개 상세 항목", field: "accountControlName",width:150, },
           	      {headerName: "분개 상세 내용", field: "journalDescription",width:250},
           	    ];
-            	
+
           	  gridOptions4 = {
           			      columnDefs: columnDefs,
           			      rowSelection:'single', //row는 하나만 선택 가능
@@ -299,7 +299,7 @@
           	  };
           			journalDetailGrid = document.querySelector('#journalDetailGrid');
           			new agGrid.Grid(journalDetailGrid,gridOptions4);
-           }  
+           }
         function approveSelectedSlip(isApprove){
            	var compare = compareDebtorCredits(); //차변과 대변의 합계의 값이 같음
         	var approvalStatus = compare.isEqualSum; //true
