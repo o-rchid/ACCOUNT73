@@ -222,6 +222,7 @@
                 }
             });
           showTotalTrialBalanceGrid();
+           location.reload();
        }
     }
     
@@ -254,6 +255,7 @@
                 }
             });
           showTotalTrialBalanceGrid();
+          location.reload();
        }
     }
    
