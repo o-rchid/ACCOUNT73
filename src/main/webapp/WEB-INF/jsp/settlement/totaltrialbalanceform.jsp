@@ -92,6 +92,7 @@
   });
    var selectedRow;
    var accountPeriodNo = '${sessionScope.periodNo}';
+   var settleStatusResult = $("#settleStatusResult").text();
    
     //화폐 단위 설정
    function currencyFormatter(params) {
@@ -152,27 +153,29 @@
                  method: "GET", 
                  dataType: "json", 
                  contentType: "application/json; charset=utf-8;",
-                url: "${pageContext.request.contextPath}/settlement/totaltrialbalance/"+accountPeriodNo, //메서드가 없음
-             // url: "${pageContext.request.contextPath}/settlement/totaltrialbalance", //메서드가 없음
-              data: {
+                url: "${pageContext.request.contextPath}/settlement/totaltrialbalance/"+accountPeriodNo,
+                data: {
                     "accountPeriodNo" : accountPeriodNo,
-                    "callResult" : "Y"				// 회계결산현황 SEARCH(조회) 호출
+                    "callResult" : "SEARCH"				// 회계결산현황 호출 (Y일때도, N일때도 있음)
                 },
                 dataType: "json",
                 success: function (jsonObj) {
                	
                    gridOptions.api.setRowData(jsonObj.totalTrialBalance);
                    
-/*                   if(jsonObj.accountingSettlementStatus[0].totalTrialBalance=="Y") // 회계결산현황 조회
+                   if(jsonObj.accountingSettlementStatus[0].totalTrialBalance=="SEARCH") // 회계결산현황 조회
                    	$("#settleStatusResult").text("결산");
-                   else $("#settleStatusResult").text("미결산");*/
+                   else $("#settleStatusResult").text("미결산");
                 },
                 error:function(request,status,error){
                	 alert("code:"+request.status+"error"+error+"\n");
                 }
             });
       }
-      
+
+
+
+
    function createExcel() {
 	   console.log("createExce");
        var dateData=[];
@@ -203,29 +206,44 @@
                 data: {
                    // "totalTrialBalanceData": JSON.stringify(totalTrialBalanceData),
                     "accountPeriodNo": accountPeriodNo,
-                    "callPosition": "finddoClosing", //메서드
-                    "callResult" : "Y"				// 회계결산현황 업데이트(Y) 및 호출
+                    "callResult" : "Y"				// 회계결산현황 업데이트(Y)
                 },
                 dataType: "json",
-                success: function (jsonObj) {
-               	 console.log("doClosing :" +jsonObj );
-               	 
-               	console.log("결산:"+jsonObj.accountingSettlementStatus[0].totalTrialBalance);
-              	
-					if(jsonObj.accountingSettlementStatus[0].totalTrialBalance=="Y"){
-						alert("결산성공");
-						$("#settleStatusResult").text("결산");	
-					}else
-						$("#settleStatusResult").text("미결산");
-
-                   
+                success: function () {
+                    showTotalTrialBalanceResultGrid();
                 }
             });
-          showTotalTrialBalanceGrid();
-           location.reload();
        }
     }
-    
+
+  function showTotalTrialBalanceResultGrid(){
+      console.log("showTotalTrialBalanceGrid() 실행")
+      console.log(accountPeriodNo),
+          $.ajax({
+              method: "GET",
+              dataType: "json",
+              contentType: "application/json; charset=utf-8;",
+              url: "${pageContext.request.contextPath}/settlement/totaltrialbalance/"+accountPeriodNo,
+              data: {
+                  "accountPeriodNo" : accountPeriodNo,
+                  "callResult" : "Y"				// 회계결산현황 (Y) 호출
+              },
+              dataType: "json",
+              success: function (jsonObj) {
+
+                  console.log(jsonObj)
+                  gridOptions.api.setRowData(jsonObj.totalTrialBalance);
+
+                  if(jsonObj.accountingSettlementStatus[0].totalTrialBalance=="Y") // 회계결산현황 조회
+                      $("#settleStatusResult").text("결산");
+                  else $("#settleStatusResult").text("미결산");
+              },
+              error:function(request,status,error){
+                  alert("code:"+request.status+"error"+error+"\n");
+              }
+          });
+  }
+
    // 결산취소
    function cancelClosing() {
    	console.log("cancelClosing() 실행")
@@ -241,21 +259,15 @@
                 },
                 dataType: "json",
                 success: function (jsonObj) {
-                    /*
-                    $("#closing").jqGrid('setGridParam', {data: jsonObj.closing});       
-                    $("#closing").trigger('reloadGrid');
-                    */
 
                     if(jsonObj.accountingSettlementStatus[0].totalTrialBalance=="N"){
                         alert("결산취소성공");
                         $("#settleStatusResult").text("미결산");
                     }else
                         $("#settleStatusResult").text("결산");
-
                 }
             });
-          showTotalTrialBalanceGrid();
-          location.reload();
+            location.reload();
        }
     }
    
@@ -353,7 +365,7 @@
               <input type="button" id="excel" value="EXCEL" class="btn btn-Light shadow-sm btnsize3" style="margin-left:2px;">
           </div>
       </div>
-      <div class="settleStatusContainer">결산상태 : <span id="settleStatusResult" >--</span></div>      
+      <div class="settleStatusContainer">결산상태 : <span id="settleStatusResult" >--</span></div>
       </div> 
       <div align="center">
          <div id="totalTrialBalanceGrid" class="ag-theme-balham"  style="height:500px;width:auto;" ></div>

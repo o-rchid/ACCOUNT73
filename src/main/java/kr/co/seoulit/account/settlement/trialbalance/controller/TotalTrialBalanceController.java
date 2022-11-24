@@ -50,6 +50,7 @@ public class TotalTrialBalanceController {
         return params;
 
 	}
+
 	@GetMapping("/totaltrialbalancecancle")
 	public HashMap<String,Object> findcancelClosing(@RequestParam String accountPeriodNo,
 										  @RequestParam String callResult) {

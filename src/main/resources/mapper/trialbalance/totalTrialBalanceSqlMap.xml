@@ -58,7 +58,7 @@
 
 	<select id="selectAccountingSettlement" parameterMap="earlyStatementsParams" statementType="CALLABLE" >
 		<![CDATA[
-         {call P_ACCOUNTING_SETTLEMENT_STATUS(?, ?, ?, ?, ?)}
+         {call P_ROLLBACK_STATEMENTS(?, ?, ?, ?, ?)}
        ]]>
 	</select> 
 	
