@@ -308,10 +308,10 @@
 				id="fiscalYear" placeholder="fiscalYear" disabled="disabled">
 
 			<div class="input-group-append">
-				<!-- <button class="btn btn-primary" type="button" data-toggle="modal"
+				<button class="btn btn-primary" type="button" data-toggle="modal"
                         data-target="#accountYearModal" id="searchPeriod">
                         <i class="fas fa-search fa-sm"></i>
-                     </button> -->
+                     </button>
 				<input type="button" id="showpdf" value="PDF"
 					class="btn btn-Light shadow-sm btnsize3" style="margin-left: 2px;">
 			</div>
