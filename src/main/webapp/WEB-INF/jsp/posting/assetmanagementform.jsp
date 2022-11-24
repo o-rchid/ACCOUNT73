@@ -264,7 +264,7 @@
 		}
 		
 		function assetStorage(){
-			console.log("자산등록");
+			console.log("자산저장");
 			$.ajax({
 				type: "POST",
 				url: "${pageContext.request.contextPath}/posting/assetstorage",
@@ -305,11 +305,13 @@
 					
 					gridOptions2.api.setRowData('');
 				}
-			});	
+			});
+			alert("자산 저장 완료");
+			location.reload();
 		}
 		
 		function assetRemove(){
-			console.log("자산삭제");
+			console.log("자산 삭제");
 			$.ajax({
 				type: "POST",
 				url: "${pageContext.request.contextPath}/posting/assetremoval",
@@ -345,7 +347,9 @@
 				error : function(error){
 					console.log($('#assetItemCode').val(''));
 				}
-			});	
+			});
+			alert("자산 삭제 완료");
+			location.reload();
 		}
   </script>
 </head>
