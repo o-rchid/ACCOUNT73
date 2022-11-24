@@ -149,12 +149,10 @@
     // Utils ---------------------------------------------------------------------------------------------------------
     //화폐 단위 원으로 설정 \100,000,000
     function currencyFormatter(params) {
-      console.log("currencyFormatter(params) 실행");
       return "￦" + formatNumber(params.value);
     }
 
     function formatNumber(number) {
-      console.log("formatNumber(number) 실행");
       return Math.floor(number)
               .toString()
               .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
@@ -281,16 +279,11 @@
           event.api.sizeColumnsToFit();
         },
         onRowClicked: function (event) {
-          console.log("sliprow선택");
+          console.log("전표그리드 onRowClicked 실행");
           // selectedSlipRow = event.data;
           let selectedSlipRow = $("#selectedSlip");
           selectedSlipRow.val("");
           selectedSlipRow.val(JSON.stringify(event.data));
-          console.log(event.data);
-          // console.log(selectedSlipRow.val());
-          // console.log(JSON.parse(selectedSlipRow.val()).slipStatus);
-          // console.log(event.data);
-          // console.log(event.data["slipNo"]);
           showJournalGrid(event.data["slipNo"]);
 
           // 페이지가 로딩된 후 전표를 선택하면 볼수있어야 하는데 비활성화 되어있어서 활성화 시킴
@@ -472,8 +465,7 @@
       console.log(
               "saveSlip()================================================="
       );
-      console.log(slipGrid);
-      console.log(slipGrid.gridOptions);
+
       let JournalTotalObj = [];
       let slipStatus = confirm == "승인요청" ? confirm : null; //기본은 null이고 confirm할때만 "승인요청"으로 바뀐다
 
@@ -489,19 +481,14 @@
           // 노드 데이터에 어카운트네임이 없다면 저장되지 않게함
           if (node.data.journalNo !== "Total" && node.data.accountName != undefined) {
             JournalTotalObj.push(node.data); //분개노드 마지막 total 빼고 JournalTotalObj에 담음
-            console.log(
-                    " JournalTotalObj.push(node.data) :" + JSON.stringify(node.data)
-            );
-            console.log(
-                    " JournalTotalObj.push(node.data) :" +
-                    JSON.stringify(JournalTotalObj)
-            );
+            console.log("JournalTotalObj.push(node.data)");
+            console.log(JournalTotalObj);
           }
         });
 
         if (selectedSlipRow["slipNo"] == "NEW") {
           //선택된 로우가 new면
-          console.log("========================================");
+          console.log("NEW 전표========================================");
           console.log(selectedSlipRow);
 
           $.ajax({
@@ -512,13 +499,11 @@
               "journalObj": JSON.stringify(JournalTotalObj),
               "slipStatus": slipStatus,
             },
-            // contentType: "application/json",
             async: false, // 동기식   // 비동기식으로할경우 아래 showslipgrid에서 값을 못불러올수있다.
             dataType: "json",
             success: function (data) {
-              console.log("saveSlip success=================================");
+              console.log("NEW 전표 success=================================");
               console.log(data);
-              //return 값이 필요 없음(choi)
               enableElement({ "#addSlip": true });
               location.reload();
             },
@@ -526,6 +511,7 @@
           // } else if (selectedSlipRow['slipNo'] != NEW_SLIP_NO) { //기존 저장 후 수정 및 반려 후 저장
         } else {
           //기존 저장 후 수정 및 반려 후 저장
+          console.log("--------else---------");
           let JournalTotalObj2 = [];
           journalGrid.gridOptions.api.forEachNode(function (node, index) {
             node.data["status"] = "update";
@@ -753,7 +739,7 @@
             },
             onRowClicked: function (event) {
               // 상위 테이블에 있는 상세보기버튼으로도 실행됨.(dong)
-              console.log("onRowClicked 실행");
+              console.log("분개상세그리드 onRowClicked 실행");
               $("#selectedJournalDetail").val("");
               $("#selectedJournalDetail").val(JSON.stringify(event.data));
               // selectedJournalDetail = event.data;
@@ -769,6 +755,7 @@
               console.log(detailGridApi);
 
               if (event.data["accountControlType"] == "SEARCH") {
+
                 $("#codeModal").modal("show");
                 // detailGridApi.api.applyTransaction([
                 //   (selectedJournalRow["journalDescription"] = searchCode()),
@@ -819,12 +806,10 @@
           },
         },
         getRowNodeId: function (data) {
-          console.log("getRowId 실행");
+          console.log("분개그리드 getRowId 실행 :" + data.journalNo);
           // console.log("========================================================================");
           // console.log(data.data.journalNo);
           // use 'account' as the row ID
-          console.log(data);
-          console.log("getRowId: " + data.journalNo);
           return data.journalNo;
         },
         enterMovesDownAfterEdit: true,
@@ -879,75 +864,18 @@
           }
         },
         onRowClicked: function (event) {
-          console.log("onRowClicked 실행");
+          console.log("분개 그리드 onRowClicked 실행");
           $("#selectedJournal").val("");
           $("#selectedJournal").val(JSON.stringify(event.data));
           selectedJournalRow = event.data;
-          console.log(selectedJournalRow);
         },
       };
-      console.log("=============================================");
       journalGrid = new agGrid.Grid(
               document.querySelector("#journalGrid"),
               journalGridOptions
       );
       console.log(journalGrid);
     }
-
-    // function createjournalDetailGrid() {
-    //     console.log("createjournalDetailGrid() 실행");
-    //     // let rowData = [];
-    //     let selectedJournalDetail;
-    //     const columnDefs = [
-    //         {headerName: "계정 설정 속성", field: "accountControlType", width: 150, sortable: true},
-    //         {headerName: "분개 상세 번호", field: "journalDetailNo", width: 150, sortable: true},
-    //         {headerName: "-", field: "status", width: 100, hide: true},
-    //         {headerName: "-", field: "journalDescriptionCode", width: 100, hide: true},
-    //         {headerName: "분개 상세 항목", field: "accountControlName", width: 150,},
-    //         {headerName: "분개 상세 내용", field: "journalDescription", width: 250, cellRenderer: cellRenderer}
-    //     ];
-    //     const gridOptions = {
-    //         columnDefs         : columnDefs,
-    //         rowSelection       : 'single', //row는 하나만 선택 가능
-    //         defaultColDef      : {editable: false}, // 정의하지 않은 컬럼은 자동으로 설정
-    //         onGridReady        : function (event) {// onload 이벤트와 유사 ready 이후 필요한 이벤트 삽입한다.
-    //             event.api.sizeColumnsToFit();
-    //         },
-    //         onGridSizeChanged  : function (event) { // 그리드의 사이즈가 변하면 자동으로 컬럼의 사이즈 정리
-    //             event.api.sizeColumnsToFit();
-    //         },
-    //         onRowClicked       : function (event) {
-    //             $("#selectedJournalDetail").val("");
-    //             $("#selectedJournalDetail").val(JSON.stringify(event.data));
-    //             selectedJournalDetail = event.data;
-    //             cellRenderer(event);
-    //             console.log('분개 상세 선택됨');
-    //         },
-    //         onCellDoubleClicked: function (event) {
-    //             console.log("onCellDoubleClicked 실행");
-    //             if (event.data["accountControlType"] == "SEARCH") {
-    //                 $("#codeModal").modal('show');
-    //             } else if (event.data["accountControlType"] == "SELECT") {
-    //               selectedJournalDetail["journalDescription"] = selectBank();
-    //                 gridOptions.api.applyTransaction({update: [selectedJournalDetail]});
-    //
-    //             } else if (event.data["accountControlType"] == "TEXT") {
-    //                 let str = prompt('상세내용을 입력해주세요', '');
-    //                 gridOptions.api.applyTransaction([selectedJournalDetail["journalDescription"] = str]);
-    //                 saveJournalDetailRow();
-    //             } else {
-    //                 gridOptions.api.applyTransaction([selectedJournalDetail["journalDescription"] = selectCal()]);
-    //             }
-    //
-    //         },
-    //         onCellValueChanged : function (event) {
-    //             console.log("onCellChangedValue 실행");
-    //             console.log("분개 디테일 수정 : " + event.data);
-    //         }
-    //
-    //     };
-    //     journalDetailGrid = new agGrid.Grid(document.querySelector('#journalDetailGrid'), gridOptions);
-    // }
 
     function cellRenderer(params) {
       // 중복되는일이라 불필요(dong)
@@ -1210,9 +1138,7 @@
           success: function (jsonObj) {
             //선택한 전표에 등록된 분개정보
             // 계정코드가 들어가 있지 않은 데이터를 왜 안들고 올까?
-            console.log("@@@@@@@@@@@@jsobObj : " + JSON.stringify(jsonObj));
             jsonObj.forEach(function (element) {
-              console.log(element);
               rowData2.push(element);
             });
             jsonObj.forEach(function (element, index) {
@@ -1274,7 +1200,6 @@
       let rightCreditsTotal = 0;
 
       journalGrid.gridOptions.api.forEachNode(function (node, index) {
-        console.log(node);
         if (node !== totalRow) {
           if (node.journalNO !== "Total") {
             leftDebtorTotal += parseInt(node.data.leftDebtorPrice);
@@ -1398,9 +1323,7 @@
           event.api.sizeColumnsToFit();
         },
         onRowClicked: function (event) {
-          console.log("Row선택");
-          console.log(event.data);
-          // selectedRow = event.data;
+          console.log("계정과목그리드 onRowClicked 실행");
           showAccountDetail(event.data["accountInnerCode"]);
         },
       };
@@ -1428,7 +1351,6 @@
 
     function createAccountDetailGrid() {
       console.log("createAccountDetailGrid() 실행");
-      // let rowData = [];
 
       const columnDefs = [
         {
@@ -1561,9 +1483,6 @@
         contentType: "application/json",
         success: function (jsonObj) {
           console.log(jsonObj);
-          // createAccountGrid();
-          // createAccountDetailGrid();
-          console.log(accountDetailGrid);
           accountDetailGrid.gridOptions.api.setRowData(jsonObj); //내부 상세 그리드
           $("#accountCode").val(""); // 검색한다음에 지우기 셋팅(dong)
         },
@@ -1724,7 +1643,7 @@
         dataType: "json",
         success: function (jsonObj) {
           // gridOptions5.api.setRowData(jsonObj.detailCodeList); #1
-          // createCodeGrid();
+          createCodeGrid();
           console.log(codeGrid);
           codeGrid.gridOptions.api.setRowData(jsonObj);
           $("#searchCode").val("");
@@ -1743,7 +1662,6 @@
         dataType: "json",
         success : function (jsonObj) {
           //console.log("거래처코드 : " +JSON.stringify(jsonObj.allWorkplaceList));
-          // createCustomerCodeGrid();
           customerCodeGrid.gridOptions.api.setRowData(jsonObj);
 
         }
