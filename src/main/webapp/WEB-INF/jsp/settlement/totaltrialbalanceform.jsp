@@ -163,7 +163,7 @@
                	
                    gridOptions.api.setRowData(jsonObj.totalTrialBalance);
                    
-                   if(jsonObj.accountingSettlementStatus[0].totalTrialBalance=="Y") // 회계결산현황 조회
+                   if(jsonObj.accountingSettlementStatus[0].totalTrialBalance=="SEARCH") // 회계결산현황 조회
                    	$("#settleStatusResult").text("결산");
                    else $("#settleStatusResult").text("미결산");
                 },
