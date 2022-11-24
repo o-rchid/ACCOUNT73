@@ -32,11 +32,15 @@
                		   J.BALANCE_DIVISION    as balanceDivision,
                		   J.ACCOUNT_INNER_CODE  as accountCode,
                		   J.CUSTOMER_CODE       as customerCode,
+					   W.WORKPLACE_NAME      as customerName, --추가
                		   J.LEFT_DEBTOR_PRICE   as leftDebtorPrice,
                		   J.RIGHT_CREDITS_PRICE as rightCreditsPrice,
+
                		   A.ACCOUNT_NAME        as accountName
 				  FROM JOURNAL J
 					   LEFT OUTER JOIN ACCOUNT A ON J.ACCOUNT_INNER_CODE = A.ACCOUNT_INNER_CODE
+					   LEFT OUTER JOIN WORKPLACE W ON J.CUSTOMER_CODE = W.WORKPLACE_CODE --추가
+
 				 WHERE J.SLIP_NO = #{slipNo}
 			 ]]>
 	</select>

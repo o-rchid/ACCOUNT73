@@ -69,7 +69,7 @@
               WORKPLACE_FAX_NUMBER          as workplaceFaxNumber,
               WORKPLACE_BASIC_ADDRESS       as workplaceBasicAddress,
               APPROVAL_STATUS             as approvalStatus
-      FROM    WORKPLACE 
+      FROM    WORKPLACE
      ]]>
     </select>
     

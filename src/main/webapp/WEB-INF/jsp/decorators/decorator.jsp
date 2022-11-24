@@ -229,20 +229,6 @@
                 </div>
             </div></li>
 
-        <li class="nav-item budget"><a
-                class="nav-link collapsed Permission" href="#"
-                data-toggle="collapse" data-target="#dev" aria-expanded="true"
-                aria-controls="collapseUtilities"> <i
-                class="fas fa-fw fa-folder"></i> <span class="confirmMenu">개발편의메뉴</span>
-        </a>
-            <div id="dev" class="collapse" aria-labelledby="headingUtilities"
-                 data-parent="#accordionSidebar">
-                <div class="bg-white py-2 collapse-inner rounded">
-                    <h6 class="collapse-header">개발</h6>
-                    <a id="ME008_1" class="collapse-item ApplyBudget" href="#">예산코드관리</a>
-            </div>
-            </div></li>
-
 
 
         <!-- Divider -->
