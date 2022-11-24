@@ -151,7 +151,7 @@
                 	gridOptions.api.setRowData(jsonObj);
                 	gridOptions2.api.setRowData([]); //미승인전표 있으면 화면에 출력
                 }
-            });
+			});
         }
         var selectedJournalRow
         var selectedJournalRowval

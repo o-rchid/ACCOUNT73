@@ -683,7 +683,7 @@
               searchCustomerCodeList();
             },
           },
-          { headerName: "거래처", field: "customerName", hide: true },
+          { headerName: "거래처코드", field: "customerCode", hide: true },
           { headerName: "상태", field: "status" },
         ],
         masterDetail: true,
@@ -1618,7 +1618,8 @@
           $("#customerCodeModalGrid").modal("hide");
           let selectedJournalRow = JSON.parse($("#selectedJournal").val());
           selectedJournalRow["customerName"] = event.data["workplaceName"];
-          journalGrid.gridOptions.api.applyTransaction({update: [selectedJournalRow]});
+          selectedJournalRow["customerCode"] = event.data["companyCode"]; // 2
+          journalGrid.gridOptions.api.applyTransaction({update: [selectedJournalRow]}); // 1
         },
       };
       customerCodeGrid = new agGrid.Grid(
