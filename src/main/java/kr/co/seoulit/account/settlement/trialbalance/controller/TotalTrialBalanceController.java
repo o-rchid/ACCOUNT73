@@ -26,7 +26,6 @@ public class TotalTrialBalanceController {
 	public HashMap<String, Object> finddoClosing(@RequestParam String accountPeriodNo,
 			                                     @RequestParam String callResult) {
 
-		System.out.println("확인용제발"+callResult);
 		HashMap<String,Object> params = new HashMap<>();
 		params.put("accountPeriodNo",accountPeriodNo);
 		params.put("callResult",callResult);

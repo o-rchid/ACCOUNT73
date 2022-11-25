@@ -204,7 +204,6 @@
                 url: "${pageContext.request.contextPath}/settlement/totaltrialbalance",
                 method : 'POST',
                 data: {
-                   // "totamk i9iiiiiiilTrialBalanceData": JSON.stringify(totalTrialBalanceData),
                     "accountPeriodNo": accountPeriodNo,
                     "callResult" : "Y"				// 회계결산현황 업데이트(Y)
                 },

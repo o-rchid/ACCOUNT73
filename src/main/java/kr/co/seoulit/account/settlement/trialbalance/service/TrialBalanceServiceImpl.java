@@ -32,7 +32,6 @@ public class TrialBalanceServiceImpl implements TrialBalanceService{
 	public HashMap<String, Object> findEarlyStatements(HashMap<String,Object> params) {
 
     		 totalTrialBalanceDAO.selectcallEarlyStatements(params);
-		System.out.println(params.get("accountingSettlementStatus"));
 
 	     return params;
 	 }
@@ -40,9 +39,8 @@ public class TrialBalanceServiceImpl implements TrialBalanceService{
     @Override
 	public HashMap<String, Object> findchangeAccountingSettlement(HashMap<String,Object> params) {
 
-
-
         	totalTrialBalanceDAO.selectAccountingSettlement(params);
+
 			return params;
     }
     
