@@ -216,6 +216,7 @@
              contentType : "application/json",
             dataType: "json",
             success: function (jsonObj) {
+                console.log("되나")
                 gridOptions3.api.setRowData(jsonObj);
             },
             error : function(){

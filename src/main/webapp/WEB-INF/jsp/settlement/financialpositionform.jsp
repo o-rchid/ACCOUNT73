@@ -60,7 +60,7 @@
 } /*글자 밑에 있는거 중앙으로  */
 .ag-row .ag-cell {
 	display: flex;
-	justify-content: center !important; /* align horizontal */
+	/*justify-content: center !important;*/
 	align-items: center !important;
 }
 

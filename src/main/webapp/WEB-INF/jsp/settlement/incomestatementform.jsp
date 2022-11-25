@@ -166,8 +166,9 @@
                  console.log("showIncomeStatementGrid :" + jsonObj);
                  
                  if(jsonObj.accountingSettlementStatus[0].totalTrialBalance == "Y"){ 
-                  		gridOptions.api.setRowData(jsonObj.incomeStatement);
+
                		$("#settleStatusResult").text("결산");
+                     gridOptions.api.setRowData(jsonObj.incomeStatement);
        	   		}               		
               	  else {
    	        	   alert("결산을 진행해주세요");
@@ -175,6 +176,7 @@
               	  }
               }
            });
+
       }
 
   

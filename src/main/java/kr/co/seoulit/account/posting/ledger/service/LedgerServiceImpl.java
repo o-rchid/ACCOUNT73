@@ -30,26 +30,24 @@ public class LedgerServiceImpl implements LedgerService {
 
     
     @Override
-	public ArrayList<CashJournalBean> findTotalCashJournal(String year, String account) {
+	public ArrayList<CashJournalBean> findTotalCashJournal(CashJournalBean cashJournalBean) {
 
         	ArrayList<CashJournalBean> cashJournalList = null;
-        	HashMap<String, String> map = new HashMap<String, String>();
-        	map.put("year", year);
-        	map.put("account", account);
-        	cashJournalList = auxiliaryLedgerDAO.selectTotalCashJournalList(map);
+
+        	cashJournalList = auxiliaryLedgerDAO.selectTotalCashJournalList(cashJournalBean);
 
         return cashJournalList;
 	}
 	
 	@Override
-	public ArrayList<CashJournalBean> findCashJournal(String fromDate, String toDate, String account) {
-			
-			HashMap<String, String> map = new HashMap<String, String>();
-			map.put("fromDate", fromDate);
-			map.put("toDate", toDate);
-			map.put("account", account);
-        	ArrayList<CashJournalBean> cashJournalList = null;
-        	cashJournalList = auxiliaryLedgerDAO.selectCashJournalList(map);
+	public ArrayList<CashJournalBean> findCashJournal(CashJournalBean cashJournalBean) {
+
+		System.out.println(cashJournalBean.getFromDate());
+		System.out.println(cashJournalBean.getToDate());
+		System.out.println(cashJournalBean.getAccount());
+			ArrayList<CashJournalBean> cashJournalList = null;
+        	cashJournalList = auxiliaryLedgerDAO.selectCashJournalList(cashJournalBean);
+		System.out.println(cashJournalList);
 
         return cashJournalList;
 	}

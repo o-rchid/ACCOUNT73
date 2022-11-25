@@ -10,7 +10,7 @@ import kr.co.seoulit.account.posting.ledger.to.CashJournalBean;
 @Mapper
 public interface AuxiliaryLedgerMapper {
 	
-	public ArrayList<CashJournalBean> selectCashJournalList(HashMap<String, String> map);
+	public ArrayList<CashJournalBean> selectCashJournalList(CashJournalBean cashJournalBean);
 	
-	public ArrayList<CashJournalBean> selectTotalCashJournalList(HashMap<String, String> map);
+	public ArrayList<CashJournalBean> selectTotalCashJournalList(CashJournalBean cashJournalBean);
 }

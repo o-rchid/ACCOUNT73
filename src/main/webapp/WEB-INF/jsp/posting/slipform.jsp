@@ -1644,7 +1644,7 @@
         dataType: "json",
         success: function (jsonObj) {
           // gridOptions5.api.setRowData(jsonObj.detailCodeList); #1
-          createCodeGrid();
+          // createCodeGrid();
           console.log(codeGrid);
           codeGrid.gridOptions.api.setRowData(jsonObj);
           $("#searchCode").val("");

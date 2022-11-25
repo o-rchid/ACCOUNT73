@@ -204,7 +204,7 @@
                 url: "${pageContext.request.contextPath}/settlement/totaltrialbalance",
                 method : 'POST',
                 data: {
-                   // "totalTrialBalanceData": JSON.stringify(totalTrialBalanceData),
+                   // "totamk i9iiiiiiilTrialBalanceData": JSON.stringify(totalTrialBalanceData),
                     "accountPeriodNo": accountPeriodNo,
                     "callResult" : "Y"				// 회계결산현황 업데이트(Y)
                 },
@@ -234,8 +234,10 @@
                   console.log(jsonObj)
                   gridOptions.api.setRowData(jsonObj.totalTrialBalance);
 
-                  if(jsonObj.accountingSettlementStatus[0].totalTrialBalance=="Y") // 회계결산현황 조회
+                  if(jsonObj.accountingSettlementStatus[0].totalTrialBalance=="Y"){ // 회계결산현황 조회
+                      alert("결산성공");
                       $("#settleStatusResult").text("결산");
+                  }
                   else $("#settleStatusResult").text("미결산");
               },
               error:function(request,status,error){

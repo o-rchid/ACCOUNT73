@@ -12,9 +12,9 @@ import kr.co.seoulit.account.posting.ledger.to.DeptBean;
 
 public interface LedgerService {
 
-	ArrayList<CashJournalBean> findCashJournal(String fromDate, String toDate, String account);
+	ArrayList<CashJournalBean> findCashJournal(CashJournalBean cashJournalBean);
     
-    ArrayList<CashJournalBean> findTotalCashJournal(String year, String account);
+    ArrayList<CashJournalBean> findTotalCashJournal(CashJournalBean cashJournalBean);
     
     ArrayList<JournalBean> findRangedJournalList(String fromDate, String toDate);
     

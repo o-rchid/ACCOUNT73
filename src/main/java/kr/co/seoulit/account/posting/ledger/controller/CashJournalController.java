@@ -9,10 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.AbstractController;
 
@@ -32,11 +29,16 @@ public class CashJournalController {
     ModelAndView mav = null;
     ModelMap map = new ModelMap();
 
-    @RequestMapping("/cashjournal")
+    @PostMapping("/cashjournal")
     public ArrayList<CashJournalBean> handleRequestInternal(@RequestBody CashJournalBean cashJournalBean) {
-    	System.out.println(cashJournalBean+"@@@@@@@@@@@@@@@@@@");
+
+
         ArrayList<CashJournalBean> cashJournalList =
-                ledgerService.findCashJournal(cashJournalBean.getFromDate(), cashJournalBean.getToDate(), cashJournalBean.getAccount());
+                ledgerService.findCashJournal(cashJournalBean);
+
+
+/*        ArrayList<CashJournalBean> cashJournalList =
+                ledgerService.findCashJournal(cashJournalBean.getFromDate(), cashJournalBean.getToDate(), cashJournalBean.getAccount());*/
 
         return cashJournalList;
     }

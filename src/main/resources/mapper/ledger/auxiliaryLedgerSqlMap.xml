@@ -4,35 +4,18 @@
 
 <mapper namespace="kr.co.seoulit.account.posting.ledger.mapper.AuxiliaryLedgerMapper">
 		
-		<resultMap id="cashJournalBeanResult" type="kr.co.seoulit.account.posting.ledger.to.CashJournalBean">
-			<result property="expenseReport" column="EXPENSE_REPORT" />
-			<result property="reportingDate" column="REPORTING_DATE" />
-			<result property="monthReportingDate" column="MONTH_REPORTING_DATE" />
-			<result property="customerCode" column="CUSTOMER_CODE" />
-			<result property="deposit" column="DEPOSIT" />
-			<result property="withdrawal" column="WITHDRAWAL" />
-			<result property="balance" column="BALANCE" />
-		</resultMap>
-		
-		<resultMap id="cashJournalBeanResult2" type="kr.co.seoulit.account.posting.ledger.to.CashJournalBean">
-			<result property="expenseReport" column="EXPENSE_REPORT" />
-			<result property="monthReportingDate" column="MONTH_REPORTING_DATE" />
-			<result property="deposit" column="DEPOSIT" />
-			<result property="withdrawal" column="WITHDRAWAL" />
-			<result property="balance" column="BALANCE" />
-		</resultMap>
-		
-   <select id="selectTotalCashJournalList" parameterType="java.util.HashMap" resultMap="cashJournalBeanResult2">
+
+   <select id="selectTotalCashJournalList" parameterType="CashJournalBean" resultType="CashJournalBean">
 <![CDATA[
 SELECT LEV  
      ,MONTH_REPORTING_DATE 
-     ,DECODE(EXPENSE_REPORT,NULL,'[소 계]',EXPENSE_REPORT) AS EXPENSE_REPORT
+     ,DECODE(EXPENSE_REPORT,NULL,'[전체 누계]',EXPENSE_REPORT) AS EXPENSE_REPORT
      ,SUM(DEPOSIT) AS DEPOSIT 
      ,SUM(WITHDRAWAL) AS WITHDRAWAL
      , CASE 
            WHEN LEV = '1' 
            THEN SUM(DEPOSIT) - SUM(WITHDRAWAL) 
-           WHEN DECODE(EXPENSE_REPORT,NULL, '[소 계]',EXPENSE_REPORT) = '[소 계]'
+           WHEN DECODE(EXPENSE_REPORT,NULL, '[전체 누계]',EXPENSE_REPORT) = '[전체 누계]'
            THEN SUM(DEPOSIT) - SUM(WITHDRAWAL) 
            ELSE SUM(SUM(DEPOSIT)) OVER(ORDER BY LEV, MONTH_REPORTING_DATE ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) - SUM(SUM(WITHDRAWAL)) OVER(ORDER BY LEV, MONTH_REPORTING_DATE ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) 
        END AS BALANCE 
@@ -79,19 +62,6 @@ SELECT LEV
                                    AND SUBSTR(S.REPORTING_DATE, 0, 7) LIKE #{year}||'%' 
                              GROUP BY ROLLUP ((S.REPORTING_DATE, SUBSTR(S.REPORTING_DATE, 0, 7), EXPENSE_REPORT))
                             ) 
-                         UNION ALL 
-                     SELECT '1' AS LEV
-                          , NULL AS MONTH_REPORTING_DATE
-                          , NULL AS EXPENSE_REPORT
-                          , '[ㅇ]' AS 적요
-                          , SUM(J.LEFT_DEBTOR_PRICE) AS DEPOSIT
-                          , SUM(J.RIGHT_CREDITS_PRICE) AS WITHDRAWAL 
-                       FROM SLIP S
-                          , JOURNAL J 
-                      WHERE S.SLIP_NO = J.SLIP_NO 
-                            AND J.ACCOUNT_INNER_CODE = #{account} 
-                            AND S.SLIP_STATUS = '승인완료' 
-                            AND S.REPORTING_DATE <= #{year1} 
                      )
               ) 
         GROUP BY MONTH_REPORTING_DATE
@@ -102,27 +72,14 @@ SELECT LEV
        ) 
  GROUP BY LEV
      , MONTH_REPORTING_DATE
-     , DECODE(EXPENSE_REPORT,NULL,'[소 계]', EXPENSE_REPORT) 
-    UNION ALL 
-SELECT '3' AS LEV
-     , NULL AS MONTH_REPORTING_DATE
-     , '[전 체 누 계]' AS 적요
-     ,SUM(J.LEFT_DEBTOR_PRICE) AS DEPOSIT
-     , SUM(J.RIGHT_CREDITS_PRICE) AS WITHDRAWAL
-     , SUM(J.LEFT_DEBTOR_PRICE) - SUM(J.RIGHT_CREDITS_PRICE) AS BALANCE 
-  FROM SLIP S
-     , JOURNAL J 
- WHERE S.SLIP_NO = J.SLIP_NO 
-       AND J.ACCOUNT_INNER_CODE = #{account} 
-       AND S.SLIP_STATUS = '승인완료' 
-       AND S.REPORTING_DATE <= #{year2} 
+     , DECODE(EXPENSE_REPORT,NULL,'[전체 누계]', EXPENSE_REPORT)
 ORDER BY LEV
      , MONTH_REPORTING_DATE
 
 ]]>	
 </select>
 
-   <select id="selectCashJournalList" parameterType="java.util.HashMap" resultMap="cashJournalBeanResult">
+   <select id="selectCashJournalList" parameterType="CashJournalBean" resultType="CashJournalBean">
 <![CDATA[
 SELECT 
        CASE 
